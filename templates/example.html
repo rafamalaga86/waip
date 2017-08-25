@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This is an example of a Template</title>
+</head>
+<body>
+    <h1>List of games</h1>
+    <ul>
+        {% for game in games %}
+            <li>{{ game.name }}</li>
+        {% empty %}
+            <span>Sorry, we did not find any game</span>
+        {% endfor %}
+    </ul>
+</body>
+</html> 
