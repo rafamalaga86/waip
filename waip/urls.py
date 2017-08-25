@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings  # Added for Debug Bar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('games.urls')),
+    url('', include('games.urls')),  # Redirect everything else to Games - Urls
 ]
+
+if settings.DEBUG:  # Added for Debug Bar
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

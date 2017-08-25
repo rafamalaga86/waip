@@ -18,11 +18,8 @@
       <div class="container">
 
         <div class="row">
-          {% for game in games %}
-            <div class="card">
-              <img src="{{ game.coverUrl }}" alt="Card image cap">
-              <p class="card-text">{{ game.synopsis }}</p>
-            </div>
+          {% for id in ids %}
+            <div class="card" data-game-id="{{ id }}"></div>
           {% endfor %}
         </div>
 
