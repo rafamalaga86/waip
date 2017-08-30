@@ -25,7 +25,7 @@ SECRET_KEY = ')it7e*s65m*ktwa+s(8f5c8omain))7ku9t!73j5n@t(waea9f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['waip.herokuapp.com']
 
 
 # Application definition
@@ -57,6 +57,7 @@ MIDDLEWARE = [
 
     # Extra pip installed app
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve Static Files
 ]
 
 ROOT_URLCONF = 'waip.urls'
@@ -130,10 +131,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'games/static/'),
-)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'games/static/'),
+# )
 
 # Overriding Python for getting DebugBar to work
 INTERNAL_IPS = ['127.0.0.1']
