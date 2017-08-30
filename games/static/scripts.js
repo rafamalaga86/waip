@@ -1,5 +1,15 @@
 $(document).ready(function(){
 
+  // Grid and Masonry
+  // =========================================
+  var $grid = $('.grid').masonry({
+    itemSelector: '.card',
+    fitWidth: true,
+    gutter: 20
+    // columnWidth: 50
+  });
+
+
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -28,10 +38,13 @@ $(document).ready(function(){
           }
       }
   });
-$(".card").each(function(index, el) {
-  var id = $(this).data("game-id");
-  $(this).load("/games/" + id);
-});
+
+  $(".card").each(function(index, el) {
+    var id = $(this).data("game-id");
+    $(this).load("/games/" + id, null, function(){
+      $grid.masonry();
+    });
+  });
 
   // $.ajax({
   //   method: "POST",
@@ -41,5 +54,4 @@ $(".card").each(function(index, el) {
   // .done(function(msg) {
   //   alert( "Data Saved: " + msg );
   // });
-
 });

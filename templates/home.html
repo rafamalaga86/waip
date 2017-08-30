@@ -14,14 +14,12 @@
     </section>
     {% endcomment %}
 
-    <div class="album text-muted">
-      <div class="container">
+    <div class="superContainer text-muted">
+      <div class="grid">
 
-        <div class="row">
           {% for id in ids %}
             <div class="card" data-game-id="{{ id }}"></div>
           {% endfor %}
-        </div>
 
       </div>
     </div>

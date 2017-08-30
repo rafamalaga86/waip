@@ -32,13 +32,13 @@ def simpleList(request, id):
 
 
 def getGameAjax(request, id):
+    # Raise Exception()
     game = Game.objects.get(pk=id)
-    game.injectScrappedData()
+    game.injectData()
 
     context = {
         'game': game,
-        'scorecoreColour': '#6c3',
-        # 'userScoreColour': 
+        'userScoreColour': game.metacriticScoreColour,
     }
 
     template = loader.get_template('ajax/game.html')

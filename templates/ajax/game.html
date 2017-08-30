@@ -1,3 +1,9 @@
-<img src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
-<div class="metacriticScore">{{ game.metacriticScore}}</div>
+<img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
+<div class="card-scores">
+    <div class="card-metacriticScore" style="background-color: {{ game.metacriticScoreColour }}">
+        <span style="colour: {{ game.metacriticFontColour }}">{{ game.metacriticScore}}<span>
+    </div>
+    <div class="card-hltbLength">{{ game.hltbLength }}</div>
+</div>
+<div class="card-gameTitle">{{ game.name}}</div>
 <p class="card-text">{{ game.synopsis }}</p>

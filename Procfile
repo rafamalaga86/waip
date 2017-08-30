@@ -1,0 +1,1 @@
+web: gunicorn waip.wsgi --log-file -
