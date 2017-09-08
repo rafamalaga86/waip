@@ -19,7 +19,8 @@ from django.conf import settings  # Added for Debug Bar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('games.urls')),  # Redirect everything else to Games - Urls
+    url(r'', include('games.urls')),  # Redirect root to Games - Urls
+    url(r'^games/', include('games.urls'))
 ]
 
 if settings.DEBUG:  # Added for Debug Bar
