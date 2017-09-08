@@ -38,7 +38,6 @@ def getGameAjax(request, id):
 
     context = {
         'game': game,
-        'userScoreColour': game.metacriticScoreColour,
     }
 
     template = loader.get_template('ajax/game.html')

@@ -4,6 +4,9 @@ venv*
 # Sublime Text
 *.sublime*
 
+# Pycharm
+.idea/
+
 # Mac
 .DS_Store
 
