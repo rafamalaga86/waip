@@ -1,1 +1,6 @@
+For next commit:
+
+For future:
+Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
 Make images upload to each user directory
+Poner bonito el formulario
