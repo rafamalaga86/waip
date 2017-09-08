@@ -25,7 +25,7 @@ SECRET_KEY = ')it7e*s65m*ktwa+s(8f5c8omain))7ku9t!73j5n@t(waea9f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['waip.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'waip.herokuapp.com']
 
 
 # Application definition
