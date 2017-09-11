@@ -42,7 +42,9 @@ $(document).ready(function(){
   $(".card").each(function(index, el) {
     var id = $(this).data("game-id");
     $(this).load("/games/" + id, null, function(){
-      $grid.masonry();
+      setTimeout(function(){
+        $grid.masonry();
+      }, 100);
     });
   });
 

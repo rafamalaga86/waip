@@ -18,7 +18,6 @@ class Game(models.Model):
 
     # Scrapped properties
     coverUrl = models.URLField(max_length=255, blank=True, null=True)
-    image = models.ImageField(blank=True)
     hltbLength = models.CharField(max_length=255, blank=True, null=True)
     synopsis = models.TextField(blank=True, null=True)
     releaseDate = models.CharField(max_length=255, blank=True, null=True)

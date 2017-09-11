@@ -6,9 +6,10 @@
       <div class="container">
         <h1 class="jumbotron-heading">Album example</h1>
 
+        {{ form.non_field_errors }}
         <form action="{% url 'newGame' %}" method="POST">
           {% csrf_token %}
-          {{ form.as_ul }}
+          {# {{ form.as_ul }} #}
           <button type="submit">Add Game</button>
         </form>
 
