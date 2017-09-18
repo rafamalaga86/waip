@@ -1,7 +1,26 @@
 $(document).ready(function(){
 
-  // Grid and Masonry
-  // =========================================
+
+  // Template 'engine' to populate json responses with html
+  // Given a string, populates substrings found in it that 
+  // follows pattern /(\$\d+)/, any '$' followed of integer
+  // =======================================================
+  String.prototype.template = String.prototype.template ||
+    function (){
+      var  args = Array.prototype.slice.call(arguments);
+      var str = this;
+      var i=0;
+          
+      function replacer(a){
+          var aa = parseInt(a.substr(1),10)-1;
+          return args[aa];
+      }
+      return  str.replace(/(\$\d+)/gm,replacer);
+  };
+
+
+  // Initialise the Mansonry Grid
+  // =======================================================
   var $grid = $('.grid').masonry({
     itemSelector: '.card',
     fitWidth: true,
@@ -10,6 +29,8 @@ $(document).ready(function(){
   });
 
 
+  // Setting CSRF token in every AJAX request
+  // =======================================================
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -34,26 +55,70 @@ $(document).ready(function(){
   $.ajaxSetup({
       beforeSend: function(xhr, settings) {
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+              xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
           }
       }
   });
 
-  $(".card").each(function(index, el) {
-    var id = $(this).data("game-id");
-    $(this).load("/games/" + id, null, function(){
+
+
+
+
+// =========================================================
+// ================== SPECIFIC VIEWS =======================
+// =========================================================
+
+
+  // Home View
+  // =======================================================
+
+  // Fetch games from server
+  $('.card').each(function(index, element) {
+    var id = $(this).data('game-id');
+    $(this).load('/ajax/games/' + id, null, function(){
       setTimeout(function(){
         $grid.masonry();
-      }, 100);
+      }, 500);
     });
   });
 
-  // $.ajax({
-  //   method: "POST",
-  //   url: "games/1",
-  //   data: { name: "John", location: "Boston" }
-  // })
-  // .done(function(msg) {
-  //   alert( "Data Saved: " + msg );
-  // });
+  // Set a game as finished
+  $('.card').on('click', '.btn-finished', function(){
+    var now = new Date();
+    var btn = $(this);
+    var id = btn.data('game-id');
+    jQuery.ajax({
+      method: 'PATCH',
+      url: '/ajax/games/' + id + '/finish',
+      data: {
+        'finishedAt': now.toISOString().slice(0,10),
+        'peter': 2
+      }
+    })
+    .done(function(){
+      btn.parent().fadeOut('400', function(){
+        $grid.masonry();
+      });
+    });
+  });
+
+
+  // New Game View
+  // =======================================================
+
+  $('#form-scrap').on('submit', function(){
+    var dataToSend = {
+      metacriticUrl : $('#id_metacriticUrl').val(),
+      hltbUrl : $('#id_hltbUrl').val(),
+    };
+    jQuery.get('/ajax/games/scrap', dataToSend, function(jsonReceived){
+      for (var key in jsonReceived) {
+        if (jsonReceived.hasOwnProperty(key)) {
+          $('#' + 'id_' + key).val(jsonReceived[key]);
+        }
+      }
+    }, 'json');
+  });
+
+
 });

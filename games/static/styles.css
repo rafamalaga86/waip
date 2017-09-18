@@ -1,9 +1,28 @@
+/*
+Colour Scheme
+http://www.colourlovers.com/palette/92095/Giant_Goldfish
+
+
+corporate orange = #F38630
+
+hard orange = #FA6900
+kind of gray = #E0E4CC
+blue-green = #A7DBD8
+real blue = #69D2E7
+
+
+*/
+
 body {
   min-height: 30rem; /* Can be removed; just added for demo purposes */
 }
 
 .navbar {
   margin-bottom: 0;
+}
+
+.btn {
+  cursor: pointer;
 }
 
 .jumbotron {

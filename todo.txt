@@ -4,3 +4,6 @@ For future:
 Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
 Make images upload to each user directory
 Poner bonito el formulario
+Resolver el error de bootstrap en la consola del browser
+Aplicar un middleware a las rutas de ajax
+https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/

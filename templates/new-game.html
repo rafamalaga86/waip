@@ -6,10 +6,21 @@
       <div class="container">
         <h1 class="jumbotron-heading">Album example</h1>
 
+        {# Scrap Game Form #}
+        {{ form.non_field_errors }}
+        <form id="form-scrap" onsubmit="return false">
+          {% csrf_token %}
+          {# <input type="url" placeholder="metacriticUrl" name="metacriticUrl" id="metacritic" value="http://www.metacritic.com/game/pc/pony-island"> #}
+          {# <input type="url" placeholder="hltbUrl" name="hltbUrl" id="hltb" value="https://howlongtobeat.com/game.php?id=33405"> #}
+          {{ scrapGameForm.as_ul }}
+          <button type="submit">Scrap Game</button>
+        </form>
+
+        {# New Game Form #}
         {{ form.non_field_errors }}
         <form action="{% url 'newGame' %}" method="POST">
           {% csrf_token %}
-          {# {{ form.as_ul }} #}
+          {{ gameForm.as_ul }}
           <button type="submit">Add Game</button>
         </form>
 

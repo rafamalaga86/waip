@@ -1,0 +1,24 @@
+<svg width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-pacman" style="background: none;">
+    <g ng-attr-style="display:{{config.showBean}}" style="display:block">
+      <circle cx="59.1897" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#69d2e7">
+        <animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="0.9" begin="-0.6030000000000001s" repeatCount="indefinite"></animate>
+        <animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="0.9" begin="-0.6030000000000001s" repeatCount="indefinite"></animate>
+      </circle>
+      <circle cx="79.5897" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#69d2e7">
+        <animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="0.9" begin="-0.29700000000000004s" repeatCount="indefinite"></animate>
+        <animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="0.9" begin="-0.29700000000000004s" repeatCount="indefinite"></animate>
+      </circle>
+      <circle cx="39.3897" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#69d2e7">
+        <animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="0.9" begin="0s" repeatCount="indefinite"></animate>
+        <animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="0.9" begin="0s" repeatCount="indefinite"></animate>
+      </circle>
+    </g>
+    <g ng-attr-transform="translate({{config.showBeanOffset}} 0)" transform="translate(-15 0)">
+      <path d="M50 50L20 50A30 30 0 0 0 80 50Z" ng-attr-fill="{{config.c1}}" fill="#fa6900" transform="rotate(6.58456 50 50)">
+        <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;45 50 50;0 50 50" keyTimes="0;0.5;1" dur="0.9s" begin="0s" repeatCount="indefinite"></animateTransform>
+      </path>
+      <path d="M50 50L20 50A30 30 0 0 1 80 50Z" ng-attr-fill="{{config.c1}}" fill="#fa6900" transform="rotate(-6.58456 50 50)">
+        <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;-45 50 50;0 50 50" keyTimes="0;0.5;1" dur="0.9s" begin="0s" repeatCount="indefinite"></animateTransform>
+      </path>
+    </g>
+  </svg>

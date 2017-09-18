@@ -7,3 +7,6 @@
 </div>
 <div class="card-gameTitle">{{ game.name}}</div>
 <p class="card-text">{{ game.synopsis }}</p>
+{% if not game.finishedAt %}
+    <button class="btn-finished btn btn-primary btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
+{% endif %}
