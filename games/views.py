@@ -7,14 +7,14 @@ from django.template import loader
 from django.conf import settings
 from django.views import View
 from .models import Game
-from .forms import GameForm, ScrapGameForm
-from games.utils import GameScrapper
+from .forms import GameForm, ScrapMetacriticForm, ScrapHltbForm
+from games.utils import ddg_scrapper, metacritic_scrapper, hltb_scrapper
 import datetime
 
 # import json
 
 
-def main(request):
+def home(request):
     # Retrieve list of non finished games ID's to pass them to the frontend
     ids = Game.objects.filter(finishedAt=None).values_list('id', flat=True)
 
@@ -50,7 +50,6 @@ def newGame(request):
     # GET -----------------------------------------------
     context = {
         'gameForm': GameForm,
-        'scrapGameForm': ScrapGameForm,
     }
 
     template = loader.get_template('new-game.html')
@@ -88,20 +87,49 @@ def getGameAjax(request, id):
     return HttpResponse(template.render(context, request))
 
 
-def gameScrapAjax(request):
+def scrap_metacritic_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
 
-    form = ScrapGameForm(request.GET)
+    form = ScrapMetacriticForm(request.GET)
 
     if not form.is_valid():
         return HttpResponseBadRequest()
 
     formData = form.cleaned_data
-    gameScrapper = GameScrapper(formData['metacriticUrl'], formData['hltbUrl'])
-    gameDict = gameScrapper.getGame()
+    scrap_metacritic = metacritic_scrapper(formData['metacritic_url'])
 
-    return JsonResponse(gameDict)
+    return JsonResponse(scrap_metacritic)
+
+
+def scrap_hltb_ajax(request):
+    if not settings.DEBUG and not request.is_ajax():
+        return HttpResponseForbidden()
+
+    form = ScrapHltbForm(request.GET)
+
+    if not form.is_valid():
+        return HttpResponseBadRequest()
+
+    formData = form.cleaned_data
+    scrap_hltb = hltb_scrapper(formData['hltb_url'])
+
+    return JsonResponse(scrap_hltb)
+
+
+def scrap_ddg_mc_ajax(request):
+    if not settings.DEBUG and not request.is_ajax():
+        return HttpResponseForbidden()
+
+    keywords = 'site:metacritic.com '
+    keywords += 'game '
+    keywords += request.GET.get('keywords')
+
+    result = ddg_scrapper(keywords)
+
+    raise Exception(result)
+
+    return JsonResponse(result)
 
 
 class GameDetailView(View):

@@ -5,9 +5,23 @@ from .models import Game
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = '__all__'
+        fields = [
+            'name',
+            'coverUrl',
+            'hltbLength',
+            'synopsis',
+            'releaseDate',
+            'developer',
+            'genres',
+            'metacriticScore',
+            'startedAt',
+            'finishedAt',
+        ]
 
 
-class ScrapGameForm(forms.Form):
-    metacriticUrl = forms.URLField(label='Metacritic URL', required=True)
-    hltbUrl = forms.URLField(label='HowLongToBeat URL', required=True)
+class ScrapMetacriticForm(forms.Form):
+    metacritic_url = forms.URLField(required=True)
+
+
+class ScrapHltbForm(forms.Form):
+    hltb_url = forms.URLField(required=True)

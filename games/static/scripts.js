@@ -107,16 +107,28 @@ $(document).ready(function(){
   // =======================================================
 
   $('#form-scrap').on('submit', function(){
-    var dataToSend = {
-      metacriticUrl : $('#id_metacriticUrl').val(),
-      hltbUrl : $('#id_hltbUrl').val(),
-    };
-    jQuery.get('/ajax/games/scrap', dataToSend, function(jsonReceived){
-      for (var key in jsonReceived) {
-        if (jsonReceived.hasOwnProperty(key)) {
-          $('#' + 'id_' + key).val(jsonReceived[key]);
+    // Get metacritic information
+    jQuery.get(
+      '/ajax/games/scrap-metacritic',
+      {metacritic_url: $('#id_metacriticUrl').val()},
+      function(jsonResponse){
+        for (var key in jsonResponse) {
+          if (jsonResponse.hasOwnProperty(key)) {
+            $('#' + 'id_' + key).val(jsonResponse[key]);
+          }
         }
-      }
+    }, 'json');
+
+    // Get HLTB information
+    jQuery.get(
+      '/ajax/games/scrap-hltb',
+      {hltb_url: $('#id_hltbUrl').val()},
+      function(jsonResponse){
+        for (var key in jsonResponse) {
+          if (jsonResponse.hasOwnProperty(key)) {
+            $('#' + 'id_' + key).val(jsonResponse[key]);
+          }
+        }
     }, 'json');
   });
 
