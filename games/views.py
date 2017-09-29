@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponseBadRequest, \
-    JsonResponse
-from django.shortcuts import HttpResponse, Http404, get_object_or_404
+    JsonResponse, HttpResponseNotFound
+from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.template import loader
 from django.conf import settings
 from django.views import View
@@ -19,27 +19,23 @@ def home(request):
     ids = Game.objects.filter(finishedAt=None).values_list('id', flat=True)
 
     context = {
+        'page': 'page-home',
         'ids': ids,
     }
-
-    template = loader.get_template('home.html')
-    return HttpResponse(template.render(context, request))
+    return render(request, 'game-grid.html', context)
 
 
-def simpleList(request, id):
-    # return HttpResponse('HELLO WORLD')
-    # return render(request, 'home.html')
-
+def list_user_games(request, id):
     games = Game.objects.order_by('id')
+
     context = {
+        'page': 'page-list',
         'games': games
     }
-
-    template = loader.get_template('example.html')
-    return HttpResponse(template.render(context, request))
+    return render(request, 'game-grid.html', context)
 
 
-def newGame(request):
+def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
         postedGame = GameForm(request.POST)
@@ -49,11 +45,10 @@ def newGame(request):
 
     # GET -----------------------------------------------
     context = {
+        'page': 'page-add',
         'gameForm': GameForm,
     }
-
-    template = loader.get_template('new-game.html')
-    return HttpResponse(template.render(context, request))
+    return render(request, 'new-game.html', context)
 
 
 def finishGameAjax(request, id):
@@ -75,7 +70,7 @@ def getGameAjax(request, id):
     try:
         game = Game.objects.get(pk=id)
     except Game.DoesNotExist:
-        raise Http404('That game was not found.')
+        return HttpResponseNotFound('That game was not found.')
 
     game.injectData()
 
@@ -143,11 +138,3 @@ class GameDetailView(View):
 
         template = loader.get_template('ajax/game.html')
         return HttpResponse(template.render(context, request))
-
-    # def patch(self, request, id):
-    #     game = get_object_or_404(Game, pk=id)
-    #     # game.
-
-    #     # TODO: Modify the object and save it
-
-    #     return HttpResponseRedirect(request.path) # Redirect to GET

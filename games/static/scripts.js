@@ -62,6 +62,11 @@ $(document).ready(function(){
 
 
 
+  // General AJAX requests
+  // =======================================================
+
+  // $("#form-login").ajaxForm({url: '/users/login/', type: 'POST'})
+
 
 
 // =========================================================
@@ -89,10 +94,9 @@ $(document).ready(function(){
     var id = btn.data('game-id');
     jQuery.ajax({
       method: 'PATCH',
-      url: '/ajax/games/' + id + '/finish',
+      url: '/ajax/games/' + id + '/finish/',
       data: {
-        'finishedAt': now.toISOString().slice(0,10),
-        'peter': 2
+        'finishedAt': now.toISOString().slice(0,10)
       }
     })
     .done(function(){

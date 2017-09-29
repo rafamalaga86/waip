@@ -8,7 +8,14 @@ Poner bonito el formulario
 Resolver el error de bootstrap en la consola del browser
 Aplicar un middleware a las rutas de ajax
 https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+refactor of urls.py into one
+mover los estáticos al general
 
 Edge cases para los tests del scrapper
 https://howlongtobeat.com/game.php?id=22876
 https://howlongtobeat.com/game.php?id=31590
+
+Necesito estas dos lineas?
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literal
+?

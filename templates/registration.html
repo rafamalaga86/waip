@@ -1,0 +1,24 @@
+{% extends 'parts/base.html' %}
+
+{% block main %}
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Register</h1>
+        <p class="lead text-muted">
+            <form class="" action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group row">
+                        {{ field.errors }}
+                        <label class="col-4 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="col-8">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+        </p>
+      </div>
+    </section>
+{% endblock %}

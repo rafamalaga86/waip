@@ -1,12 +1,14 @@
 <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
-<div class="card-scores">
-    <div class="card-metacriticScore" style="background-color: {{ game.metacriticScoreColour }}">
-        <span style="colour: {{ game.metacriticFontColour }}">{{ game.metacriticScore}}<span>
+<div class="card-scores d-flex">
+    <div class="score-metacriticScore" style="background-color: {{ game.metacriticScoreColour }}">
+        <span style="colour: {{ game.metacriticFontColour }}">{{ game.metacriticScore }}<span>
     </div>
-    <div class="card-hltbLength">{{ game.hltbLength }}</div>
+    <div class="score-hltbLength">{{ game.hltbLength }}</div>
 </div>
-<div class="card-gameTitle">{{ game.name}}</div>
-<p class="card-text">{{ game.synopsis }}</p>
-{% if not game.finishedAt %}
-    <button class="btn-finished btn btn-primary btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
-{% endif %}
+<div class="card-content">
+    <div class="card-gameTitle">{{ game.name}}</div>
+    <p class="card-text">{{ game.synopsis }}</p>
+    {% if not game.finishedAt %}
+        <button class="btn-finished btn btn-default btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
+    {% endif %}
+</div>

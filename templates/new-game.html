@@ -17,7 +17,7 @@
 
         {# New Game Form #}
         {{ form.non_field_errors }}
-        <form action="{% url 'newGame' %}" method="POST">
+        <form action="{% url 'add_game' %}" method="POST">
           {% csrf_token %}
 
           <li><label for="id_name">Name:</label> <input type="text" name="name" maxlength="255" required="" id="id_name"></li>
@@ -30,14 +30,8 @@
           <li><label for="id_metacriticScore">MetacriticScore:</label> <input type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore"></li>
           <li><label for="id_startedAt">StartedAt:</label> <input type="date" name="startedAt" id="id_startedAt"></li>
           <li><label for="id_finishedAt">FinishedAt:</label> <input type="date" name="finishedAt" id="id_finishedAt"></li>
-          <button type="submit">Add Game</button>
+          <button class="btn btn-primary" type="submit">Add Game</button>
         </form>
-
-        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-        <p>
-          <a href="#" class="btn btn-primary">Main call to action</a>
-          <a href="#" class="btn btn-secondary">Secondary action</a>
-        </p>
       </div>
     </section>
 

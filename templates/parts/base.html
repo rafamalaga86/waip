@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ title }}</title>
+    <title>What am I playing</title>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="152x152" href="{% static "favicon/apple-touch-icon.png" %}">
@@ -46,17 +46,27 @@
         </div>
       </div>
     </div>
-    <div class="navbar navbar-dark bg-dark">
-      <div class="container d-flex justify-content-between">
-        <a href="{% url 'home' %}" class="navbar-brand">What is Postizo playing</a>
+    <div class="navbar navbar-dark">
+      <div class="container d-flex justify-content-end">
+        <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
+        <ul class="d-flex flex-row ul-login">
+          {% if user.is_authenticated %}
+              <li><a href="#">{{ user.get_username }}</a></li>
+              <li><a href="{% url 'log_out' %}">Log out</a></li>
+              <li><a href="{% url 'add_game' %}" class="btn btn-secondary">Add Game</a></li>
+          {% else %}
+              <li><a class="btn btn-login" href="{% url 'log_in' %}">Log in</a></li>
+              <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
     </div>
-
-    {% block main %}{% endblock %}
-
+    <main class="container">
+      {% block main %}{% endblock %}
+    </main>
     <footer class="text-muted">
       <div class="container">
         <p class="float-right">

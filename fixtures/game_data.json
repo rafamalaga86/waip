@@ -1,0 +1,308 @@
+[  
+   {  
+      "model":"games.game",
+      "pk":1,
+      "fields":{  
+         "name":"Pony Island",
+         "startedAt":"2017-08-10",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Pony_Island_header.jpg",
+         "hltbLength":"2½ Hours",
+         "synopsis":"Pony Island is a suspense puzzle game in disguise. You are in limbo, trapped in a malevolent and malfunctioning arcade machine devised by the devil himself. The devil detests having his puzzles solved and poor programming exposed; you will need to think outside the box to proceed and you will be insulted when you do.",
+         "releaseDate":"Jan  3, 2016",
+         "developer":"Daniel Mullins Games",
+         "genres":"Puzzle",
+         "metacriticScore":"86",
+         "createdAt":"2017-08-10T12:51:55.259Z",
+         "modifiedAt":"2017-09-18T14:47:01.470Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":2,
+      "fields":{  
+         "name":"SteamWorld Heist",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/steamworld-heist1.jpg",
+         "hltbLength":"12 Hours",
+         "synopsis":"SteamWorld Heist is a space adventure with turn-based tactical shootouts, where you aim in real time and perform awesome bullet-bouncing trick shots.",
+         "releaseDate":"Jun  7, 2016",
+         "developer":"Image & Form",
+         "genres":"Strategy",
+         "metacriticScore":"81",
+         "createdAt":"2017-08-24T11:50:54.531Z",
+         "modifiedAt":"2017-09-18T14:47:08.355Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":3,
+      "fields":{  
+         "name":"Call of Duty: Ghosts",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Call_of_duty_ghosts_box_art.jpg",
+         "hltbLength":"6 Hours",
+         "synopsis":"Welcome to Call of Duty: Ghosts, an extraordinary step forward for one of the largest entertainment franchises of all-time. This new chapter in the Call of Duty franchise features a fresh dynamic where players are on the side of a crippled nation fighting not for freedom, or liberty, but simply to survive.",
+         "releaseDate":"Nov  4, 2013",
+         "developer":"Infinity Ward",
+         "genres":"Action",
+         "metacriticScore":"68",
+         "createdAt":"2017-08-24T11:52:58.351Z",
+         "modifiedAt":"2017-09-18T14:47:14.448Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":4,
+      "fields":{  
+         "name":"Super Mario 3D World",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Super_Mario_3D_World_box_art.jpg",
+         "hltbLength":"10½ Hours",
+         "synopsis":"Super Mario 3D World WiiU For the first time ever Nintendo has created a four-player Mario game set in a 3D world. The game lets up to four players play as Mario Luigi Princess Peach and Toad. Each character has his or her own unique characteristics and people can play cooperatively or competitively. The new cat transformation turns characters into...Read More adorable felines that can scratch enemies and even scamper up the flagpole at the end of levels. Clear warp pipes add some new puzzle elements to game play.",
+         "releaseDate":"Nov 22, 2013",
+         "developer":"Nintendo",
+         "genres":"Platformer",
+         "metacriticScore":"93",
+         "createdAt":"2017-08-24T11:54:40.395Z",
+         "modifiedAt":"2017-09-18T14:47:20.813Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":5,
+      "fields":{  
+         "name":"The Legend of Zelda: Breath of the Wild",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/38019_The_Legend_of_Zelda_Breath_of_the_Wild.jpg",
+         "hltbLength":"43 Hours",
+         "synopsis":"Forget everything you know about The Legend of Zelda games. Step into a world of discovery, exploration and adventure in The Legend of Zelda: Breath of the Wild, a boundary-breaking new game in the acclaimed series. Travel across fields, through forests and to mountain peaks as you discover what has become of the ruined kingdom of Hyrule in this st...Read Moreunning open-air adventure.",
+         "releaseDate":"Mar  3, 2017",
+         "developer":"Nintendo",
+         "genres":"Fantasy",
+         "metacriticScore":"96",
+         "createdAt":"2017-08-24T11:55:50.759Z",
+         "modifiedAt":"2017-09-18T14:47:27.050Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":6,
+      "fields":{  
+         "name":"Star Fox 64 3D",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/250px-82px-1,1502,0,1500-Star_Fox_64_3D_cover.jpg",
+         "hltbLength":"1½ Hours",
+         "synopsis":"Star Fox 64 3D is a handheld Action-Space Shooter game exclusive to Nintendo 3DS that sees the return of the canine space pilot, Fox McCloud. A port of the Nintendo 64 classic, Star Fox 64, Star Fox 64 3D blends the best aspects of the original console game with new 3DS based play options. Features include: all your favorite characters from the Sta...Read Morer Fox team, a graphical update that utilizes the 3DS' two screens, a Nintendo 64 control scheme as well as one that uses the motion-sensing abilities of the 3DS, the ability for players to import their images into the game via the 3DS' camera functionality and 4-person local wireless multiplayer that only requires one game cartridge.",
+         "releaseDate":"Sep  9, 2011",
+         "developer":"Nintendo",
+         "genres":"Action",
+         "metacriticScore":"81",
+         "createdAt":"2017-08-24T11:56:50.337Z",
+         "modifiedAt":"2017-08-25T15:43:42.071Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":7,
+      "fields":{  
+         "name":"Phoenix Wright: Trials and Tribulations",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Pheonixwright3trialsandtrib-cover-english.jpg",
+         "hltbLength":"20½ Hours",
+         "synopsis":"In Phoenix Wright: Ace Attorney: Trials and Tribulations players star as a defense attorney, who must prove a seemingly guilty client's innocence no matter how dire the circumstances may seem. Phoenix will face the toughest prosecutor yet as the mysterious hard-boiled Godot will try to take him down at any cost. The complete story of Phoenix Wright...Read More comes together as truths are revealed in twisting storylines and intriguing gameplay. Players must collect evidence, survey crime scenes, weed through inconsistent testimonies, and overcome corrupt agendas to ensure that justice prevails.",
+         "releaseDate":"Oct 23, 2007",
+         "developer":"Capcom",
+         "genres":"Adventure",
+         "metacriticScore":"81",
+         "createdAt":"2017-08-24T11:58:11.731Z",
+         "modifiedAt":"2017-08-25T15:43:45.507Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":8,
+      "fields":{  
+         "name":"Mario Kart 8",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/MarioKart8Boxart.jpg",
+         "hltbLength":"5½ Hours",
+         "synopsis":"Feel the rush as your kart rockets across the ceiling! Race upside-down and along walls on anti-gravity tracks in the most action-fueled Mario Kart game yet! Take on racers across the globe and share videos of your greatest moments via Mario Kart TV.",
+         "releaseDate":"May 30, 2014",
+         "developer":"Nintendo",
+         "genres":"Driving",
+         "metacriticScore":"88",
+         "createdAt":"2017-08-24T11:59:00.247Z",
+         "modifiedAt":"2017-08-25T15:43:44.730Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":9,
+      "fields":{  
+         "name":"Deus Ex Go",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/39388_Deus_Ex_GO.jpg",
+         "hltbLength":"4 Hours",
+         "synopsis":"Deus Ex GO is a Deus Ex mobile game. Part of Square Enix's mobile GO series, the game focuses on Adam Jensen as he partakes in puzzle solving, hacking, and combat. Square Enix has teased that the game will get a \"smart, game-changing new feature\" a few weeks after launch. This comes in the form of a puzzle-making tool that players can use to create...Read More their own puzzles and share them with friends online.",
+         "releaseDate":"Aug 18, 2016",
+         "developer":"Square Enix Montreal",
+         "genres":"Strategy",
+         "metacriticScore":"81",
+         "createdAt":"2017-08-24T11:59:50.454Z",
+         "modifiedAt":"2017-08-25T15:43:43.459Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":10,
+      "fields":{  
+         "name":"Infamous",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Infamous-cover.jpg",
+         "hltbLength":"15 Hours",
+         "synopsis":"From game developer Sucker Punch, creators of the award-winning Sly Cooper series, and publisher Sony comes inFAMOUS. The first open-world title exclusively for the PlayStation 3, infamous is a single player action/adventure that places you in the role of once regular guy, Cole, who in the aftermath of a horrific catastrophe finds himself not only ...Read Morealive, but developing a fantastic array of superpowers. Going from ordinary to extraordinary overnight isn't something to take lightly. With these powers does one exact revenge? Protect the innocent? Or perhaps, dabble in a little of both? The choice is yours in infamous.",
+         "releaseDate":"May 26, 2009",
+         "developer":"Sucker Punch",
+         "genres":"Action Adventure",
+         "metacriticScore":"85",
+         "createdAt":"2017-08-24T12:00:57.454Z",
+         "modifiedAt":"2017-08-25T15:43:43.890Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":11,
+      "fields":{  
+         "name":"Fat Princess",
+         "startedAt":"2017-08-24",
+         "finishedAt":"2017-09-18",
+         "coverUrl":"https://howlongtobeat.com/gameimages/PS3_Fat_Princess_logo.png",
+         "hltbLength":"3½ Hours",
+         "synopsis":"Rescue your beloved princess through teamwork in this comic medieval battle royale. There's a catch, though�the other team has been feeding her magical cake, making her harder to escort back to your castle. Choose from five distinct character classes and switch at any time to best help your team. Charge head first into battle, heal teammates as the...Read Morey break through enemy lines, and upgrade your team and the castle defenses as you work with your team to save your princess. Full HD 1080p requires an HDMI cable and a 1080p native display with an HDMI input supporting HDCP.",
+         "releaseDate":"Jul 30, 2009",
+         "developer":"Titan Studios",
+         "genres":"Action",
+         "metacriticScore":"79",
+         "createdAt":"2017-08-24T12:02:10.288Z",
+         "modifiedAt":"2017-09-18T14:48:21.077Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":12,
+      "fields":{  
+         "name":"Super Smash Bros. for Wii U",
+         "startedAt":"2017-08-24",
+         "finishedAt":"2017-09-18",
+         "coverUrl":"https://howlongtobeat.com/gameimages/SuperSmashBrosforWiiU.jpg",
+         "hltbLength":"3½ Hours",
+         "synopsis":"Mario! Link! Samus! Pikachu! All of your favorite Nintendo characters are back, along with plenty of new faces, in Super Smash Bros. for Wii U, the next entry in the beloved Super Smash Bros. series. Up to four players can battle each other locally or online across beautifully designed stages inspired by classic Nintendo home console games.",
+         "releaseDate":"Nov 21, 2014",
+         "developer":"Bandai Namco Games",
+         "genres":"Action",
+         "metacriticScore":"92",
+         "createdAt":"2017-08-24T12:03:31.428Z",
+         "modifiedAt":"2017-09-18T14:48:29.643Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":13,
+      "fields":{  
+         "name":"Nuclear Throne",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Nuclear_Throne.jpg",
+         "hltbLength":"13½ Hours",
+         "synopsis":"",
+         "releaseDate":"Dec  5, 2015",
+         "developer":"Vlambeer",
+         "genres":"General",
+         "metacriticScore":"88",
+         "createdAt":"2017-08-24T12:06:15.390Z",
+         "modifiedAt":"2017-08-25T15:43:45.936Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":14,
+      "fields":{  
+         "name":"The Legend of Zelda: Tri Force Heroes",
+         "startedAt":"2017-08-24",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/The_Legend_of_Zelda_Tri_Force_Heroes_Boxart.jpg",
+         "hltbLength":"14½ Hours",
+         "synopsis":"Three players take on the role of individual Link characters and team up to work cooperatively to solve puzzles and battle bosses in dungeons. The game features the same top-down view and visual style of The Legend of Zelda: A Link Between Worlds. Players must work together, as all hearts are shared by the group as a whole. All three Links can stac...Read Morek on top of one another to create a Totem to reach new locations to solve puzzles or fight enemies. Different outfits offer unique abilities.",
+         "releaseDate":"Oct 23, 2015",
+         "developer":"Nintendo",
+         "genres":"Action Adventure",
+         "metacriticScore":"73",
+         "createdAt":"2017-08-24T12:08:11.299Z",
+         "modifiedAt":"2017-08-25T15:43:48.071Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":15,
+      "fields":{  
+         "name":"Game of Thrones",
+         "startedAt":"2017-08-26",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Game_of_Thrones_2014.jpg",
+         "hltbLength":"12 Hours - 12½ Hours",
+         "synopsis":"",
+         "releaseDate":"Nov 17, 2015",
+         "developer":"Telltale Games",
+         "genres":"Action",
+         "metacriticScore":"64",
+         "createdAt":"2017-08-26T17:51:52.835Z",
+         "modifiedAt":"2017-08-26T17:52:11.493Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":16,
+      "fields":{  
+         "name":"Foco island",
+         "startedAt":"2017-09-08",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Pony_Island_header.jpg",
+         "hltbLength":"2½ Hours",
+         "synopsis":"",
+         "releaseDate":"Jan  4, 2016",
+         "developer":"Daniel Mullins Games",
+         "genres":"Puzzle",
+         "metacriticScore":"86",
+         "createdAt":"2017-09-08T07:20:21.371Z",
+         "modifiedAt":"2017-09-08T07:20:23.788Z"
+      }
+   },
+   {  
+      "model":"games.game",
+      "pk":17,
+      "fields":{  
+         "name":"Peter",
+         "startedAt":"2017-09-11",
+         "finishedAt":null,
+         "coverUrl":"https://howlongtobeat.com/gameimages/Wii_Party_U_Box_art.jpg",
+         "hltbLength":"2 Hours",
+         "synopsis":"",
+         "releaseDate":"Oct 25, 2013",
+         "developer":"Nd Cube",
+         "genres":"Miscellaneous",
+         "metacriticScore":"65",
+         "createdAt":"2017-09-11T07:37:38.569Z",
+         "modifiedAt":"2017-09-11T07:37:40.217Z"
+      }
+   }
+]

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     # Project specific apps
-    'games.apps.GamesConfig'
+    'games.apps.GamesConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,11 @@ STATIC_URL = '/static/'
 # Overriding Python for getting DebugBar to work
 INTERNAL_IPS = ['127.0.0.1']
 
+
 # Setup for users uploading files
 MEDIA_ROOT = 'media'
 
 MEDIA_URL = '/media/'
+
+# Setup for logins
+LOGIN_REDIRECT_URL = 'home'  # Url to redirect after succesful log in
