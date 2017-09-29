@@ -173,6 +173,10 @@ main {
   margin-bottom: 10px;
 }
 
+.score-hltbLength.full {
+  width: 100%;
+}
+
 .card-content {
   padding: .75rem;
 }

@@ -60,20 +60,29 @@ $(document).ready(function(){
       }
   });
 
+  function mcScoreToColour(score) {
+    red = '#f00';
+    yellow = '#fc3';
+    green = '#6c3';
+    score = parseInt(score);
 
+    if (score && score >= 75) {
+      return green;
+    } else if (score && score >= 50) {
+      return yellow;
+    }
 
+    return red;
+  }
 
-// def getMetacriticScoreColour(score):
-//     try:
-//         score = int(score)
-//         if score >= 75:
-//             return '#6c3'
-//         elif score >= 50:
-//             return '#fc3'
-//         else:
-//             return '#f00'
-//     except TypeError:
-//         return '#f00'
+  function paintScore(div) {
+      score = div.find('span').text().trim();
+      div.css('background-color', mcScoreToColour(score));
+  }
+
+  $('.score-metacriticScore').each(function() {
+    paintScore($(this));
+  });
 
 
 
@@ -99,13 +108,10 @@ $(document).ready(function(){
     var id = btn.data('game-id');
     jQuery.ajax({
       method: 'PATCH',
-      url: '/ajax/games/' + id + '/finish/',
-      data: {
-        'finishedAt': now.toISOString().slice(0,10)
-      }
+      url: '/ajax/games/' + id + '/finish'
     })
     .done(function(){
-      btn.parent().fadeOut('400', function(){
+      btn.parent().parent().fadeOut('400', function(){
         $grid.masonry();
       });
     });

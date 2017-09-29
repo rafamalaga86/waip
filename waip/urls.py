@@ -18,10 +18,10 @@ urlpatterns = [
     url(r'^register/$', users_views.register, name='register'),
 
     # Games
-    url(r'^games/add$', games_views.add_game, name='add_game'),
+    url(r'^games/add/$', games_views.add_game, name='add_game'),
 
     # TODO take this one out
-    url(r'^ajax/games/scrap-ddg-mc$', games_views.scrap_ddg_mc_ajax),
+    url(r'^ajax/games/scrap-ddg-mc/$', games_views.scrap_ddg_mc_ajax),
 
     # Ajax Urls
     url(r'^ajax/games/scrap-metacritic$', games_views.scrap_metacritic_ajax),

@@ -6,10 +6,14 @@
             <div class="card" data-game-id="{{ id }}">
               <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
               <div class="card-scores d-flex">
-                <div class="score-metacriticScore" style="background-color: {{ game.metacriticScoreColour }}">
-                    <span style="colour: {{ game.metacriticFontColour }}">{{ game.metacriticScore }}<span>
+                {% if game.metacriticScore %}
+                <div class="score-metacriticScore">
+                    <span>{{ game.metacriticScore }}<span>
                 </div>
                 <div class="score-hltbLength">{{ game.hltbLength }}</div>
+                {% else %}
+                <div class="score-hltbLength full">{{ game.hltbLength }}</div>
+                {% endif %}
               </div>
               <div class="card-content">
                   <div class="card-gameTitle">{{ game.name}}</div>

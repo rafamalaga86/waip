@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponseBadRequest, \
-    JsonResponse, HttpResponseNotFound
+from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, \
+    HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
-from django.template import loader
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.views import View
@@ -14,10 +13,7 @@ import datetime
 
 
 def list_user_games(request):
-    if request.user.is_authenticated():
-        user = request.user
-    else:
-        user = User.objects.get(pk=1)
+    user = request.user if request.user.is_authenticated() else User.objects.get(pk=1)
 
     games = Game.objects.filter(user_id=user.id)
     for game in games.iterator():
