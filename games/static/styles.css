@@ -157,6 +157,7 @@ main {
   line-height: 70px;
   display: inline-block;
   vertical-align: top;
+  background-color: #6c3;
 }
 
 .score-hltbLength {

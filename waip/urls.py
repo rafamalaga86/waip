@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Home
-    url(r'^$', games_views.home, name='home'),
+    url(r'^$', games_views.list_user_games, name='home'),
 
     # User
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='log_in'),

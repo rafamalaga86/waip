@@ -1,22 +1,24 @@
 {% extends 'parts/base.html' %}
 
 {% block main %}
-    {% comment %}
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="jumbotron-heading">Album example</h1>
-        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-        <p>
-          <a href="#" class="btn btn-primary">Main call to action</a>
-          <a href="#" class="btn btn-secondary">Secondary action</a>
-        </p>
-      </div>
-    </section>
-    {% endcomment %}
       <div class="grid">
-
-          {% for id in ids %}
-            <div class="card" data-game-id="{{ id }}"></div>
+          {% for game in games %}
+            <div class="card" data-game-id="{{ id }}">
+              <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
+              <div class="card-scores d-flex">
+                <div class="score-metacriticScore" style="background-color: {{ game.metacriticScoreColour }}">
+                    <span style="colour: {{ game.metacriticFontColour }}">{{ game.metacriticScore }}<span>
+                </div>
+                <div class="score-hltbLength">{{ game.hltbLength }}</div>
+              </div>
+              <div class="card-content">
+                  <div class="card-gameTitle">{{ game.name}}</div>
+                  <p class="card-text">{{ game.synopsis }}</p>
+                  {% if not game.finishedAt %}
+                      <button class="btn-finished btn btn-default btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
+                  {% endif %}
+              </div>
+            </div>
           {% empty %}
               <span>Sorry, we did not find any game</span>
           {% endfor %}

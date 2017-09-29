@@ -62,6 +62,21 @@ $(document).ready(function(){
 
 
 
+
+// def getMetacriticScoreColour(score):
+//     try:
+//         score = int(score)
+//         if score >= 75:
+//             return '#6c3'
+//         elif score >= 50:
+//             return '#fc3'
+//         else:
+//             return '#f00'
+//     except TypeError:
+//         return '#f00'
+
+
+
   // General AJAX requests
   // =======================================================
 
@@ -76,16 +91,6 @@ $(document).ready(function(){
 
   // Home View
   // =======================================================
-
-  // Fetch games from server
-  $('.card').each(function(index, element) {
-    var id = $(this).data('game-id');
-    $(this).load('/ajax/games/' + id, null, function(){
-      setTimeout(function(){
-        $grid.masonry();
-      }, 500);
-    });
-  });
 
   // Set a game as finished
   $('.card').on('click', '.btn-finished', function(){

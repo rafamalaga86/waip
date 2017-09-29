@@ -9,5 +9,4 @@ from django.contrib import admin
 
 @admin.register(Game)
 class AdminGames(admin.ModelAdmin):
-    list_display = ('name', 'startedAt', 'finishedAt', 'id')
-    # list_filter = ('name', 'id')
+    list_display = ('name', 'user', 'startedAt', 'finishedAt', 'id')

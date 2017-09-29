@@ -116,30 +116,3 @@ def _reorderString(string):
     words = string.split(' ')
     words = words[-1:] + words[:-1]
     return ' '.join(words)
-
-
-def getMetacriticScoreColour(score):
-    try:
-        score = int(score)
-        if score >= 75:
-            return '#6c3'
-        elif score >= 50:
-            return '#fc3'
-        else:
-            return '#f00'
-    except ValueError:
-        return '#6c3'
-
-
-# ms = GameScrapper(
-#     'http://www.metacritic.com/game/pc/pony-island',
-#     'https://howlongtobeat.com/game.php?id=33405')
-
-# ms.getData()
-
-# pprint(vars(ms))
-
-# except Exception as ex:
-#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#     message = template.format(type(ex).__name__, ex.args)
-#     print(message)

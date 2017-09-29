@@ -1,6 +1,7 @@
 For next commit:
 
 For future:
+Pasar de camel case a snake case
 Pasar todo el código por uno chequeador de PEP8
 Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
 Make images upload to each user directory

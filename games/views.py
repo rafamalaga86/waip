@@ -4,6 +4,7 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpRespons
     JsonResponse, HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.template import loader
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.views import View
 from .models import Game
@@ -11,26 +12,20 @@ from .forms import GameForm, ScrapMetacriticForm, ScrapHltbForm
 from games.utils import ddg_scrapper, metacritic_scrapper, hltb_scrapper
 import datetime
 
-# import json
 
+def list_user_games(request):
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        user = User.objects.get(pk=1)
 
-def home(request):
-    # Retrieve list of non finished games ID's to pass them to the frontend
-    ids = Game.objects.filter(finishedAt=None).values_list('id', flat=True)
-
-    context = {
-        'page': 'page-home',
-        'ids': ids,
-    }
-    return render(request, 'game-grid.html', context)
-
-
-def list_user_games(request, id):
-    games = Game.objects.order_by('id')
+    games = Game.objects.filter(user_id=user.id)
+    for game in games.iterator():
+        game.save()
 
     context = {
         'page': 'page-list',
-        'games': games
+        'games': games,
     }
     return render(request, 'game-grid.html', context)
 
@@ -77,9 +72,7 @@ def getGameAjax(request, id):
     context = {
         'game': game,
     }
-
-    template = loader.get_template('ajax/game.html')
-    return HttpResponse(template.render(context, request))
+    return render(request, 'ajax/game.html', context)
 
 
 def scrap_metacritic_ajax(request):
@@ -135,6 +128,4 @@ class GameDetailView(View):
         context = {
             'game': game,
         }
-
-        template = loader.get_template('ajax/game.html')
-        return HttpResponse(template.render(context, request))
+        return render(request, 'ajax/game.html', context)
