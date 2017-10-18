@@ -28,6 +28,10 @@ $(document).ready(function(){
     // columnWidth: 50
   });
 
+  $('.grid').imagesLoaded(function() {
+    $grid.masonry();
+  });
+
 
   // Setting CSRF token in every AJAX request
   // =======================================================

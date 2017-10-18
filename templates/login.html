@@ -1,17 +1,22 @@
 {% extends 'parts/base.html' %}
 
 {% block main %}
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="jumbotron-heading">Log in</h1>
+  <div class="container">
+    <section class="title">
+        <h1>Log in</h1>
+    </section>
+    <section class="row">
+        <div class="col-md-9 col-xl-6">
         <p class="lead text-muted">
             <form id="form-login" method="POST">
                 {% csrf_token %}
-                {{ form.as_ul }}
+                <li class="form-group"><label for="id_username">Username:</label> <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></li>
+                <li class="form-group"><label for="id_password">Password:</label> <input class="form-control" type="password" name="password" required="" id="id_password"></li>
                 <button class="btn btn-primary" type="submit">Log in</button>
 
             </form>
         </p>
-      </div>
+        </div>
     </section>
+  </div>
 {% endblock %}

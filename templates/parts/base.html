@@ -46,22 +46,22 @@
         </div>
       </div>
     </div>
-    <div class="navbar navbar-dark">
+    <div class="navbar navbar-light">
       <div class="container d-flex justify-content-end">
-        <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
-        <ul class="d-flex flex-row ul-login">
-          {% if user.is_authenticated %}
-              <li><a href="#">{{ user.get_username }}</a></li>
-              <li><a href="{% url 'log_out' %}">Log out</a></li>
-              <li><a href="{% url 'add_game' %}" class="btn btn-secondary">Add Game</a></li>
-          {% else %}
-              <li><a class="btn btn-login" href="{% url 'log_in' %}">Log in</a></li>
-              <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
-          {% endif %}
-        </ul>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+          <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
+          <ul class="d-flex flex-row ul-login">
+            {% if user.is_authenticated %}
+                <li><a href="#">{{ user.get_username }}</a></li>
+                <li><a href="{% url 'log_out' %}">Log out</a></li>
+                <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
+            {% else %}
+                <li><a class="btn btn-login" href="{% url 'log_in' %}">Log in</a></li>
+                <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+          </ul>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
       </div>
     </div>
     <main class="container">
@@ -95,6 +95,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <script src="/static/masonry.js"></script>
     <script src="/static/scripts.js"></script>
   </body>
