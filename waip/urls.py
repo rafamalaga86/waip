@@ -13,24 +13,23 @@ urlpatterns = [
     url(r'^$', games_views.list_user_games, name='home'),
 
     # User
-    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='log_in'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='log_out'),
     url(r'^register/$', users_views.register, name='register'),
 
     # Games
     url(r'^games/add/$', games_views.add_game, name='add_game'),
 
-    # TODO take this one out
-    url(r'^ajax/games/scrap-ddg-mc/$', games_views.scrap_ddg_mc_ajax),
-
     # Ajax Urls
     url(r'^ajax/games/scrap-metacritic$', games_views.scrap_metacritic_ajax),
     url(r'^ajax/games/scrap-hltb$', games_views.scrap_hltb_ajax),
     url(r'^ajax/games/([0-9]+)$', games_views.getGameAjax),
     url(r'^ajax/games/([0-9]+)/finish$', games_views.finishGameAjax),
+    url(r'^ajax/games/([0-9]+)/add-note$', games_views.add_note_to_game_ajax),
 ]
 
-if settings.DEBUG:  # Added for Debug Bar
+# Added for Debug Bar
+if settings.DEBUG:  
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),

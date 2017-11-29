@@ -102,24 +102,66 @@ $(document).ready(function(){
 // =========================================================
 
 
-  // Home View
+  // Game Grid
   // =======================================================
 
-  // Set a game as finished
+  //-- Set a game as finished
   $('.card').on('click', '.btn-finished', function(){
-    var now = new Date();
     var btn = $(this);
-    var id = btn.data('game-id');
+    var id = btn.parents('.card').attr('data-game-id');
     jQuery.ajax({
       method: 'PATCH',
       url: '/ajax/games/' + id + '/finish'
     })
     .done(function(){
-      btn.parent().parent().fadeOut('400', function(){
-        $grid.masonry();
-      });
+      console.log('card-' + id);
+
+      $grid.masonry('remove', $('.card-' + id)).masonry();
     });
   });
+
+// -- IMPLEMENTAR EL MASONRY.REMOVE ARRIBA EN VEZ DEL FADEOUT
+  // $('.card').on('click', '.btn-delete', function(){
+  //   var btn = $(this);
+  //   var id = btn.parents('.card').attr('data-contact-id');
+  //   jQuery.ajax({
+  //     method: 'DELETE',
+  //     url: '/contacts/' + id
+  //   })
+  //   .done(function(){
+  //     $grid.masonry('remove', $('.card-' + id)).masonry('layout');
+  //   });
+  // });
+
+
+
+
+  // Add a note to a game
+  // - Open modal
+  $('.card').on('click', '.btn-add-note', function(){
+    var btn = $(this);
+    var id = btn.parents('.card').attr('data-game-id');
+    var name = btn.parents('.card-content').children('.card-gameTitle').text();
+    $('#modal-note textarea').val('');
+    $('#modal-note').attr('data-game-id', id);
+    $('#modal-note').modal('toggle');
+    $('#modal-note h5.modal-title span').text(name);
+  });
+
+  // - Send note data
+  $('#modal-note').on('click', '.btn-save-note', function(){
+    var id = $('#modal-note').attr('data-game-id');
+    var noteText = $('#modal-note textarea').val();
+    jQuery.ajax({
+      method: 'POST',
+      data: {'text': noteText},
+      url: '/ajax/games/' + id + '/add-note'
+    })
+    .done(function(){
+      $('#modal-note').modal('toggle');
+    });
+  });
+
 
 
   // New Game View

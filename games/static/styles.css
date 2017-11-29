@@ -50,9 +50,27 @@ a {
   color: rgba(255,255,255,.7);
 }
 
-a:hover{
+a:hover {
   color: rgba(255,255,255,.98);
   text-decoration: none;
+}
+
+.modal-content {
+  background-color: var(--dark-grey) !important;
+}
+
+.modal-content textarea, .modal-content textarea:focus {
+  background-color: rgba(255,255,255,.9);
+}
+
+.modal-header, .modal-footer {
+  border: none;
+}
+
+.modal .close {
+  color: white;
+  text-shadow: none;
+  cursor: pointer;
 }
 
 .navbar {
@@ -68,7 +86,7 @@ a:hover{
   color: rgba(0,0,0,.7)
 }
 
-.navbar a:not(.btn-primary):hover{
+.navbar a:not(.btn-primary):hover {
   color: rgba(0,0,0,.9);
 }
 
@@ -81,7 +99,7 @@ a:hover{
   margin-right: 20px;
 }
 
-.ul-login li{
+.ul-login li {
   display: block;
   line-height: 38px;
   margin-right: 30px;
@@ -182,6 +200,10 @@ main {
   width: 100%;
 }
 
+.card .btn {
+  background-color: var(--blue);
+}
+
 .card-scores {}
 
 .score-metacriticScore {
@@ -227,10 +249,6 @@ main {
 
 .card .card-text {
   font-size: 15px;
-}
-
-.btn-finished{
-  background-color: var(--blue);
 }
 
 footer {

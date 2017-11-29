@@ -148,3 +148,5 @@ MEDIA_URL = '/media/'
 
 # Setup for logins
 LOGIN_REDIRECT_URL = 'home'  # Url to redirect after succesful log in
+
+LOGIN_URL = 'login'  # Url to redirect when you are not authenticated and try to access a view that requires it

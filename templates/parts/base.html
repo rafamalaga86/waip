@@ -55,7 +55,7 @@
                 <li><a href="{% url 'log_out' %}">Log out</a></li>
                 <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
             {% else %}
-                <li><a class="btn btn-login" href="{% url 'log_in' %}">Log in</a></li>
+                <li><a class="btn btn-login" href="{% url 'login' %}">Log in</a></li>
                 <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
             {% endif %}
           </ul>
@@ -77,6 +77,27 @@
       </div>
     </footer>
 
+    <!-- Modals -->
+    <div id="modal-note" class="modal fade">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add a note to <span></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <textarea placeholder="Write your note about the game" class="form-control" name="text" cols="40" rows="10" id="id_note"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-save-note">Save note</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -95,6 +116,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="https://use.fontawesome.com/ef51ea1a88.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <script src="/static/masonry.js"></script>
     <script src="/static/scripts.js"></script>

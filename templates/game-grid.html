@@ -3,7 +3,7 @@
 {% block main %}
       <div class="grid">
           {% for game in games %}
-            <div class="card" data-game-id="{{ id }}">
+            <div class="card card-{{ game.id }}" data-game-id="{{ game.id }}">
               <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
               <div class="card-scores d-flex">
                 {% if game.metacriticScore %}
@@ -18,9 +18,13 @@
               <div class="card-content">
                   <div class="card-gameTitle">{{ game.name}}</div>
                   <p class="card-text">{{ game.synopsis }}</p>
-                  {% if not game.finishedAt %}
-                      <button class="btn-finished btn btn-default btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
-                  {% endif %}
+                  <div class="btn-container">
+                    {% if not game.finishedAt %}
+                        <button class="btn-finished btn btn-default"><i class="fa fa-check" aria-hidden="true"></i></button>
+                    {% endif %}
+                    <button class="btn-add-note btn btn-default">Add Note</button>
+                    <button class="btn-edit btn btn-default">Edit</button>
+                  </div>
               </div>
             </div>
           {% empty %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Game(models.Model):
@@ -24,7 +24,15 @@ class Game(models.Model):
     modifiedAt = models.DateTimeField(auto_now=True)
 
     # Relationships
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Note(models.Model):
+    text = models.TextField()
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

@@ -4,10 +4,13 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpRespons
     HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.forms.models import model_to_dict
 from django.conf import settings
 from django.views import View
 from .models import Game
-from .forms import GameForm, ScrapMetacriticForm, ScrapHltbForm
+from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
 from games.utils import ddg_scrapper, metacritic_scrapper, hltb_scrapper
 import datetime
 
@@ -26,24 +29,32 @@ def list_user_games(request):
     return render(request, 'game-grid.html', context)
 
 
+@login_required
 def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
-        postedGame = GameForm(request.POST)
-        if postedGame.is_valid():
-            postedGame.save()
+        game_form = GameForm(request.POST)
+        if game_form.is_valid():
+            game = game_form.save(commit=False)
+            game.user = request.user
+            game.save()
             return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
+    else:
+        game_form = GameForm()
+
+    # SHARED --------------------------------------------
     context = {
         'page': 'page-add',
-        'gameForm': GameForm,
+        'gameForm': game_form,
     }
     return render(request, 'new-game.html', context)
 
 
-def finishGameAjax(request, id):
-    game = Game.objects.get(pk=id)
+@login_required
+def finishGameAjax(request, gameId):
+    game = Game.objects.get(pk=gameId)
 
     if game.finishedAt is not None:
         return HttpResponseForbidden('The game already has a "finishedAt" date.')
@@ -53,17 +64,15 @@ def finishGameAjax(request, id):
     return HttpResponse('')  # I just want to give a 200
 
 
-def getGameAjax(request, id):
+def getGameAjax(request, gameId):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
 
-    # equivalent to get_object_or_404(Game, pk=id)
+    # equivalent to get_object_or_404(Game, pk=gameId)
     try:
-        game = Game.objects.get(pk=id)
+        game = Game.objects.get(pk=gameId)
     except Game.DoesNotExist:
         return HttpResponseNotFound('That game was not found.')
-
-    game.injectData()
 
     context = {
         'game': game,
@@ -71,6 +80,21 @@ def getGameAjax(request, id):
     return render(request, 'ajax/game.html', context)
 
 
+@login_required
+def add_note_to_game_ajax(request, gameId):
+    # POST ----------------------------------------------
+    if request.method == 'POST':
+        # Check if the user has permission over the game
+        noteForm = NoteForm(request.POST)
+        if noteForm.is_valid():
+            note = noteForm.save(commit=False)
+            note.game = get_object_or_404(Game, pk=gameId)
+            note.save()
+
+    return JsonResponse(model_to_dict(note))
+
+
+@login_required
 def scrap_metacritic_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
@@ -86,6 +110,7 @@ def scrap_metacritic_ajax(request):
     return JsonResponse(scrap_metacritic)
 
 
+@login_required
 def scrap_hltb_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
@@ -101,25 +126,10 @@ def scrap_hltb_ajax(request):
     return JsonResponse(scrap_hltb)
 
 
-def scrap_ddg_mc_ajax(request):
-    if not settings.DEBUG and not request.is_ajax():
-        return HttpResponseForbidden()
-
-    keywords = 'site:metacritic.com '
-    keywords += 'game '
-    keywords += request.GET.get('keywords')
-
-    result = ddg_scrapper(keywords)
-
-    raise Exception(result)
-
-    return JsonResponse(result)
-
-
 class GameDetailView(View):
+    @login_required
     def get(self, request, id):
         game = get_object_or_404(Game, pk=id)
-        game.injectData()
 
         context = {
             'game': game,

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Game
+from .models import Game, Note
 
 
 class GameForm(forms.ModelForm):
@@ -17,6 +17,14 @@ class GameForm(forms.ModelForm):
             'startedAt',
             'finishedAt',
         ]
+        exclude = ['user']
+
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['text']
+        exclude = ['game']
 
 
 class ScrapMetacriticForm(forms.Form):
