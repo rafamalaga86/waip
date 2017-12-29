@@ -1,34 +1,27 @@
-/*
-Colour Scheme
-http://www.colourlovers.com/palette/92095/Giant_Goldfish
-
-
-
-*/
-
 /* GENERAL */
 
 body {
   min-height: 30rem; /* Can be removed; just added for demo purposes */
 
   /* Global CSS Vars */
-  --dark-grey: #343a40;
+  --dark-gray: #343a40;
+  --aqua-green: #49c5a1;
 
   --blue: #416cde;
   --red: #f16571;
   --brown: #a3825f;
-  --brown-grey: #4e4e4e;
+  --brown-gray: #4e4e4e;
   --pink: #deaeae;
-  --grey: #c1cfcc;
+  --gray: #c1cfcc;
   --orange: #f04e27;
-  --aqua-green: #49c5a1;
   --aqua-green-darker: #3faf8f;
-  --grey-blue: #a8cef3;
+  --gray-blue: #a8cef3;
   --dark-pink: #cf9aae;
   --green: #1e6464;
-  --green-grey: #91b8ae;
+  --green-gray: #91b8ae;
+  --broken-white: #f8f8f8;
 
-  background-color: var(--dark-grey);
+  background-color: var(--dark-gray);
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -55,8 +48,24 @@ a:hover {
   text-decoration: none;
 }
 
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.text-muted a {
+  color: var(--aqua-green)
+}
+
 .modal-content {
-  background-color: var(--dark-grey) !important;
+  background-color: var(--dark-gray) !important;
 }
 
 .modal-content textarea, .modal-content textarea:focus {
@@ -75,7 +84,7 @@ a:hover {
 
 .navbar {
   margin-bottom: 0;
-  background-color: rgba(255,255,255,.9);
+  background-color: var(--broken-white);
 }
 
 .navbar .btn-login {
@@ -97,6 +106,10 @@ a:hover {
 
 .ul-login {
   margin-right: 20px;
+}
+
+.ul-login.desktop {
+  display: none !important;
 }
 
 .ul-login li {
@@ -188,16 +201,41 @@ main {
 .card:nth-child(10n+1) {background-color: var(--red);}
 .card:nth-child(10n+2) {background-color: var(--brown);}
 .card:nth-child(10n+3) {background-color: var(--pink);}
-.card:nth-child(10n+4) {background-color: var(--grey);}
+.card:nth-child(10n+4) {background-color: var(--gray);}
 .card:nth-child(10n+5) {background-color: var(--orange);}
 .card:nth-child(10n+6) {background-color: var(--aqua-green);}
-.card:nth-child(10n+7) {background-color: var(--grey-blue);}
+.card:nth-child(10n+7) {background-color: var(--gray-blue);}
 .card:nth-child(10n+8) {background-color: var(--dark-pink);}
 .card:nth-child(10n+9) {background-color: var(--green);}
-.card:nth-child(10n+10) {background-color: var(--green-grey);}
+.card:nth-child(10n+10) {background-color: var(--green-gray);}
 
 .card-imgCover {
   width: 100%;
+}
+
+.card-imgOverlay {
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 0 4px;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.card:hover .card-imgOverlay{
+  visibility: visible;
+}
+
+.card-imgOverlay div {
+  display: inline;
+  cursor: pointer;
+}
+
+.card-imgOverlay i {
+  margin: 5px;
+  font-size: 25px;
+  color: white;
 }
 
 .card .btn {
@@ -252,12 +290,19 @@ main {
 }
 
 footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  margin-top: 40px;
+  padding: 26px 0;
+  background-color: var(--broken-white);
 }
 
 footer p {
   margin-bottom: .25rem;
+}
+
+i.back-to-top {
+  font-size: 50px;
+  position: relative;
+  top: -12px;
 }
 
 
@@ -267,11 +312,57 @@ input {
   width: 100%;
 }
 
-.container {
-  padding-left: 0;
-  padding-right: 0;
-}
+// .container {
+//   padding-left: 0;
+//   padding-right: 0;
+// }
 
 section.title {
   margin: 30px 0;
+}
+
+.col-imgCover {
+  margin: 32px 0 0 0;
+}
+
+.note-list .empty {
+  margin-bottom: 20px;
+}
+
+.note {
+  display: flex;
+  background: var(--gray);
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+}
+
+.note-text {
+  width: 90%;
+  margin: 0;
+  padding: 3px 0 0 0;
+}
+
+.note-options {
+}
+
+.note-options span {
+  padding-left: 5px;
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .ul-login.desktop {
+    display: flex !important;
+  }
+
+  .ul-login.mobile {
+    display: none !important;
+  }
+
+  .col-imgCover {
+    margin: 32px;
+  }
 }

@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
   // Template 'engine' to populate json responses with html
   // Given a string, populates substrings found in it that 
   // follows pattern /(\$\d+)/, any '$' followed of integer
@@ -24,12 +23,18 @@ $(document).ready(function(){
   var $grid = $('.grid').masonry({
     itemSelector: '.card',
     fitWidth: true,
-    gutter: 20
-    // columnWidth: 50
+    gutter: 20.5
   });
 
   $('.grid').imagesLoaded(function() {
     $grid.masonry();
+  });
+
+
+  // Initialise Tooltips
+  // =======================================================
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
   });
 
 
@@ -89,6 +94,28 @@ $(document).ready(function(){
   });
 
 
+  function openModal(title, textarea, gameId, noteId, success_callback) {
+    if (gameId) {
+      $('#modal-general').attr('data-game-id', gameId);
+    }
+    if (noteId) {
+      $('#modal-general').attr('data-note-id', noteId);
+    }
+    modal_success_callback = success_callback;
+    $('#modal-general h5.modal-title').text(title);
+    $('#modal-general textarea').val(textarea);
+    $('#modal-general').modal('show');
+  }
+
+  function closeModal() {
+    $('#modal-general').modal('hide');
+    if (modal_success_callback) {
+      modal_success_callback();
+    }
+    modal_success_callback = null;
+  }
+
+
 
   // General AJAX requests
   // =======================================================
@@ -98,76 +125,43 @@ $(document).ready(function(){
 
 
 // =========================================================
-// ================== SPECIFIC VIEWS =======================
+// ==================     ACTIONS     ======================
 // =========================================================
 
+  // Globals
+  var modal_action = null;
+  var modal_success_callback = null;
 
   // Game Grid
   // =======================================================
 
-  //-- Set a game as finished
-  $('.card').on('click', '.btn-finished', function(){
-    var btn = $(this);
-    var id = btn.parents('.card').attr('data-game-id');
+  // Set a game as finished
+  $('.card').on('click', '.action-finish-game', function(event){
+    var gameId = $(this).parents('.card').attr('data-game-id');
     jQuery.ajax({
       method: 'PATCH',
-      url: '/ajax/games/' + id + '/finish'
+      url: '/ajax/games/' + gameId + '/finish'
     })
     .done(function(){
-      console.log('card-' + id);
-
-      $grid.masonry('remove', $('.card-' + id)).masonry();
+      $grid.masonry('remove', $('.card-' + gameId)).masonry();
     });
   });
 
-// -- IMPLEMENTAR EL MASONRY.REMOVE ARRIBA EN VEZ DEL FADEOUT
-  // $('.card').on('click', '.btn-delete', function(){
-  //   var btn = $(this);
-  //   var id = btn.parents('.card').attr('data-contact-id');
-  //   jQuery.ajax({
-  //     method: 'DELETE',
-  //     url: '/contacts/' + id
-  //   })
-  //   .done(function(){
-  //     $grid.masonry('remove', $('.card-' + id)).masonry('layout');
-  //   });
-  // });
 
-
-
-
-  // Add a note to a game
+  // Add a note to a game in game Grid
   // - Open modal
-  $('.card').on('click', '.btn-add-note', function(){
-    var btn = $(this);
-    var id = btn.parents('.card').attr('data-game-id');
-    var name = btn.parents('.card-content').children('.card-gameTitle').text();
-    $('#modal-note textarea').val('');
-    $('#modal-note').attr('data-game-id', id);
-    $('#modal-note').modal('toggle');
-    $('#modal-note h5.modal-title span').text(name);
+  $('.card').on('click', '.action-add-note', function(){
+    var gameId = $(this).parents('.card').attr('data-game-id');
+    var name = $(this).parents('.card').attr('data-game-name');
+    modal_action = 'add-note';
+    openModal('Add a note to ' + name, '', gameId, null, null);
   });
-
-  // - Send note data
-  $('#modal-note').on('click', '.btn-save-note', function(){
-    var id = $('#modal-note').attr('data-game-id');
-    var noteText = $('#modal-note textarea').val();
-    jQuery.ajax({
-      method: 'POST',
-      data: {'text': noteText},
-      url: '/ajax/games/' + id + '/add-note'
-    })
-    .done(function(){
-      $('#modal-note').modal('toggle');
-    });
-  });
-
 
 
   // New Game View
   // =======================================================
 
-  $('#form-scrap').on('submit', function(){
+  $('.page-add-game #form-scrap').on('submit', function(){
     // Get metacritic information
     jQuery.get(
       '/ajax/games/scrap-metacritic',
@@ -193,5 +187,83 @@ $(document).ready(function(){
     }, 'json');
   });
 
+
+  // Modify Game View
+  // =======================================================
+
+  // Add a note, open a modal
+  $('.page-modify-game .note-list').on('click', '.action-add-note', function(){
+    modal_action = 'add-note';
+    var gameId = $(this).parents('.page-modify-game').attr('data-game-id');
+    openModal('Add new note', '', gameId, null, function() {
+      location.reload();
+    });
+  });
+
+
+  // Edit a note, open a modal
+  $('.page-modify-game .note').on('click', '.action-edit-note', function(){
+    modal_action = 'edit-note';
+    var gameId = $(this).parents('.note').attr('data-game-id');
+    var noteId = $(this).parents('.note').attr('data-note-id');
+    var note_text = $(this).parents('.note').text().trim();
+    openModal('Edit note', note_text, gameId, noteId, function() {
+      location.reload();
+    });
+  });
+
+
+  // Delete a note, open a modal
+  $('.page-modify-game .note').on('click', '.action-delete-note', function(){
+    var note = $(this).parents('.note');
+    var noteId = note.data('note-id');
+    var gameId = note.data('game-id');
+
+    jQuery.ajax({
+      method: 'DELETE',
+      url: '/ajax/games/' + gameId + '/notes/' + noteId
+    })
+    .done(function(){
+      note.fadeOut();
+    });
+  });
+
+
+
+  // General
+  // =======================================================
+  // - Do modal action
+  $('#modal-general').on('click', '#action-trigger-modal-action', function() {
+    var gameId, nodeId, nodeText;
+
+    switch (modal_action){
+      case 'add-note':
+        gameId = $('#modal-general').attr('data-game-id');
+        noteText = $('#modal-general textarea').val();
+        jQuery.ajax({
+          method: 'POST',
+          data: {'text': noteText},
+          url: '/ajax/games/' + gameId + '/add-note'
+        })
+        .done(function() {
+          closeModal();
+        });
+      break;
+
+      case 'edit-note':
+        gameId = $('#modal-general').attr('data-game-id');
+        noteId = $('#modal-general').attr('data-note-id');
+        noteText = $('#modal-general textarea').val();
+        jQuery.ajax({
+          method: 'PUT',
+          data: {'text': noteText},
+          url: '/ajax/games/' + gameId + '/notes/' + noteId
+        })
+        .done(function(){
+          closeModal();
+        });
+      break;
+    }
+  });
 
 });
