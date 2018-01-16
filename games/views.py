@@ -18,7 +18,10 @@ import datetime
 def list_user_games(request):
     user = request.user if request.user.is_authenticated() else User.objects.get(pk=1)
     games = Game.objects.filter(user_id=user.id)
-    return render(request, 'game-grid.html', {'games': games})
+    return render(request, 'game-grid.html', {
+        'page': 'page-list-games',
+        'games': games,
+    })
 
 
 @login_required
@@ -27,11 +30,13 @@ def modify_game(request, gameId):
     if request.method == 'POST':
         game = None
         game_form = GameForm(request.POST)
-        if game_form.is_valid():
-            game = game_form.save(commit=False)
-            game.user = request.user
-            game.save()
-            return HttpResponseRedirect('/')
+        if not game_form.is_valid():
+            return HttpResponse(status=400)
+
+        game = game_form.save(commit=False)
+        game.user = request.user
+        game.save()
+        return HttpResponseRedirect('/')
 
     # SHARED --------------------------------------------
     else:
@@ -56,11 +61,13 @@ def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
         game_form = GameForm(request.POST)
-        if game_form.is_valid():
-            game = game_form.save(commit=False)
-            game.user = request.user
-            game.save()
-            return HttpResponseRedirect('/')
+        if not game_form.is_valid():
+            return HttpResponse(status=400)
+
+        game = game_form.save(commit=False)
+        game.user = request.user
+        game.save()
+        return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
     else:
@@ -113,10 +120,12 @@ def add_note_to_game_ajax(request, gameId):
     if request.method == 'POST':
         # Check if the user has permission over the game
         noteForm = NoteForm(request.POST)
-        if noteForm.is_valid():
-            note = noteForm.save(commit=False)
-            note.game = get_object_or_404(Game, pk=gameId)
-            note.save()
+        if not noteForm.is_valid():
+            return HttpResponse(status=400)
+
+        note = noteForm.save(commit=False)
+        note.game = get_object_or_404(Game, pk=gameId)
+        note.save()
 
     return JsonResponse(model_to_dict(note))
 
@@ -126,12 +135,12 @@ def scrap_metacritic_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
 
-    form = ScrapMetacriticForm(request.GET)
+    scrap_metacritic_form = ScrapMetacriticForm(request.GET)
 
-    if not form.is_valid():
+    if not scrap_metacritic_form.is_valid():
         return HttpResponse(status=400)
 
-    formData = form.cleaned_data
+    formData = scrap_metacritic_form.cleaned_data
     scrap_metacritic = metacritic_scrapper(formData['metacritic_url'])
 
     return JsonResponse(scrap_metacritic)
@@ -142,12 +151,12 @@ def scrap_hltb_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
 
-    form = ScrapHltbForm(request.GET)
+    scrap_hltb_form = ScrapHltbForm(request.GET)
 
-    if not form.is_valid():
+    if not scrap_hltb_form.is_valid():
         return HttpResponse(status=400)
 
-    formData = form.cleaned_data
+    formData = scrap_hltb_form.cleaned_data
     scrap_hltb = hltb_scrapper(formData['hltb_url'])
 
     return JsonResponse(scrap_hltb)
@@ -157,14 +166,14 @@ class NoteDetailAjaxView(LoginRequiredMixin, View):
     def put(self, request, gameId, noteId):
         note = get_object_or_404(Note, pk=noteId)
         noteForm = NoteForm(QueryDict(request.body))
+        if not noteForm.is_valid():
+            return HttpResponse(status=400)
 
-        if noteForm.is_valid():
-            new_note = noteForm.save(commit=False)
-            note.text = new_note.text
-            note.save()
-            return JsonResponse(model_to_dict(note))
+        new_note = noteForm.save(commit=False)
+        note.text = new_note.text
+        note.save()
+        return JsonResponse(model_to_dict(note))
 
-        return HttpResponse(status=400)
 
     def delete(self, request, gameId, noteId):
         note = get_object_or_404(Note, pk=noteId)

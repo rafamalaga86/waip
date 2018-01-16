@@ -1,22 +1,33 @@
+
+
 {% extends 'parts/base.html' %}
 
 {% block main %}
-  <div class="container">
-    <section class="title">
-        <h1>Log in</h1>
-    </section>
-    <section class="row">
-        <div class="col-md-9 col-xl-6">
-        <p class="lead text-muted">
-            <form id="form-login" method="POST">
-                {% csrf_token %}
-                <li class="form-group"><label for="id_username">Username:</label> <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></li>
-                <li class="form-group"><label for="id_password">Password:</label> <input class="form-control" type="password" name="password" required="" id="id_password"></li>
-                <button class="btn btn-primary" type="submit">Log in</button>
-
-            </form>
-        </p>
-        </div>
-    </section>
-  </div>
+  <section class="title text-center">
+    <h1>Log in</h1>
+  </section>
+  <section class="text-center">
+    <div class="row">
+      <div class="col-lg">
+        <form id="form-login" class="text-left" action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+          <ul>
+            <li class="form-group"><label for="id_username">Username:</label> <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></li>
+            <li class="form-group"><label for="id_password">Password:</label> <input class="form-control" type="password" name="password" required="" id="id_password"></li>
+          </ul>
+          <button class="btn btn-primary" type="submit">Log in</button>
+        </form>
+      </div>
+      <div class="col-lg text-left">
+        With <em>What am I playing</em> you can:
+        <ul class="list-tick">
+          <li>Monitor what games have you finished or/and played... ever.</li>
+          <li>Write quick notes about games while you playing.</li>
+          <li>Have a list of games you are playing at the moment.</li>
+          <li>See data about your games in a glance</li>
+          <li>And much more...</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 {% endblock %}

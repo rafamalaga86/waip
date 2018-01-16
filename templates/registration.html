@@ -1,24 +1,36 @@
 {% extends 'parts/base.html' %}
 
 {% block main %}
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="jumbotron-heading">Register</h1>
-        <p class="lead text-muted">
-            <form class="" action="{% url 'register' %}" method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="form-group row">
-                        {{ field.errors }}
-                        <label class="col-4 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <div class="col-8">
-                            {{ field }}
-                        </div>
-                    </div>
-                {% endfor %}
-                <button class="btn btn-primary" type="submit">Register</button>
-            </form>
-        </p>
-      </div>
+  <section class="text-center">
+    <section class="title">    
+      <h1>Register</h1>
     </section>
+    <div class="row">
+      <div class="col-lg">
+        <form class="text-left" action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group row">
+            <label class="col col-3 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="col col-9">
+              {{ field }}
+              <small class="field-errors">{{ field.errors.as_text }}</small>
+            </div>
+          </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+      </div>
+      <div class="col-lg text-left">
+        With <em>What am I playing</em> you can:
+        <ul class="list-tick">
+          <li>Monitor what games have you finished or/and played... ever.</li>
+          <li>Write quick notes about games while you playing.</li>
+          <li>Have a list of games you are playing at the moment.</li>
+          <li>See data about your games in a glance</li>
+          <li>And much more...</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 {% endblock %}
