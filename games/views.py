@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse, \
-    HttpResponseNotFound
+from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.forms.models import model_to_dict
 from django.conf import settings
 from django.views import View
@@ -17,7 +17,7 @@ import datetime
 
 def list_user_games(request):
     user = request.user if request.user.is_authenticated() else User.objects.get(pk=1)
-    games = Game.objects.filter(user_id=user.id)
+    games = Game.objects.filter(user_id=user.id).order_by('-createdAt')
     return render(request, 'game-grid.html', {
         'page': 'page-list-games',
         'games': games,
@@ -30,29 +30,32 @@ def modify_game(request, gameId):
     if request.method == 'POST':
         game = None
         game_form = GameForm(request.POST)
-        if not game_form.is_valid():
-            return HttpResponse(status=400)
+        if game_form.is_valid():
+            game = game_form.save(commit=False)
+            game.user = request.user
+            game.save()
+            return HttpResponseRedirect('/')
 
-        game = game_form.save(commit=False)
-        game.user = request.user
-        game.save()
-        return HttpResponseRedirect('/')
+    # GET -----------------------------------------------
+    else:
+        game_form = GameForm()
 
     # SHARED --------------------------------------------
-    else:
-        game = get_object_or_404(Game, pk=gameId)
-        notes = Note.objects.filter(game=gameId)
+    game = get_object_or_404(Game, pk=gameId)
+    notes = Note.objects.filter(game=gameId)
 
     return render(request, 'game-detail.html', {
         'page': 'page-modify-game',
         'game': game,
+        'game_form': game_form,
         'notes': notes,
     })
 
 
 @login_required
 def delete_game(request, gameId):
-    get_object_or_404(Game, pk=gameId)
+    get_object_or_404(Game, pk=gameId).delete()
+    messages.success(request, 'The game was successfully deleted')
     return HttpResponseRedirect('/')
 
 
@@ -61,13 +64,11 @@ def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
         game_form = GameForm(request.POST)
-        if not game_form.is_valid():
-            return HttpResponse(status=400)
-
-        game = game_form.save(commit=False)
-        game.user = request.user
-        game.save()
-        return HttpResponseRedirect('/')
+        if game_form.is_valid():
+            game = game_form.save(commit=False)
+            game.user = request.user
+            game.save()
+            return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
     else:
@@ -76,7 +77,7 @@ def add_game(request):
     # SHARED --------------------------------------------
     context = {
         'page': 'page-add-game',
-        'gameForm': game_form,
+        'game_form': game_form,
     }
     return render(request, 'new-game.html', context)
 
@@ -98,18 +99,11 @@ def finish_game_ajax(request, gameId):
 
 
 def get_game_ajax(request, gameId):
-    raise Expcetion('OLE MORENA')  # Quitar esto TODO DELETE
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden()
 
-    # equivalent to get_object_or_404(Game, pk=gameId)
-    try:
-        game = Game.objects.get(pk=gameId)
-    except Game.DoesNotExist:
-        return HttpResponseNotFound('That game was not found.')
-
     context = {
-        'game': game,
+        'game': get_object_or_404(Game, pk=gameId),
     }
     return render(request, 'ajax/game.html', context)
 

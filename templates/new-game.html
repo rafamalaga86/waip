@@ -25,22 +25,67 @@
         <p>You can autofill the next fields by scrapping. Fill up the previous form with Metacritic and HowLongToBeat URLs</p>
       </div>
 
+
+
+
+
+
       <div class="col">
         {# New Game Form #}
         {{ form.non_field_errors }}
-        <form action="{% url 'add_game' %}" method="POST">
+        <form class="form-add-game" action="{% url 'add_game' %}" method="POST">
           {% csrf_token %}
-
-          <li class="form-group"><label for="id_name">Name:</label> <input placeholder="Pony Island" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name"></li>
-          <li class="form-group"><label for="id_coverUrl">CoverUrl:</label> <input placeholder="https://howlongtobeat.com/gameimages/Pony_Island_header.jpg" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
-          <li class="form-group"><label for="id_hltbLength">HltbLength:</label> <input placeholder="2½ Hours" class="form-control" type="text" name="hltbLength" maxlength="255" id="id_hltbLength"></li>
-          <li class="form-group"><label for="id_synopsis">Synopsis:</label> <textarea placeholder="Pony Island is a suspense puzzle game in disguise. You are in limbo, trapped in a malevolent and malfunctioning arcade machine devised by the devil himself. The devil detests having his puzzles solved and poor programming exposed; you will need to think outside the box to proceed and you will be insulted when you do." class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis"></textarea></li>
-          <li class="form-group"><label for="id_releaseDate">Release Date:</label> <input placeholder="Jan  4, 2016" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate"></li>
-          <li class="form-group"><label for="id_developer">Developer:</label> <input placeholder="Daniel Mullins Games" class="form-control" type="text" name="developer" maxlength="255" id="id_developer"></li>
-          <li class="form-group"><label for="id_genres">Genres:</label> <input placeholder="Puzzle, Investigation" class="form-control" type="text" name="genres" maxlength="255" id="id_genres"></li>
-          <li class="form-group"><label for="id_metacriticScore">Metacritic Score:</label> <input placeholder="86" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore"></li>
-          <li class="form-group"><label for="id_startedAt">You started playing at:</label> <input placeholder="Pony Island" class="form-control" type="date" name="startedAt" id="id_startedAt"></li>
-          <li class="form-group"><label for="id_finishedAt">You finished the game at:</label> <input placeholder="Pony Island" class="form-control" type="date" name="finishedAt" id="id_finishedAt"></li>
+          <ul>
+            <li class="form-group">
+              <label for="id_name">Name*:</label>
+              <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
+              <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
+              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
+              <small class="field-errors">{{ game_form.coverUrl.errors.as_text }}</small>
+            <li class="form-group">
+              <label for="id_hltbLength">HowLongToBeat Length*:</label>
+              <input value="{{ game.hltbLength }}" class="form-control" type="text" name="hltbLength" maxlength="255" id="id_hltbLength">
+              <small class="field-errors">{{ game_form.hltbLength.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_synopsis">Synopsis:</label>
+              <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea>
+              <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_releaseDate">Release Date:</label>
+              <input value="{{ game.releaseDate }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
+              <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_developer">Developer:</label>
+              <input value="{{ game.developer }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
+              <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_genres">Genres:</label>
+              <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
+              <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_metacriticScore">Metacritic Score:</label>
+              <input value="{{ game.metacriticScore }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore">
+              <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_startedAt">You started playing at:</label>
+              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
+              <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_finishedAt">You finished the game at:</label>
+              <input value="{{ game.finishedAt|date:'Y-m-d' }}" class="form-control" type="date" name="finishedAt" id="id_finishedAt">
+              <small class="field-errors">{{ game_form.finishedAt.errors.as_text }}</small>
+            </li>
+          </ul>
           <button class="btn btn-primary" type="submit">Add Game</button>
         </form>
       </div>

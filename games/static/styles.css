@@ -337,8 +337,15 @@ section.title {
   color: var(--orange) !important;
 }
 
-.col-imgCover {
-  margin: 32px 0 0 0;
+.figure-cover {
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-add-game small.field-info {
+  display: none;
 }
 
 .note-list .empty {
@@ -377,8 +384,16 @@ section.title {
   .ul-login.mobile {
     display: none !important;
   }
+}
 
-  .col-imgCover {
-    margin: 32px;
+
+
+@media (min-width: 1200px) {
+  .form-add-game small.field-info {
+    display: block;
+    line-height: 26px;
+    float: right;
+    color: rgba(255, 255, 255, 0.2);
   }
+}
 }

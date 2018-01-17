@@ -47,6 +47,6 @@ def modify_logged_user(request):
     # SHARED --------------------------------------------
     context = {
         'page': 'page-modify-logged-user',
-        'gameForm': game_form,
+        'game_form': game_form,
     }
     return render(request, 'new-game.html', context)

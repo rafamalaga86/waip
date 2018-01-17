@@ -1,21 +1,27 @@
 $(document).ready(function(){
+  // General AJAX requests
+  // =======================================================
+
+  // $("#form-login").ajaxForm({url: '/users/login/', type: 'POST'})
+
+
 
   // Template 'engine' to populate json responses with html
   // Given a string, populates substrings found in it that 
   // follows pattern /(\$\d+)/, any '$' followed of integer
   // =======================================================
-  String.prototype.template = String.prototype.template ||
-    function (){
-      var  args = Array.prototype.slice.call(arguments);
-      var str = this;
-      var i=0;
+  // String.prototype.template = String.prototype.template ||
+  //   function (){
+  //     var  args = Array.prototype.slice.call(arguments);
+  //     var str = this;
+  //     var i=0;
           
-      function replacer(a){
-          var aa = parseInt(a.substr(1),10)-1;
-          return args[aa];
-      }
-      return  str.replace(/(\$\d+)/gm,replacer);
-  };
+  //     function replacer(a){
+  //         var aa = parseInt(a.substr(1),10)-1;
+  //         return args[aa];
+  //     }
+  //     return  str.replace(/(\$\d+)/gm,replacer);
+  // };
 
 
   // Initialise the Mansonry Grid
@@ -115,15 +121,6 @@ $(document).ready(function(){
     modal_success_callback = null;
   }
 
-
-
-  // General AJAX requests
-  // =======================================================
-
-  // $("#form-login").ajaxForm({url: '/users/login/', type: 'POST'})
-
-
-
 // =========================================================
 // ==================     ACTIONS     ======================
 // =========================================================
@@ -213,7 +210,7 @@ $(document).ready(function(){
   });
 
 
-  // Delete a note, open a modal
+  // Delete a note
   $('.page-modify-game .note').on('click', '.action-delete-note', function(){
     var note = $(this).parents('.note');
     var noteId = note.data('note-id');

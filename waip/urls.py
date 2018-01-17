@@ -22,6 +22,7 @@ urlpatterns = [
     # Games
     url(r'^games/add/$', games_views.add_game, name='add_game'),
     url(r'^games/([0-9]+)$', games_views.modify_game, name='modify_game'),
+    url(r'^games/([0-9]+)/delete/$', games_views.delete_game, name='delete_game'),
 
     # Ajax Urls
     url(r'^ajax/games/scrap-metacritic$', games_views.scrap_metacritic_ajax),
@@ -29,7 +30,6 @@ urlpatterns = [
     url(r'^ajax/games/([0-9]+)/finish$', games_views.finish_game_ajax),
     url(r'^ajax/games/([0-9]+)/add-note$', games_views.add_note_to_game_ajax),
     url(r'^ajax/games/([0-9]+)/notes/([0-9]+)$', NoteDetailAjaxView.as_view(), name='note-detail'),
-
 ]
 
 # Added for Debug Bar

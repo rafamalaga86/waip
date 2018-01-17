@@ -8,28 +8,69 @@
     <section class="row">
       <div class="col">
         {# Game Form #}
-        {{ form.non_field_errors }}
+        {{ game_form.non_field_errors }}
         <form action="{% url 'modify_game' game.id %}" method="POST">
           {% csrf_token %}
-          <li class="form-group"><label for="id_name">Name:</label> <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name"></li>
-          <li class="form-group"><label for="id_coverUrl">CoverUrl:</label> <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
-          <li class="form-group"><label for="id_hltbLength">HltbLength:</label> <input value="{{ game.hltb }}" class="form-control" type="text" name="hltbLength" maxlength="255" id="id_hltbLength"></li>
-          <li class="form-group"><label for="id_synopsis">Synopsis:</label> <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea></li>
-          <li class="form-group"><label for="id_releaseDate">Release Date:</label> <input value="{{ game.releaseDate }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate"></li>
-          <li class="form-group"><label for="id_developer">Developer:</label> <input value="{{ game.releaseDate }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer"></li>
-          <li class="form-group"><label for="id_genres">Genres:</label> <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres"></li>
-          <li class="form-group"><label for="id_metacriticScore">Metacritic Score:</label> <input value="{{ game.metacriticScore }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore"></li>
-          <li class="form-group"><label for="id_startedAt">You started playing at:</label> <input value="{{ game.startedAt }}" class="form-control" type="date" name="startedAt" id="id_startedAt"></li>
-          <li class="form-group"><label for="id_finishedAt">You finished the game at:</label> <input value="{{ game.finishedAt }}" class="form-control" type="date" name="finishedAt" id="id_finishedAt"></li>
+          <ul>
+            <li class="form-group">
+              <label for="id_name">Name*:</label>
+              <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
+              <small class="field-errors">{{ game_form.name.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
+              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
+              <small class="field-errors">{{ game_form.coverUrl.errors }}</small>
+            <li class="form-group">
+              <label for="id_hltbLength">HowLongToBeat Length*:</label>
+              <input value="{{ game.hltbLength }}" class="form-control" type="text" name="hltbLength" maxlength="255" required="" id="id_hltbLength">
+              <small class="field-errors">{{ game_form.hltbLength.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_synopsis">Synopsis:</label>
+              <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea>
+              <small class="field-errors">{{ game_form.synopsis.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_releaseDate">Release Date:</label>
+              <input value="{{ game.releaseDate }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
+              <small class="field-errors">{{ game_form.releaseDate.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_developer">Developer:</label>
+              <input value="{{ game.developer }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
+              <small class="field-errors">{{ game_form.developer.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_genres">Genres:</label>
+              <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
+              <small class="field-errors">{{ game_form.genres.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_metacriticScore">Metacritic Score:</label>
+              <input value="{{ game.metacriticScore }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore">
+              <small class="field-errors">{{ game_form.metacriticScore.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_startedAt">You started playing at:</label>
+              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
+              <small class="field-errors">{{ game_form.startedAt.errors }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_finishedAt">You finished the game at:</label>
+              <input value="{{ game.finishedAt|date:'Y-m-d' }}" class="form-control" type="date" name="finishedAt" id="id_finishedAt">
+              <small class="field-errors">{{ game_form.finishedAt.errors }}</small>
+            </li>
+          </ul>
           <button class="btn btn-primary" type="submit">Update Game</button>
         </form>
       </div>
 
       <div class="col">
-        <figure class="block">
+        <figure class="figure-cover">
           <img class="col-imgCover" src="{{ game.coverUrl }}" alt="">
         </figure>
-        <h5>Notas</h5>
+        <h5>Notes</h5>
         <div class="note-list">
           {% for note in notes %}
             <div class="note" data-game-id="{{ game.id }}" data-note-id="{{ note.id }}">
@@ -52,10 +93,10 @@
     </section>
     <section class="row mt-50">
       <div class="col">
-        <div class="alert alert-danger" role="alert">
+        <form action="{% url 'delete_game' game.id %}"  class="alert alert-danger" role="alert">
           <button class="btn btn-danger" type="submit">Delete this game from the Database</button>
           <p class="mt-10">If you delete the game from the Database, it would be as it never existed</p>
-        </div>
+        </form>
       </div>
     </section>
   </div>

@@ -71,12 +71,12 @@
           <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
           <ul class="d-flex flex-row ul-login desktop">
             {% if user.is_authenticated %}
-                <li><a href="#">{{ user.get_username }}</a></li>
-                <li><a href="{% url 'log_out' %}">Log out</a></li>
-                <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
+              <li><a href="#">{{ user.get_username }}</a></li>
+              <li><a href="{% url 'log_out' %}">Log out</a></li>
+              <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
             {% else %}
-                <li><a class="btn btn-login" href="{% url 'login' %}">Log in</a></li>
-                <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
+              <li><a class="btn btn-login" href="{% url 'login' %}">Log in</a></li>
+              <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
             {% endif %}
           </ul>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,6 +85,16 @@
       </div>
     </div>
     <main class="container">
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
       {% block main %}{% endblock %}
     </main>
     <footer class="text-muted">

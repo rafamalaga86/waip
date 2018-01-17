@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Game(models.Model):
     # Original
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     startedAt = models.DateField(blank=True, null=True)
     finishedAt = models.DateField(blank=True, null=True)
 
