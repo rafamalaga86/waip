@@ -25,11 +25,6 @@
         <p>You can autofill the next fields by scrapping. Fill up the previous form with Metacritic and HowLongToBeat URLs</p>
       </div>
 
-
-
-
-
-
       <div class="col">
         {# New Game Form #}
         {{ form.non_field_errors }}
@@ -43,7 +38,7 @@
             </li>
             <li class="form-group">
               <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
-              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
+              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
               <small class="field-errors">{{ game_form.coverUrl.errors.as_text }}</small>
             <li class="form-group">
               <label for="id_hltbLength">HowLongToBeat Length*:</label>
@@ -76,11 +71,13 @@
               <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
             </li>
             <li class="form-group">
+              <small class="field-info">If blank, the application will use the date of today</small>
               <label for="id_startedAt">You started playing at:</label>
               <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
             </li>
             <li class="form-group">
+              <small class="field-info">This is typically left in blank for when you finish</small>
               <label for="id_finishedAt">You finished the game at:</label>
               <input value="{{ game.finishedAt|date:'Y-m-d' }}" class="form-control" type="date" name="finishedAt" id="id_finishedAt">
               <small class="field-errors">{{ game_form.finishedAt.errors.as_text }}</small>

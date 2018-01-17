@@ -2,7 +2,7 @@ $(document).ready(function(){
   // General AJAX requests
   // =======================================================
 
-  // $("#form-login").ajaxForm({url: '/users/login/', type: 'POST'})
+  // $('#form-login').ajaxForm({url: '/users/login/', type: 'POST'})
 
 
 
@@ -121,6 +121,10 @@ $(document).ready(function(){
     modal_success_callback = null;
   }
 
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).find('.modal-autofocus').focus();
+  });
+
 // =========================================================
 // ==================     ACTIONS     ======================
 // =========================================================
@@ -134,6 +138,7 @@ $(document).ready(function(){
 
   // Set a game as finished
   $('.card').on('click', '.action-finish-game', function(event){
+    $('.action-finish-game').tooltip('hide');
     var gameId = $(this).parents('.card').attr('data-game-id');
     jQuery.ajax({
       method: 'PATCH',
@@ -182,6 +187,13 @@ $(document).ready(function(){
           }
         }
     }, 'json');
+  });
+
+  // Today date for default value of startedAt
+  $('.form-add-game').submit(function(e){
+    var today = new Date().toJSON().slice(0,10); 
+    var started_at = $('#id_startedAt').val() || today;
+    $('#id_startedAt').val(started_at);
   });
 
 

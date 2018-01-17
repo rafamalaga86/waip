@@ -7,7 +7,7 @@ from django.conf import settings
 class Game(models.Model):
     # Original
     name = models.CharField(max_length=255)
-    startedAt = models.DateField(blank=True, null=True)
+    startedAt = models.DateField(blank=True)
     finishedAt = models.DateField(blank=True, null=True)
 
     # Scrapped properties

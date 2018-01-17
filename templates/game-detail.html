@@ -19,7 +19,7 @@
             </li>
             <li class="form-group">
               <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
-              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl"></li>
+              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
               <small class="field-errors">{{ game_form.coverUrl.errors }}</small>
             <li class="form-group">
               <label for="id_hltbLength">HowLongToBeat Length*:</label>
@@ -53,7 +53,7 @@
             </li>
             <li class="form-group">
               <label for="id_startedAt">You started playing at:</label>
-              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
+              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" required="" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors }}</small>
             </li>
             <li class="form-group">
