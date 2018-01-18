@@ -1,21 +1,11 @@
 For next commit:
 dates
 permissions
-hacer la duración del juego opcional
-hacer que se vean las notas en las cards en vez de la sinopsis
 incorporar el stopped paying at
 para que sirve clenear los form
 
 
 For future:
 Pasar todo el código por uno chequeador de PEP8
-Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
-Aplicar un middleware a las rutas de ajax
 Refactor of some non Ajax views that are returning 404
 https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
-
-
-Necesito estas dos lineas?
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literal
-?

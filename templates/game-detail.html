@@ -22,8 +22,8 @@
               <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
               <small class="field-errors">{{ game_form.coverUrl.errors }}</small>
             <li class="form-group">
-              <label for="id_hltbLength">HowLongToBeat Length in hours*:</label>
-              <input value="{{ game.hltbLength }}" class="form-control" type="text" name="hltbLength" maxlength="255" required="" id="id_hltbLength">
+              <label for="id_hltbLength">HowLongToBeat Length in hours:</label>
+              <input value="{{ game.hltbLength }}" class="form-control" type="number" step="0.01" name="hltbLength" maxlength="255" required="" id="id_hltbLength">
               <small class="field-errors">{{ game_form.hltbLength.errors }}</small>
             </li>
             <li class="form-group">

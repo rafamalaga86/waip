@@ -8,9 +8,9 @@
               <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
               <div class="card-imgOverlay">
                 {% if not game.stopped_playing_at %}
-                <div class="action-finish-game" data-toggle="tooltip" data-placement="bottom" title="Marcar juego como terminado">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                </div>
+                  <div class="action-finish-game" data-toggle="tooltip" data-placement="bottom" title="Marcar juego como terminado">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                  </div>
                 {% endif %}
                 <a href="{% url 'modify_game' game.id %}" data-toggle="tooltip" data-placement="bottom" title="Editar juego">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -21,22 +21,22 @@
               </div>
               <div class="card-scores d-flex">
                 {% if game.metacriticScore %}
-                <div class="score-metacriticScore">
-                    <span>{{ game.metacriticScore }}<span>
-                </div>
-                <div class="score-hltbLength">{{ game.hltbLength }}</div>
-                {% else %}
-                <div class="score-hltbLength full">{{ game.hltbLength }}</div>
+                  <div class="score-metacriticScore">
+                      <span>{{ game.metacriticScore }}<span>
+                  </div>
                 {% endif %}
+                <div class="score-hltbLength {{ game.metacriticScore|yesno:',full' }}">
+                  {{ game.hltbLength|default_if_none:'Unknown!' }}
+                  {{ game.hltbLength|yesno:'Hours,' }}</div>
               </div>
               <div class="card-content">
                 <div class="card-gameTitle">{{ game.name }}</div>
                 {% if game.notes %}
-                    {% for note in game.notes %}
-                      <p class="card-text">{{ note.text }}</p>
-                    {% endfor %}
+                  {% for note in game.notes %}
+                    <p class="card-text">{{ note.text }}</p>
+                  {% endfor %}
                 {% else %}
-                    <p class="card-text">Synopsis: {{ game.synopsis }}</p>
+                  <p class="card-text">Synopsis: {{ game.synopsis }}</p>
                 {% endif %}
               </div>
             </div>
