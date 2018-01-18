@@ -11,16 +11,6 @@ DDG_SA = 'https://duckduckgo.com/'
 DDG_HEADERS = {}
 
 
-def parse_text_time_into_float(textTime):
-    if '-' in textTime:
-        textTime = textTime.split('-')[1]
-    if 'Hours' in textTime:
-        result = float(textTime.replace('Hours', '').replace('½', '.5').strip())
-    elif 'Mins' in textTime:
-        result = float(textTime.replace('Mins', '').strip()) / 60 // 0.01 / 100  # To hours, with 2 decimal places
-    return result
-
-
 def hltb_scrapper(hltbGameUrl):
         request = requests.get(
             hltbGameUrl,
@@ -34,8 +24,8 @@ def hltb_scrapper(hltbGameUrl):
         game['coverUrl'] = os.path.join(HLTB_SA, soup.find('div', class_='game_image').find('img').get('src'))
         gameTimes = soup.find('div', class_='game_times').findAll('li')
         gameTimeText = gameTimes[0].find('div').text
-        game['hltbLength'] = parse_text_time_into_float(gameTimeText)
-        game['synopsis'] = soup.find('div', class_='profile_header_alt').text.strip()
+        game['hltbLength'] = _parse_text_time_into_float(gameTimeText)
+        game['synopsis'] = _parse_synopsis(soup.find('div', class_='profile_header_alt').text.strip())
 
         return game
 
@@ -56,3 +46,17 @@ def metacritic_scrapper(metacriticUrl):
         game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
 
         return game
+
+
+def _parse_text_time_into_float(textTime):
+    if '-' in textTime:
+        textTime = textTime.split('-')[1]
+    if 'Hours' in textTime:
+        result = float(textTime.replace('Hours', '').replace('½', '.5').strip())
+    elif 'Mins' in textTime:
+        result = float(textTime.replace('Mins', '').strip()) / 60 // 0.01 / 100  # To hours, with 2 decimal places
+    return result
+
+
+def _parse_synopsis(synopsis):
+    return synopsis.replace('...Read More', '')

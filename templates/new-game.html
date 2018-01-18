@@ -69,7 +69,7 @@
             </li>
             <li class="form-group">
               <label for="id_metacriticScore">Metacritic Score:</label>
-              <input value="{{ game_form.metacriticScore.data|default_if_none:'' }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore">
+              <input value="{{ game_form.metacriticScore.data|default_if_none:'' }}" class="form-control" type="number" min="1" max="100" step="1" name="metacriticScore" maxlength="255" id="id_metacriticScore">
               <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
             </li>
             <li class="form-group">
