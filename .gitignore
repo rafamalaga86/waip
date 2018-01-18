@@ -12,6 +12,7 @@ venv*
 
 # Logs
 logs/*
+!logs/.gitkeep 
 
 # Django gitignore
 *.egg-info
