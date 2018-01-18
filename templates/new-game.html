@@ -11,13 +11,15 @@
         {{ form.non_field_errors }}
         <form id="form-scrap" onsubmit="return false">
           {% csrf_token %}
-          <div class="form-group">
+          <div class="form-group scrap-metacritic">
             <label for="exampleInputEmail1">URL of Metacritic:</label>
             <input class="form-control" type="url" placeholder="http://www.metacritic.com/game/pc/pony-island" name="metacriticUrl" id="id_metacriticUrl" value="http://www.metacritic.com/game/pc/pony-island">
+            <small class="field-errors"></small>
           </div>
-          <div class="form-group">
+          <div class="form-group scrap-hltb">
             <label for="exampleInputEmail1">URL of HowLongToBeat:</label>
             <input class="form-control" type="url" placeholder="https://howlongtobeat.com/game.php?id=33405" name="hltbUrl" id="id_hltbUrl" value="https://howlongtobeat.com/game.php?id=33405">
+            <small class="field-errors"></small>
           </div>
           <button class="btn btn-primary" type="submit">Scrap Game</button>
         </form>

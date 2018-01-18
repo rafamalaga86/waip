@@ -13,13 +13,17 @@ from .models import Game, Note
 from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
 from games.utils import metacritic_scrapper, hltb_scrapper
 import datetime
+import logging
 
-# Shall I clean any attribute?
+logger = logging.getLogger(__name__)
 
 
 def list_user_games(request):
     user = request.user if request.user.is_authenticated() else User.objects.get(pk=1)
     games = Game.objects.filter(user_id=user.id).order_by('-createdAt')
+    for game in games:
+        game.notes = Note.objects.filter(game_id=game.id).order_by('createdAt')
+
     return render(request, 'game-grid.html', {
         'page': 'page-list-games',
         'games': games,

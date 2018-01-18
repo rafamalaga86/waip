@@ -1,9 +1,10 @@
 {% extends 'parts/base.html' %}
+{% load math_tags %}
 
 {% block main %}
       <div class="grid">
           {% for game in games %}
-            <div class="card card-{{ game.id }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
+            <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:8 }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
               <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
               <div class="card-imgOverlay">
                 {% if not game.stopped_playing_at %}
@@ -29,8 +30,14 @@
                 {% endif %}
               </div>
               <div class="card-content">
-                  <div class="card-gameTitle">{{ game.name }}</div>
-                  <p class="card-text">{{ game.synopsis }}</p>
+                <div class="card-gameTitle">{{ game.name }}</div>
+                {% if game.notes %}
+                    {% for note in game.notes %}
+                      <p class="card-text">{{ note.text }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p class="card-text">Synopsis: {{ game.synopsis }}</p>
+                {% endif %}
               </div>
             </div>
           {% empty %}

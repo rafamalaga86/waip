@@ -10,6 +10,9 @@ venv*
 # Mac
 .DS_Store
 
+# Logs
+logs/*
+
 # Django gitignore
 *.egg-info
 *.pot

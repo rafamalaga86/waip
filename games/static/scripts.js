@@ -168,25 +168,33 @@ $(document).ready(function(){
     jQuery.get(
       '/ajax/games/scrap-metacritic',
       {metacritic_url: $('#id_metacriticUrl').val()},
-      function(jsonResponse){
+      function(jsonResponse) {
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
             $('#' + 'id_' + key).val(jsonResponse[key]);
           }
         }
-    }, 'json');
+      }, 'json'
+    )
+    .fail(function() {
+      $('.form-group.scrap-metacritic > small').text('There was a problem scrapping this url.');
+    });
 
     // Get HLTB information
     jQuery.get(
       '/ajax/games/scrap-hltb',
       {hltb_url: $('#id_hltbUrl').val()},
-      function(jsonResponse){
+      function(jsonResponse) {
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
             $('#' + 'id_' + key).val(jsonResponse[key]);
           }
         }
-    }, 'json');
+      }, 'json'
+    )
+    .fail(function() {
+      $('.form-group.scrap-hltb > small').text('There was a problem scrapping this url.');
+    });
   });
 
   // Today date for default value of startedAt

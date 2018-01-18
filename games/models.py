@@ -34,5 +34,9 @@ class Note(models.Model):
     text = models.TextField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
+    # Meta properties
+    createdAt = models.DateTimeField(auto_now_add=True)
+    modifiedAt = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.game.name + ': ' + self.text

@@ -4,11 +4,8 @@ permissions
 hacer la duración del juego opcional
 hacer que se vean las notas en las cards en vez de la sinopsis
 incorporar el stopped paying at
+para que sirve clenear los form
 
-
-Edge cases para los tests del scrapper
-https://howlongtobeat.com/game.php?id=22876
-https://howlongtobeat.com/game.php?id=31590
 
 For future:
 Pasar todo el código por uno chequeador de PEP8

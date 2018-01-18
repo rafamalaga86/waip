@@ -12,6 +12,8 @@ DDG_HEADERS = {}
 
 
 def parse_text_time_into_float(textTime):
+    if '-' in textTime:
+        textTime = textTime.split('-')[1]
     if 'Hours' in textTime:
         result = float(textTime.replace('Hours', '').replace('½', '.5').strip())
     elif 'Mins' in textTime:
