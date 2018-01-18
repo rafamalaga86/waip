@@ -2,19 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-# from django import forms
 
-
-# class LoginForm(forms.Form):
-#     email = forms.EmailField(
-#         max_length=254,
-#         widget=forms.EmailInput(attrs={'autofocus': True}),
-#     )
-#     password = forms.CharField(
-#         label=_("Password"),
-#         strip=False,
-#         widget=forms.PasswordInput,
-#     )
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
@@ -35,6 +23,7 @@ class RegistrationForm(UserCreationForm):
         widget=forms.TextInput(attrs={'placeholder': _('Doe')}),
         help_text=_('Required. Your Last Name.')
     )
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )

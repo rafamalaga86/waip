@@ -16,7 +16,7 @@ class GameForm(forms.ModelForm):
             'genres',
             'metacriticScore',
             'startedAt',
-            'finishedAt',
+            'stopped_playing_at',
         ]
         exclude = ['user']
 

@@ -95,10 +95,10 @@ def finish_game_ajax(request, game_id):
     # TODO PATCH
     game = Game.objects.get(pk=game_id)
 
-    if game.finishedAt is not None:
-        return HttpResponseForbidden('The game already has a "finishedAt" date.')
+    if game.stopped_playing_at is not None:
+        return HttpResponseForbidden('The game already has a "stopped_playing_at" date.')
 
-    game.finishedAt = datetime.date.today()
+    game.stopped_playing_at = datetime.date.today()
     game.save()
     return HttpResponse('')  # I just want to give a 200
 
@@ -172,7 +172,6 @@ class NoteDetailAjaxView(LoginRequiredMixin, View):
         note.text = new_note.text
         note.save()
         return JsonResponse(model_to_dict(note))
-
 
     def delete(self, request, game_id, noteId):
         note = get_object_or_404(Note, pk=noteId)

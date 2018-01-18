@@ -8,7 +8,7 @@ from django.contrib import admin
 
 @admin.register(Game)
 class AdminGames(admin.ModelAdmin):
-    list_display = ('name', 'user', 'startedAt', 'finishedAt', 'id')
+    list_display = ('name', 'user', 'startedAt', 'stopped_playing_at', 'id')
 
 
 admin.site.register(Note)

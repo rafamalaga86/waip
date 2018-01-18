@@ -8,7 +8,7 @@
 <div class="card-content">
     <div class="card-gameTitle">{{ game.name}}</div>
     <p class="card-text">{{ game.synopsis }}</p>
-    {% if not game.finishedAt %}
+    {% if not game.stopped_playing_at %}
         <button class="btn-finished btn btn-default btn-block" data-game-id="{{ game.id }}">I finished the game!</button>
     {% endif %}
 </div>

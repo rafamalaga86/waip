@@ -6,7 +6,7 @@
             <div class="card card-{{ game.id }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
               <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
               <div class="card-imgOverlay">
-                {% if not game.finishedAt %}
+                {% if not game.stopped_playing_at %}
                 <div class="action-finish-game" data-toggle="tooltip" data-placement="bottom" title="Marcar juego como terminado">
                   <i class="fa fa-check" aria-hidden="true"></i>
                 </div>

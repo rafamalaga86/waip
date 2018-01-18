@@ -1,6 +1,5 @@
 import requests
 import os
-import time
 from bs4 import BeautifulSoup
 
 
@@ -10,6 +9,14 @@ METACRITIC_HEADERS = {'User-Agent': 'Mozilla/5.0'}
 HLTB_HEADERS = {}
 DDG_SA = 'https://duckduckgo.com/'
 DDG_HEADERS = {}
+
+
+def parse_text_time_into_float(textTime):
+    if 'Hours' in textTime:
+        result = float(textTime.replace('Hours', '').replace('½', '.5').strip())
+    elif 'Mins' in textTime:
+        result = float(textTime.replace('Mins', '').strip()) / 60 // 0.01 / 100  # To hours, with 2 decimal places
+    return result
 
 
 def hltb_scrapper(hltbGameUrl):
@@ -22,12 +29,10 @@ def hltb_scrapper(hltbGameUrl):
         soup = BeautifulSoup(request.text, 'html.parser')
 
         game['name'] = soup.find('div', class_='profile_header').text.strip()
-        game['coverUrl'] = os.path.join(
-            HLTB_SA,
-            soup.find('div', class_='game_image').find('img').get('src')
-        )
+        game['coverUrl'] = os.path.join(HLTB_SA, soup.find('div', class_='game_image').find('img').get('src'))
         gameTimes = soup.find('div', class_='game_times').findAll('li')
-        game['hltbLength'] = gameTimes[0].find('div').text.strip()
+        gameTimeText = gameTimes[0].find('div').text
+        game['hltbLength'] = parse_text_time_into_float(gameTimeText)
         game['synopsis'] = soup.find('div', class_='profile_header_alt').text.strip()
 
         return game
@@ -43,19 +48,9 @@ def metacritic_scrapper(metacriticUrl):
         soup = BeautifulSoup(request.text, 'html.parser')
 
         # Metacritic Scrap
-        game['developer'] = soup.find(class_='summary_detail developer') \
-            .find(class_='data').text.strip()
-
-        game['genres'] = soup.find(class_='summary_detail product_genre') \
-            .find(class_='data').text.strip()
-
-        game['releaseDate'] = soup.find(class_='summary_detail release_data') \
-            .find(class_='data').text.strip()
-
-        game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0] \
-            .text.strip()
-
-        # game['metacriticUserScore'] = soup.select('div.metascore_w.user.large')[0] \
-        #     .text.strip()
+        game['developer'] = soup.find(class_='summary_detail developer').find(class_='data').text.strip()
+        game['genres'] = soup.find(class_='summary_detail product_genre').find(class_='data').text.strip()
+        game['releaseDate'] = soup.find(class_='summary_detail release_data').find(class_='data').text.strip()
+        game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
 
         return game

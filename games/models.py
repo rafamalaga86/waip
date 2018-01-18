@@ -8,7 +8,7 @@ class Game(models.Model):
     # Original
     name = models.CharField(max_length=255)
     startedAt = models.DateField(blank=True)
-    finishedAt = models.DateField(blank=True, null=True)
+    stopped_playing_at = models.DateField(blank=True, null=True)
 
     # Scrapped properties
     coverUrl = models.URLField(max_length=255)

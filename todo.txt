@@ -1,19 +1,22 @@
 For next commit:
+dates
+permissions
+hacer la duración del juego opcional
+hacer que se vean las notas en las cards en vez de la sinopsis
+incorporar el stopped paying at
 
-For future:
-Pasar todo el código por uno chequeador de PEP8
-Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
-Make images upload to each user directory
-Resolver el error de bootstrap en la consola del browser
-Aplicar un middleware a las rutas de ajax
-https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
-refactor of urls.py into one
-mover los estáticos al general
-Quitar HttpResponseBadRequest y HttpResponseNotFound en favor de HttpResponse(status=blabla)
 
 Edge cases para los tests del scrapper
 https://howlongtobeat.com/game.php?id=22876
 https://howlongtobeat.com/game.php?id=31590
+
+For future:
+Pasar todo el código por uno chequeador de PEP8
+Move " + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)" del "urls.py - games" al "urls.py - waip"
+Aplicar un middleware a las rutas de ajax
+Refactor of some non Ajax views that are returning 404
+https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+
 
 Necesito estas dos lineas?
 # -*- coding: utf-8 -*-

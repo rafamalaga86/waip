@@ -33,54 +33,54 @@
           <ul>
             <li class="form-group">
               <label for="id_name">Name*:</label>
-              <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
+              <input value="{{ game_form.name.data|default_if_none:'' }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
               <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
-              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
+              <input value="{{ game_form.coverUrl.data|default_if_none:'' }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
               <small class="field-errors">{{ game_form.coverUrl.errors.as_text }}</small>
             <li class="form-group">
-              <label for="id_hltbLength">HowLongToBeat Length*:</label>
-              <input value="{{ game.hltbLength }}" class="form-control" type="text" name="hltbLength" maxlength="255" id="id_hltbLength">
+              <label for="id_hltbLength">HowLongToBeat Length in hours*:</label>
+              <input value="{{ game_form.hltbLength.data|default_if_none:'' }}" class="form-control" type="text" name="hltbLength" maxlength="255" id="id_hltbLength">
               <small class="field-errors">{{ game_form.hltbLength.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_synopsis">Synopsis:</label>
-              <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea>
+              <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game_form.synopsis.data|default_if_none:'' }}</textarea>
               <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_releaseDate">Release Date:</label>
-              <input value="{{ game.releaseDate }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
+              <input value="{{ game_form.releaseDate.data|default_if_none:'' }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
               <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_developer">Developer:</label>
-              <input value="{{ game.developer }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
+              <input value="{{ game_form.developer.data|default_if_none:'' }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
               <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_genres">Genres:</label>
-              <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
+              <input value="{{ game_form.genres.data|default_if_none:'' }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
               <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <label for="id_metacriticScore">Metacritic Score:</label>
-              <input value="{{ game.metacriticScore }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore">
+              <input value="{{ game_form.metacriticScore.data|default_if_none:'' }}" class="form-control" type="text" name="metacriticScore" maxlength="255" id="id_metacriticScore">
               <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <small class="field-info">If blank, the application will use the date of today</small>
               <label for="id_startedAt">You started playing at:</label>
-              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
+              <input value="{{ game_form.startedAt.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <small class="field-info">This is typically left in blank for when you finish</small>
-              <label for="id_finishedAt">You finished the game at:</label>
-              <input value="{{ game.finishedAt|date:'Y-m-d' }}" class="form-control" type="date" name="finishedAt" id="id_finishedAt">
-              <small class="field-errors">{{ game_form.finishedAt.errors.as_text }}</small>
+              <label for="id_stopped_playing_at">You finished the game at:</label>
+              <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+              <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
             </li>
           </ul>
           <button class="btn btn-primary" type="submit">Add Game</button>
