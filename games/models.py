@@ -14,7 +14,7 @@ class Game(models.Model):
     coverUrl = models.URLField(max_length=255)
     hltbLength = models.FloatField(max_length=255, blank=True, null=True)
     synopsis = models.TextField(blank=True, null=True)
-    releaseDate = models.CharField(max_length=255, blank=True, null=True)
+    releaseDate = models.DateField(max_length=255, blank=True, null=True)
     developer = models.CharField(max_length=255, blank=True, null=True)
     genres = models.CharField(max_length=255, blank=True, null=True)
     metacriticScore = models.CharField(max_length=255, blank=True, null=True)

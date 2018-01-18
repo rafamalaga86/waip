@@ -1,14 +1,21 @@
+## The following requirements were added by pip freeze:
 beautifulsoup4==4.6.0
 certifi==2017.7.27.1
 chardet==3.0.4
+dateparser==0.6.0
 Django==1.11.4
 django-debug-toolbar==1.8
 gunicorn==19.7.1
 idna==2.5
 pip-autoremove==0.9.0
 pipdeptree==0.10.1
+python-dateutil==2.6.1
 pytz==2017.2
+regex==2018.1.10
 requests==2.18.3
+ruamel.yaml==0.15.35
+six==1.11.0
 sqlparse==0.2.3
+tzlocal==1.5.1
 urllib3==1.22
 whitenoise==3.3.0

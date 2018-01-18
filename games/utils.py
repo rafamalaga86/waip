@@ -1,6 +1,7 @@
 import requests
 import os
 from bs4 import BeautifulSoup
+import dateparser
 
 
 HLTB_SA = 'https://howlongtobeat.com/'  # Scheme and Authority of URL
@@ -42,7 +43,8 @@ def metacritic_scrapper(metacriticUrl):
         # Metacritic Scrap
         game['developer'] = soup.find(class_='summary_detail developer').find(class_='data').text.strip()
         game['genres'] = soup.find(class_='summary_detail product_genre').find(class_='data').text.strip()
-        game['releaseDate'] = soup.find(class_='summary_detail release_data').find(class_='data').text.strip()
+        game['releaseDate'] = dateparser.parse(
+            soup.find(class_='summary_detail release_data').find(class_='data').text.strip()).strftime('%Y-%m-%d')
         game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
 
         return game

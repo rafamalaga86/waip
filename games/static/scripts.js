@@ -39,10 +39,27 @@ $(document).ready(function(){
 
   // Initialise Tooltips
   // =======================================================
-  $(function () {
+  $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
+
+  // Reduce font-size the titles of the cards if overflow
+  // =======================================================
+  $('.card').each(function() {
+    var title = $(this).find('.card-gameTitle span');
+    var container = $(this).find('.card-content');
+    var normalTextSize = parseInt($('body').css('font-size'));
+    var fontSize = 28;
+
+    while (title.width() > container.width() && fontSize > normalTextSize) {
+      title.css('font-size', fontSize -= 0.5);
+    }
+    if (fontSize === normalTextSize) {
+      title.css('white-space', 'normal');
+    }
+    title.css('display', 'inline-block');
+  });
 
   // Setting CSRF token in every AJAX request
   // =======================================================

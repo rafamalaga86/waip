@@ -33,7 +33,7 @@
             </li>
             <li class="form-group">
               <label for="id_releaseDate">Release Date:</label>
-              <input value="{{ game.releaseDate }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
+              <input value="{{ game.releaseDate }}" class="form-control" type="date" name="releaseDate" maxlength="255" id="id_releaseDate">
               <small class="field-errors">{{ game_form.releaseDate.errors }}</small>
             </li>
             <li class="form-group">
@@ -76,11 +76,11 @@
             <div class="note" data-game-id="{{ game.id }}" data-note-id="{{ note.id }}">
               <p class="note-text">{{ note.text }}</p>
               <div class="note-options">
-                <span class="action-delete-note" data-toggle="tooltip" data-placement="bottom" title="Borrar nota">
-                  <i class="fa fa-trash" aria-hidden="true"></i>
-                </span>
                 <span class="action-edit-note" data-toggle="tooltip" data-placement="bottom" title="Editar nota">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
+                </span>
+                <span class="action-delete-note" data-toggle="tooltip" data-placement="bottom" title="Borrar nota">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
                 </span>
               </div>
             </div>

@@ -24,7 +24,7 @@
           <button class="btn btn-primary" type="submit">Scrap Game</button>
         </form>
         <p></p>
-        <p>You can autofill the next fields by scrapping. Fill up the previous form with Metacritic and HowLongToBeat URLs</p>
+        <p>We can fill the game's details for you if you enter in the previous form both URLs</p>
       </div>
 
       <div class="col">
@@ -54,7 +54,7 @@
             </li>
             <li class="form-group">
               <label for="id_releaseDate">Release Date:</label>
-              <input value="{{ game_form.releaseDate.data|default_if_none:'' }}" class="form-control" type="text" name="releaseDate" maxlength="255" id="id_releaseDate">
+              <input value="{{ game_form.releaseDate.data|default_if_none:'' }}" class="form-control" type="date" name="releaseDate" maxlength="255" id="id_releaseDate">
               <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
             </li>
             <li class="form-group">
@@ -73,14 +73,14 @@
               <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
             </li>
             <li class="form-group">
-              <small class="field-info">If blank, the application will use the date of today</small>
+              <small class="field-info">If blank, we will use the today's date</small>
               <label for="id_startedAt">You started playing at:</label>
               <input value="{{ game_form.startedAt.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
             </li>
             <li class="form-group">
-              <small class="field-info">This is typically left in blank for when you finish</small>
-              <label for="id_stopped_playing_at">You finished the game at:</label>
+              <small class="field-info">Leave it blank if you are playing</small>
+              <label for="id_stopped_playing_at">You stopped playing at:</label>
               <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
             </li>

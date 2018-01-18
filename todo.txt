@@ -1,11 +1,13 @@
 For next commit:
-dates
 permissions
 incorporar el stopped paying at
-para que sirve clenear los form
-
+cache
 
 For future:
 Pasar todo el código por uno chequeador de PEP8
 Refactor of some non Ajax views that are returning 404
 https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+
+
+
+"Títulos Gloria+Hallelujah"

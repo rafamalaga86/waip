@@ -31,6 +31,8 @@ body {
 
   background-color: var(--dark-gray);
   color: var(--letter-light);
+  font-family: 'Ubuntu', Arial;
+  font-size: 15px;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -125,7 +127,10 @@ a:hover {
 }
 
 .navbar-brand {
+  font-family: 'Permanent Marker';
+  font-size: 27px;
   margin-right: auto;
+  padding: 0;
   color: black !important;
 }
 
@@ -228,10 +233,11 @@ main {
 .card-bg-1 {background-color: var(--red)}
 .card-bg-2 {background-color: var(--brown)}
 .card-bg-3 {background-color: var(--orange)}
-.card-bg-4 {background-color: var(--aqua-green-darker)}
-.card-bg-5 {background-color: var(--dark-pink)}
-.card-bg-6 {background-color: var(--green)}
-.card-bg-7 {background-color: var(--green-gray)}
+.card-bg-4 {background-color: var(--dark-pink)}
+.card-bg-5 {background-color: var(--green)}
+.card-bg-6 {background-color: var(--green-gray)}
+
+.card.without-notes {background-color: var(--aqua-green-darker)}
 
 .card-imgCover {
   width: 100%;
@@ -287,7 +293,6 @@ main {
   line-height: 70px;
   display: inline-block;
   vertical-align: top;
-  margin-bottom: 10px;
 }
 
 .score-hltbLength.full {
@@ -299,13 +304,18 @@ main {
 }
 
 .card-gameTitle {
+  font-size: 30px;
+  font-family: Fjalla One;
+  text-transform: uppercase;
+  text-align: center;
   color: white;
   font-weight: bold;
   margin-bottom: 10px;
+  padding-top: 5px;
 }
 
-.card .card-text {
-  font-size: 15px;
+.card-gameTitle.alone {
+  margin-bottom: 0;
 }
 
 footer {
@@ -333,6 +343,16 @@ input {
 
 section.title {
   margin: 2em 0 3.2em;
+  font-family: Walter Turncoat;
+  text-transform: uppercase;
+}
+
+section.title.small {
+  margin: 1.5em 0 2em;
+}
+
+section.title.small h1 {
+  font-size: 20px;
 }
 
 .field-errors {
@@ -390,7 +410,7 @@ section.title {
 
 
 
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .form-add-game small.field-info {
     display: block;
     line-height: 26px;
