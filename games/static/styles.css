@@ -393,8 +393,8 @@ section.title.small h1 {
   font-size: 20px;
 }
 
-.field-errors {
-  color: var(--orange) !important;
+.field-errors, .errorlist {
+  color: var(--orange);
 }
 
 .figure-cover {

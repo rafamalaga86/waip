@@ -63,7 +63,7 @@
             </li>
             <li class="form-group">
               <label for="id_genres">Genres:</label>
-              <small class="field-info" title="Comma separated" data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+              <small class="field-info" title="Comma separated." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <input value="{{ game_form.genres.data|default_if_none:'' }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
               <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
             </li>
@@ -75,19 +75,19 @@
             <li class="form-group">
               <small class="field-info" title="If blank, we will use today's date." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_startedAt">You started playing at:</label>
-              <input value="{{ game_form.startedAt.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
+              <input value="{{ game_form.startedAt.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" required="" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <small class="field-info" title="Either you finished or not. Used when showed beaten/played games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <label for="id_stopped_playing_at">You stopped playing at:</label>
+              <label for="id_stopped_playing_at">You finished playing at:</label>
               <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
             </li>
             <li class="form-group">
               <input class="checkbox" type="checkbox" name="beaten" id="id_beaten" {{ game.beaten|yesno:'checked,' }}>
               <label for="id_beaten">Beaten? Have you completed this game?</label>
-              <small class="field-errors">{{ game_form.beaten.errors }}</small>
+              <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>
             </li>
           </ul>
           <button class="btn btn-primary" type="submit">Add Game</button>

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 
 class Game(models.Model):
@@ -9,6 +10,7 @@ class Game(models.Model):
     name = models.CharField(max_length=255)
     startedAt = models.DateField(blank=True)
     stopped_playing_at = models.DateField(blank=True, null=True)
+    beaten = models.BooleanField(default=False)
 
     # Scrapped properties
     coverUrl = models.URLField(max_length=255)
@@ -18,7 +20,6 @@ class Game(models.Model):
     developer = models.CharField(max_length=255, blank=True, null=True)
     genres = models.CharField(max_length=255, blank=True, null=True)
     metacriticScore = models.CharField(max_length=255, blank=True, null=True)
-    beaten = models.BooleanField(default=False)
 
     # Meta properties
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -29,6 +30,11 @@ class Game(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if self.beaten and not self.stopped_playing_at:
+            raise ValidationError('If you mark game as beaten, you should put a Finish Date \
+                (even when is not an accurate date, we want to allocate it to a year)')
 
 
 class Note(models.Model):

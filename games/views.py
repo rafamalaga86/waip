@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 def list_user_games(request):
     user = request.user if request.user.is_authenticated() else User.objects.get(id=1)
 
+    # Get GET query string variables
     year = request.GET.get('year')
     beaten = request.GET.get('beaten', False)
 
@@ -36,11 +37,9 @@ def list_user_games(request):
     for game in games:
         game.notes = Note.objects.filter(game_id=game.id).order_by('createdAt')
 
-    menu_data = get_menus_data(user.id)
-
     return render(request, 'game-grid.html', {
         'page': 'page-list-games',
-        'menu_data': menu_data,
+        'menu_data': get_menus_data(user.id),
         'games': games,
     })
 
@@ -63,6 +62,7 @@ def add_game(request):
     # SHARED --------------------------------------------
     context = {
         'page': 'page-add-game',
+        'menu_data': get_menus_data(request.user.id),
         'game_form': game_form,
     }
     return render(request, 'new-game.html', context)
@@ -73,14 +73,9 @@ def modify_game(request, game_id):
     game_old = get_object_or_404(Game, id=game_id)
     # POST ----------------------------------------------
     if request.method == 'POST':
-        game_form = GameForm(request.POST)
+        game_form = GameForm(request.POST, instance=game_old)
         if game_form.is_valid():
-            game = game_form.save(commit=False)
-            game.user = request.user
-            game.id = game_id
-            game.createdAt = game_old.createdAt
-            game.modifiedAt = game_old.modifiedAt
-            game.save()
+            game_old.save()
             return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
@@ -93,6 +88,7 @@ def modify_game(request, game_id):
 
     return render(request, 'game-detail.html', {
         'page': 'page-modify-game',
+        'menu_data': get_menus_data(request.user.id),
         'game': game,
         'game_form': game_form,
         'notes': notes,

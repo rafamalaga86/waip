@@ -49,13 +49,14 @@ $(document).ready(function(){
   $('.card').each(function() {
     var title = $(this).find('.card-gameTitle span');
     var container = $(this).find('.card-content');
-    var normalTextSize = parseInt($('body').css('font-size'));
+    var minSize = 24;
+    // var minSize = parseInt($('body').css('font-size'));
     var fontSize = 28;
 
-    while (title.width() > container.width() && fontSize > normalTextSize) {
+    while (title.width() > container.width() && fontSize > minSize) {
       title.css('font-size', fontSize -= 0.5);
     }
-    if (fontSize === normalTextSize) {
+    if (fontSize === minSize) {
       title.css('white-space', 'normal');
     }
     title.css('display', 'inline-block');

@@ -1,10 +1,9 @@
 For next commit:
 permissions
 cache
-usuarios
-poner los dos formularios en el mismo archivo de template
-comprobar los mensajes flash
+la pantalla de usuario usuarios
 poner los titulares
+probar a hacer started_at opcional
 
 For future:
 Pasar todo el código por uno chequeador de PEP8
