@@ -9,16 +9,27 @@
         <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
         <div class="card-imgOverlay">
           {% if not game.stopped_playing_at %}
-            <div class="action-finish-game" data-toggle="tooltip" data-placement="bottom" title="Marcar juego como terminado">
+            <div class="action-finish-game" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
               <i class="fa fa-check" aria-hidden="true"></i>
             </div>
+            <div class="action-finish-game" data-beaten="" data-toggle="tooltip" data-placement="bottom" title="You stopped playing this game. But did not beat it, just tried.">
+              <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+            </div>
           {% endif %}
-          <a href="{% url 'modify_game' game.id %}" data-toggle="tooltip" data-placement="bottom" title="Editar juego">
+          <a href="{% url 'modify_game' game.id %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <div class="action-add-note" data-toggle="tooltip" data-placement="bottom" title="Añadir nota">
-            <i class="fa fa-sticky-note" aria-hidden="true"></i>
-          </div>
+          {% if request.user.is_authenticated %}
+            <div class="action-add-note" data-toggle="tooltip" data-placement="bottom" title="Add note">
+              <i class="fa fa-sticky-note" aria-hidden="true"></i>
+            </div>
+          {% else%}
+            <a href="/login" data-toggle="tooltip" data-placement="bottom" title="Add note">
+              <i class="fa fa-sticky-note" aria-hidden="true"></i>
+            </a>
+          {% endif %}
+
+
         </div>
         <div class="card-scores d-flex">
           {% if game.metacriticScore %}
@@ -31,10 +42,12 @@
             {{ game.hltbLength|yesno:'Hours,' }}</div>
         </div>
         <div class="card-content">
-          <div class="card-gameTitle {{ game.notes|yesno:',alone' }}"><span style="display:none;white-space:nowrap;">{{ game.name }}</span></div>
-            {% for note in game.notes %}
-              <p class="card-text">{{ note.text }}</p>
-            {% endfor %}
+          <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
+            <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
+          </div>
+          {% for note in game.notes %}
+            <p class="card-text">{{ note.text }}</p>
+          {% endfor %}
         </div>
       </div>
     {% empty %}

@@ -37,7 +37,7 @@
 
     <body class="{% if page %}{{ page }}{% endif %}" data-game-id="{% if game %}{{ game.id }}{% endif %}">
 
-    <div class="collapse bg-dark" id="navbarHeader">
+    <div class="collapse bg-dark navbarHeader" id="navbarHeader">
       <div class="container">
         <div class="row">
           <div class="col">
@@ -54,17 +54,32 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-8 py-4">
-            <h4 class="text-white">About</h4>
-            <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+          <div class="col-sm-2 py-4">
+            <div class="text-white mb-10">
+              <a href="/?beaten=1">Beaten this year</a>
+            </div>
+            <div class="text-white mb-0">
+              <a href="/?beaten=0" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played this year</a>
+            </div>
+          </div>
+          <div class="col-sm-6 py-4">
+            <div class="text-muted mb-10">
+              <span>Beaten: </span>
+              {% for year in menu_data.years%}
+                <a class="year" href="/?year={{ year }}&beaten=1">{{ year }}</a>
+              {% endfor %}
+            </div>
+            <div class="text-muted mb-0">
+              <span data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
+              {% for year in menu_data.years%}
+                <a class="year" href="/?year={{ year }}&beaten=0">{{ year }}</a>
+              {% endfor %}
+            </div>
           </div>
           <div class="col-sm-4 py-4">
-            <h4 class="text-white">Contact</h4>
-            <ul class="list-unstyled">
-              <li><a href="{% static "styles.css" %}" class="text-white">Archivo estático</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
-              <li><a href="#" class="text-white">Email me</a></li>
-            </ul>
+            <div class="playing-now text-white">
+              <a href="/">Playing now</a>
+            </div>
           </div>
         </div>
       </div>

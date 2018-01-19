@@ -153,13 +153,15 @@ $(document).ready(function(){
   // Game Grid
   // =======================================================
 
-  // Set a game as finished
+  // Set a game as beaten. Stopped date and beaten True
   $('.card').on('click', '.action-finish-game', function(event){
     $('.action-finish-game').tooltip('hide');
     var gameId = $(this).parents('.card').attr('data-game-id');
+    var beaten = $(this).attr('data-beaten');
     jQuery.ajax({
       method: 'PATCH',
-      url: '/ajax/games/' + gameId + '/finish'
+      url: '/ajax/games/' + gameId + '/finish',
+      data: {beaten: beaten},
     })
     .done(function(){
       $grid.masonry('remove', $('.card-' + gameId)).masonry();

@@ -1,7 +1,10 @@
 For next commit:
 permissions
-incorporar el stopped paying at
 cache
+usuarios
+poner los dos formularios en el mismo archivo de template
+comprobar los mensajes flash
+poner los titulares
 
 For future:
 Pasar todo el código por uno chequeador de PEP8

@@ -2,6 +2,7 @@ import requests
 import os
 from bs4 import BeautifulSoup
 import dateparser
+from .models import Game
 
 
 HLTB_SA = 'https://howlongtobeat.com/'  # Scheme and Authority of URL
@@ -48,6 +49,12 @@ def metacritic_scrapper(metacriticUrl):
         game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
 
         return game
+
+
+def get_menus_data(user_id):
+    years = Game.objects.filter(user_id=user_id).dates('stopped_playing_at', 'year')
+    years = [date.strftime('%Y') for date in years]
+    return {'years': years}
 
 
 def _parse_text_time_into_float(textTime):

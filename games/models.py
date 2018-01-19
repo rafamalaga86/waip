@@ -18,6 +18,7 @@ class Game(models.Model):
     developer = models.CharField(max_length=255, blank=True, null=True)
     genres = models.CharField(max_length=255, blank=True, null=True)
     metacriticScore = models.CharField(max_length=255, blank=True, null=True)
+    beaten = models.BooleanField(default=False)
 
     # Meta properties
     createdAt = models.DateTimeField(auto_now_add=True)

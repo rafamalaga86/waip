@@ -11,21 +11,36 @@ from django.conf import settings
 from django.views import View
 from .models import Game, Note
 from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
-from games.utils import metacritic_scrapper, hltb_scrapper
-import datetime
+from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
+from datetime import date
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 def list_user_games(request):
-    user = request.user if request.user.is_authenticated() else User.objects.get(pk=1)
-    games = Game.objects.filter(user_id=user.id).order_by('-createdAt')
+    user = request.user if request.user.is_authenticated() else User.objects.get(id=1)
+
+    year = request.GET.get('year')
+    beaten = request.GET.get('beaten', False)
+
+    filters = {
+        'user_id': user.id,
+        'beaten': beaten,
+    }
+    if year is not None:
+        filters['stopped_playing_at__year'] = year
+
+    games = Game.objects.filter(**filters).order_by('-createdAt')
+
     for game in games:
         game.notes = Note.objects.filter(game_id=game.id).order_by('createdAt')
 
+    menu_data = get_menus_data(user.id)
+
     return render(request, 'game-grid.html', {
         'page': 'page-list-games',
+        'menu_data': menu_data,
         'games': games,
     })
 
@@ -55,7 +70,7 @@ def add_game(request):
 
 @login_required
 def modify_game(request, game_id):
-    game_old = get_object_or_404(Game, pk=game_id)
+    game_old = get_object_or_404(Game, id=game_id)
     # POST ----------------------------------------------
     if request.method == 'POST':
         game_form = GameForm(request.POST)
@@ -73,7 +88,7 @@ def modify_game(request, game_id):
         game_form = GameForm()
 
     # SHARED --------------------------------------------
-    game = get_object_or_404(Game, pk=game_id)
+    game = get_object_or_404(Game, id=game_id)
     notes = Note.objects.filter(game=game_id)
 
     return render(request, 'game-detail.html', {
@@ -86,7 +101,7 @@ def modify_game(request, game_id):
 
 @login_required
 def delete_game(request, game_id):
-    get_object_or_404(Game, pk=game_id).delete()
+    get_object_or_404(Game, id=game_id).delete()
     messages.success(request, 'The game was successfully deleted')
     return HttpResponseRedirect('/')
 
@@ -96,15 +111,17 @@ def delete_game(request, game_id):
 
 @login_required
 def finish_game_ajax(request, game_id):
-    # TODO PATCH
-    game = Game.objects.get(pk=game_id)
+    game = Game.objects.get(id=game_id)
 
     if game.stopped_playing_at is not None:
         return HttpResponseForbidden('The game already has a "stopped_playing_at" date.')
 
-    game.stopped_playing_at = datetime.date.today()
+    patch = QueryDict(request.body)
+
+    game.stopped_playing_at = date.today()
+    game.beaten = bool(patch.get('beaten'))
     game.save()
-    return HttpResponse('')  # I just want to give a 200
+    return HttpResponse('')  # Give an empty 200
 
 
 def get_game_ajax(request, game_id):
@@ -112,7 +129,7 @@ def get_game_ajax(request, game_id):
         return HttpResponseForbidden()
 
     context = {
-        'game': get_object_or_404(Game, pk=game_id),
+        'game': get_object_or_404(Game, id=game_id),
     }
     return render(request, 'ajax/game.html', context)
 
@@ -127,7 +144,7 @@ def add_note_to_game_ajax(request, game_id):
             return HttpResponse(status=400)
 
         note = noteForm.save(commit=False)
-        note.game = get_object_or_404(Game, pk=game_id)
+        note.game = get_object_or_404(Game, id=game_id)
         note.save()
 
     return JsonResponse(model_to_dict(note))
@@ -167,7 +184,7 @@ def scrap_hltb_ajax(request):
 
 class NoteDetailAjaxView(LoginRequiredMixin, View):
     def put(self, request, game_id, noteId):
-        note = get_object_or_404(Note, pk=noteId)
+        note = get_object_or_404(Note, id=noteId)
         noteForm = NoteForm(QueryDict(request.body))
         if not noteForm.is_valid():
             return HttpResponse(status=400)
@@ -178,6 +195,6 @@ class NoteDetailAjaxView(LoginRequiredMixin, View):
         return JsonResponse(model_to_dict(note))
 
     def delete(self, request, game_id, noteId):
-        note = get_object_or_404(Note, pk=noteId)
+        note = get_object_or_404(Note, id=noteId)
         note.delete()
         return HttpResponse(status=204)

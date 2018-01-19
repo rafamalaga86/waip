@@ -8,7 +8,6 @@
     <section class="row">
       <div class="col">
         {# Scrap Game Form #}
-        {{ form.non_field_errors }}
         <form id="form-scrap" onsubmit="return false">
           {% csrf_token %}
           <div class="form-group scrap-metacritic">
@@ -24,12 +23,12 @@
           <button class="btn btn-primary" type="submit">Scrap Game</button>
         </form>
         <p></p>
-        <p>We can fill the game's details for you if you enter in the previous form both URLs</p>
+        <p>We can fill the game's details for you if you enter in the previous form both URLs. You still have to fill some details at the end of the form.</p>
       </div>
 
       <div class="col">
         {# New Game Form #}
-        {{ form.non_field_errors }}
+        {{ game_form.non_field_errors }}
         <form class="form-add-game" action="{% url 'add_game' %}" method="POST">
           {% csrf_token %}
           <ul>
@@ -53,7 +52,7 @@
               <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
             </li>
             <li class="form-group">
-              <label for="id_releaseDate">Release Date:</label>
+              <label for="id_releaseDate">Game Release Date:</label>
               <input value="{{ game_form.releaseDate.data|default_if_none:'' }}" class="form-control" type="date" name="releaseDate" maxlength="255" id="id_releaseDate">
               <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
             </li>
@@ -64,6 +63,7 @@
             </li>
             <li class="form-group">
               <label for="id_genres">Genres:</label>
+              <small class="field-info" title="Comma separated" data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <input value="{{ game_form.genres.data|default_if_none:'' }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
               <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
             </li>
@@ -73,16 +73,21 @@
               <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
             </li>
             <li class="form-group">
-              <small class="field-info">If blank, we will use the today's date</small>
+              <small class="field-info" title="If blank, we will use today's date." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_startedAt">You started playing at:</label>
               <input value="{{ game_form.startedAt.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" id="id_startedAt">
               <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
             </li>
             <li class="form-group">
-              <small class="field-info">Leave it blank if you are playing</small>
+              <small class="field-info" title="Either you finished or not. Used when showed beaten/played games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_stopped_playing_at">You stopped playing at:</label>
               <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <input class="checkbox" type="checkbox" name="beaten" id="id_beaten" {{ game.beaten|yesno:'checked,' }}>
+              <label for="id_beaten">Beaten? Have you completed this game?</label>
+              <small class="field-errors">{{ game_form.beaten.errors }}</small>
             </li>
           </ul>
           <button class="btn btn-primary" type="submit">Add Game</button>
