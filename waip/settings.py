@@ -138,7 +138,7 @@ STATIC_URL = '/static/'
 # )
 
 # Overriding Python for getting DebugBar to work
-INTERNAL_IPS = ['127.0.0.1']
+INTERNAL_IPS = ['127.0.0.1', '0.0.0.0']
 
 
 # Setup for users uploading files

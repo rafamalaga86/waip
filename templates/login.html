@@ -9,11 +9,20 @@
   <section class="text-center">
     <div class="row">
       <div class="col-lg">
+        {{ form.non_field_errors }}
         <form id="form-login" class="text-left" action="{% url 'login' %}" method="POST">
         {% csrf_token %}
           <ul>
-            <li class="form-group"><label for="id_username">Username:</label> <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></li>
-            <li class="form-group"><label for="id_password">Password:</label> <input class="form-control" type="password" name="password" required="" id="id_password"></li>
+            <li class="form-group">
+              <label for="id_username">Username:</label> 
+              <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username">
+              <small class="field-errors">{{ form.username.errors.as_text }}</small>
+            </li>
+            <li class="form-group">
+              <label for="id_password">Password:</label>
+              <input class="form-control" type="password" name="password" required="" id="id_password">
+              <small class="field-errors">{{ form.password.errors.as_text }}</small>
+            </li>
           </ul>
           <button class="btn btn-primary" type="submit">Log in</button>
         </form>

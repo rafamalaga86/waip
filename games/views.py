@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
-from django.shortcuts import HttpResponse, get_object_or_404, render
-from django.contrib.auth.models import User
+from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
+from .models import Game, Note
+from datetime import date
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
+from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
-from django.conf import settings
+from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
+from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.views import View
-from .models import Game, Note
-from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
-from datetime import date
 import logging
 
 logger = logging.getLogger(__name__)
 
+SHOWCASE_USER_ID = 1
+
 
 def list_user_games(request):
-    user = request.user if request.user.is_authenticated() else User.objects.get(id=1)
+    user = request.user if request.user.is_authenticated() else User.objects.get(id=SHOWCASE_USER_ID)
 
     # Get GET query string variables
     year = request.GET.get('year')
@@ -70,12 +72,18 @@ def add_game(request):
 
 @login_required
 def modify_game(request, game_id):
-    game_old = get_object_or_404(Game, id=game_id)
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+
     # POST ----------------------------------------------
     if request.method == 'POST':
-        game_form = GameForm(request.POST, instance=game_old)
+        game_form = GameForm(request.POST, instance=game)
         if game_form.is_valid():
-            game_old.save()
+            game.save()
+            messages.success(request, 'The game was successfully updated')
             return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
@@ -83,7 +91,6 @@ def modify_game(request, game_id):
         game_form = GameForm()
 
     # SHARED --------------------------------------------
-    game = get_object_or_404(Game, id=game_id)
     notes = Note.objects.filter(game=game_id)
 
     return render(request, 'game-detail.html', {
@@ -97,7 +104,13 @@ def modify_game(request, game_id):
 
 @login_required
 def delete_game(request, game_id):
-    get_object_or_404(Game, id=game_id).delete()
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+
+    game.delete()
     messages.success(request, 'The game was successfully deleted')
     return HttpResponseRedirect('/')
 
@@ -107,7 +120,14 @@ def delete_game(request, game_id):
 
 @login_required
 def finish_game_ajax(request, game_id):
-    game = Game.objects.get(id=game_id)
+    if not settings.DEBUG and not request.is_ajax():
+        return HttpResponseForbidden('Only ajax requests')
+
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
 
     if game.stopped_playing_at is not None:
         return HttpResponseForbidden('The game already has a "stopped_playing_at" date.')
@@ -122,16 +142,28 @@ def finish_game_ajax(request, game_id):
 
 def get_game_ajax(request, game_id):
     if not settings.DEBUG and not request.is_ajax():
-        return HttpResponseForbidden()
+        return HttpResponseForbidden('Only ajax requests')
 
-    context = {
-        'game': get_object_or_404(Game, id=game_id),
-    }
-    return render(request, 'ajax/game.html', context)
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id and game.id != SHOWCASE_USER_ID:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+
+    return render(request, 'ajax/game.html', {'game': game})
 
 
 @login_required
 def add_note_to_game_ajax(request, game_id):
+    if not settings.DEBUG and not request.is_ajax():
+        return HttpResponseForbidden('Only ajax requests')
+
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+
     # POST ----------------------------------------------
     if request.method == 'POST':
         # Check if the user has permission over the game
@@ -140,7 +172,7 @@ def add_note_to_game_ajax(request, game_id):
             return HttpResponse(status=400)
 
         note = noteForm.save(commit=False)
-        note.game = get_object_or_404(Game, id=game_id)
+        note.game = game
         note.save()
 
     return JsonResponse(model_to_dict(note))
@@ -149,7 +181,7 @@ def add_note_to_game_ajax(request, game_id):
 @login_required
 def scrap_metacritic_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
-        return HttpResponseForbidden()
+        return HttpResponseForbidden('Only ajax requests')
 
     scrap_metacritic_form = ScrapMetacriticForm(request.GET)
 
@@ -165,7 +197,7 @@ def scrap_metacritic_ajax(request):
 @login_required
 def scrap_hltb_ajax(request):
     if not settings.DEBUG and not request.is_ajax():
-        return HttpResponseForbidden()
+        return HttpResponseForbidden('Only ajax requests')
 
     scrap_hltb_form = ScrapHltbForm(request.GET)
 
@@ -192,5 +224,11 @@ class NoteDetailAjaxView(LoginRequiredMixin, View):
 
     def delete(self, request, game_id, noteId):
         note = get_object_or_404(Note, id=noteId)
+        game = get_object_or_404(Game, id=note.game.id)
+
+        # Permission check
+        if game.user.id != request.user.id:
+            return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this note')
+
         note.delete()
         return HttpResponse(status=204)

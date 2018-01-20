@@ -1,8 +1,11 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login
+from .forms import RegistrationForm, ProfileForm, PasswordForm
+from django.contrib import messages
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .forms import RegistrationForm
+from django.forms.models import model_to_dict
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from games.utils import get_menus_data
 
 
 def register(request):
@@ -10,10 +13,7 @@ def register(request):
     if request.method == 'POST':
         registration_form = RegistrationForm(request.POST)
         if registration_form.is_valid():
-            registration_form.save()
-            username = registration_form.cleaned_data.get('username')
-            raw_password = registration_form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
+            user = registration_form.save()
             login(request, user)
             return redirect('home')
 
@@ -24,29 +24,43 @@ def register(request):
     # GET & POST not valid ------------------------------
     return render(request, 'registration.html', {
         'page': 'page-register',
-        'form': registration_form,
+        'menu_data_hide': True,
+        'registration_form': registration_form,
     })
 
 
 @login_required
 def modify_logged_user(request):
+    profile_form = None
+    password_form = None
     # POST ----------------------------------------------
     if request.method == 'POST':
-        # Check if the user has permission over the game
-        user_form = UserForm(request.POST)
-        if not user_form.is_valid():
-            return HttpResponse(status=400)
-        user = user_form.save(commit=False)
-        user.save()
-        return HttpResponseRedirect('/')
+        if request.POST.get('user_info_change') == 'change_profile':
+            # Change profile
+            user_form = ProfileForm(request.POST, instance=request.user)
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, 'Your user information was successfully updated')
+                return HttpResponseRedirect('/')
+
+        if request.POST.get('user_info_change') == 'change_password':
+            # Change the password
+            password_form = PasswordForm(request.user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
     else:
-        game_form = GameForm()
+        profile_form = ProfileForm(initial=model_to_dict(request.user))
+        password_form = PasswordForm(request.user)
 
     # SHARED --------------------------------------------
-    context = {
+    return render(request, 'profile.html', {
         'page': 'page-modify-logged-user',
-        'game_form': game_form,
-    }
-    return render(request, 'new-game.html', context)
+        'menu_data': get_menus_data(request.user.id),
+        'profile_form': profile_form if profile_form is not None else ProfileForm(initial=model_to_dict(request.user)),
+        'password_form': password_form if password_form is not None else PasswordForm(request.user),
+    })

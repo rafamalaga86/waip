@@ -4,6 +4,7 @@ cache
 la pantalla de usuario usuarios
 poner los titulares
 probar a hacer started_at opcional
+pasar todo a underscore
 
 For future:
 Pasar todo el código por uno chequeador de PEP8

@@ -1,10 +1,17 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 
-class RegistrationForm(UserCreationForm):
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+        widgets = {
+            'username': forms.TextInput(attrs={'placeholder': _('sephirot543')}),
+        }
+
     email = forms.EmailField(
         max_length=254,
         label=_('Email'),
@@ -24,6 +31,14 @@ class RegistrationForm(UserCreationForm):
         help_text=_('Required. Your Last Name.')
     )
 
+    # Set the class "form-control" to every input in the form
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class RegistrationForm(UserCreationForm, ProfileForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
@@ -31,7 +46,7 @@ class RegistrationForm(UserCreationForm):
             'username': forms.TextInput(attrs={'placeholder': _('sephirot543')}),
         }
 
-    # Set the class "form-control" to every input in the form
+class PasswordForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():

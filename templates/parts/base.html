@@ -43,7 +43,7 @@
           <div class="col">
             <ul class="d-flex flex-row ul-login mobile">
               {% if user.is_authenticated %}
-                  <li><a href="#">{{ user.get_username }}</a></li>
+                  <li><a href="/me">{{ user.get_username }}</a></li>
                   <li><a href="{% url 'log_out' %}">Log out</a></li>
                   <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
               {% else %}
@@ -89,7 +89,7 @@
           <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
           <ul class="d-flex flex-row ul-login desktop">
             {% if user.is_authenticated %}
-              <li><a href="#">{{ user.get_username }}</a></li>
+              <li><a href="/me">{{ user.get_username }}</a></li>
               <li><a href="{% url 'log_out' %}">Log out</a></li>
               <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
             {% else %}
@@ -97,9 +97,11 @@
               <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
             {% endif %}
           </ul>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          {% if not menu_data_hide %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          {% endif %}
       </div>
     </div>
     <main class="container">
