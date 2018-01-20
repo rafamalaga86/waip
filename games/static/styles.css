@@ -142,6 +142,10 @@ footer a {
   color: black !important;
 }
 
+.navbar-toggler {
+    margin-left: 50px;
+}
+
 .navbarHeader a.year{
   margin: 0 5px;
 }
@@ -157,10 +161,6 @@ footer a {
   line-height: 54px;
 }
 
-.ul-login {
-  margin-right: 20px;
-}
-
 .ul-login.desktop {
   display: none !important;
 }
@@ -168,30 +168,16 @@ footer a {
 .ul-login li {
   display: block;
   line-height: 38px;
-  margin-right: 30px;
+  margin-left: 30px;
 }
 
-
-.navbar-dark .navbar-toggler {
-    border-color: rgba(255,255,255,.7);
-    border-width: 2px;
+.ul-login li:first-child {
+  margin-left: 0;
 }
 
 .btn {
   cursor: pointer;
 }
-
-/*
-.btn-primary {
-  background-color: rgba(255,255,255,1);
-  color: rgba(0, 0, 0, 1);
-}
-
-.btn-primary:hover {
-  background-color: rgba(210,210,210, 1);
-  color: black;
-}
-*/
 
 .btn-primary {
   background-color: var(--aqua-green);

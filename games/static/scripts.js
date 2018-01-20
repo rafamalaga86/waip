@@ -176,7 +176,9 @@ $(document).ready(function(){
     var gameId = $(this).parents('.card').attr('data-game-id');
     var name = $(this).parents('.card').attr('data-game-name');
     modal_action = 'add-note';
-    openModal('Add a note to ' + name, '', gameId, null, null);
+    openModal('Add a note to ' + name, '', gameId, null, function() {
+      location.reload();
+    });
   });
 
 

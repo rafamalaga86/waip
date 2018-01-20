@@ -167,11 +167,11 @@ def add_note_to_game_ajax(request, game_id):
     # POST ----------------------------------------------
     if request.method == 'POST':
         # Check if the user has permission over the game
-        noteForm = NoteForm(request.POST)
-        if not noteForm.is_valid():
+        note_form = NoteForm(request.POST)
+        if not note_form.is_valid():
             return HttpResponse(status=400)
 
-        note = noteForm.save(commit=False)
+        note = note_form.save(commit=False)
         note.game = game
         note.save()
 
@@ -211,20 +211,24 @@ def scrap_hltb_ajax(request):
 
 
 class NoteDetailAjaxView(LoginRequiredMixin, View):
-    def put(self, request, game_id, noteId):
-        note = get_object_or_404(Note, id=noteId)
-        noteForm = NoteForm(QueryDict(request.body))
-        if not noteForm.is_valid():
+    def put(self, request, game_id, note_id):
+        note = get_object_or_404(Note, id=note_id)
+        game = Game.objects.get(id=note.game.id)
+
+        # Permission check
+        if game.user.id != request.user.id:
+            return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this note')
+
+        note_form = NoteForm(QueryDict(request.body), instance=note)
+        if not note_form.is_valid():
             return HttpResponse(status=400)
 
-        new_note = noteForm.save(commit=False)
-        note.text = new_note.text
         note.save()
         return JsonResponse(model_to_dict(note))
 
-    def delete(self, request, game_id, noteId):
-        note = get_object_or_404(Note, id=noteId)
-        game = get_object_or_404(Game, id=note.game.id)
+    def delete(self, request, game_id, note_id):
+        note = get_object_or_404(Note, id=note_id)
+        game = Game.objects.get(id=note.game.id)
 
         # Permission check
         if game.user.id != request.user.id:
