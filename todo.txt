@@ -1,5 +1,4 @@
 For next commit:
-permissions
 cache
 la pantalla de usuario usuarios
 poner los titulares

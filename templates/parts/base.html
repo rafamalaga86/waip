@@ -64,14 +64,14 @@
           </div>
           <div class="col-sm-6 py-4">
             <div class="text-muted mb-10">
-              <span>Beaten: </span>
-              {% for year in menu_data.years%}
+              <span class="year-labels">Beaten: </span>
+              {% for year in menu_data.years_beaten %}
                 <a class="year" href="/?year={{ year }}&beaten=1">{{ year }}</a>
               {% endfor %}
             </div>
             <div class="text-muted mb-0">
-              <span data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
-              {% for year in menu_data.years%}
+              <span class="year-labels" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
+              {% for year in menu_data.years_played %}
                 <a class="year" href="/?year={{ year }}&beaten=0">{{ year }}</a>
               {% endfor %}
             </div>

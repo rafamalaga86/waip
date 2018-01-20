@@ -161,6 +161,11 @@ footer a {
   line-height: 54px;
 }
 
+.navbarHeader .year-labels{
+  display: inline-block;
+  width: 55px;
+}
+
 .ul-login.desktop {
   display: none !important;
 }

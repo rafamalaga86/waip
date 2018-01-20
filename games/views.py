@@ -120,6 +120,7 @@ def delete_game(request, game_id):
 
 @login_required
 def finish_game_ajax(request, game_id):
+    return HttpResponse(settings.DEBUG)
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden('Only ajax requests')
 
