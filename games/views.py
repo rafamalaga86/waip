@@ -14,10 +14,13 @@ from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.views import View
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
 import logging
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('testlogger')
 
 SHOWCASE_USER_ID = 1
+
+
+def debug(request):
+    return HttpResponse(settings.DEBUG)
 
 
 def list_user_games(request):

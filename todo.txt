@@ -1,15 +1,9 @@
-For next commit:
-cache
-la pantalla de usuario usuarios
+hacer los fetch bien, en el home hay juegos que ya me he pasado
+el card sólo desaparece cuando es finished, si la vista sólo muestra juegos sin finished
 poner los titulares
 probar a hacer started_at opcional
 pasar todo a underscore
-
-For future:
-Pasar todo el código por uno chequeador de PEP8
+poner la funcion de traducción alrededor de todo el texto
+probar a poner una separacion entre las columnas
 Refactor of some non Ajax views that are returning 404
-https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
-
-
-
-"Títulos Gloria+Hallelujah"
+mirar la manera más rapida de descargar fontawesome
