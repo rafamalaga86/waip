@@ -8,13 +8,13 @@ class GameForm(forms.ModelForm):
         model = Game
         fields = [
             'name',
-            'coverUrl',
-            'hltbLength',
+            'cover_url',
+            'hltb_length',
             'synopsis',
-            'releaseDate',
+            'release_date',
             'developer',
             'genres',
-            'metacriticScore',
+            'metacritic_score',
             'beaten',
             'stopped_playing_at',
         ]

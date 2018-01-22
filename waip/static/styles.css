@@ -310,7 +310,7 @@ main {
 
 .card-scores {}
 
-.score-metacriticScore {
+.score-metacritic_score {
   font-family: Arial,Helvetica,sans-serif;
   color: white;
   text-align: center;
@@ -324,7 +324,7 @@ main {
   background-color: #6c3;
 }
 
-.score-hltbLength {
+.score-hltb_length {
   background: #287FC2;
   color: white;
   text-align: center;
@@ -336,7 +336,7 @@ main {
   vertical-align: top;
 }
 
-.score-hltbLength.full {
+.score-hltb_length.full {
   width: 100%;
 }
 

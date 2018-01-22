@@ -119,7 +119,7 @@ $(document).ready(function(){
       div.css('background-color', mcScoreToColour(score));
   }
 
-  $('.score-metacriticScore').each(function() {
+  $('.score-metacritic_score').each(function() {
     paintScore($(this));
   });
 

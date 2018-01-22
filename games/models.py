@@ -12,17 +12,17 @@ class Game(models.Model):
     beaten = models.BooleanField(default=False)
 
     # Scrapped properties
-    coverUrl = models.URLField(max_length=255)
-    hltbLength = models.FloatField(max_length=255, blank=True, null=True)
+    cover_url = models.URLField(max_length=255)
+    hltb_length = models.FloatField(max_length=255, blank=True, null=True)
     synopsis = models.TextField(blank=True, null=True)
-    releaseDate = models.DateField(max_length=255, blank=True, null=True)
+    release_date = models.DateField(max_length=255, blank=True, null=True)
     developer = models.CharField(max_length=255, blank=True, null=True)
     genres = models.CharField(max_length=255, blank=True, null=True)
-    metacriticScore = models.CharField(max_length=255, blank=True, null=True)
+    metacritic_score = models.CharField(max_length=255, blank=True, null=True)
 
     # Meta properties
-    createdAt = models.DateTimeField(auto_now_add=True)
-    modifiedAt = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # Relationships
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -41,8 +41,8 @@ class Note(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     # Meta properties
-    createdAt = models.DateTimeField(auto_now_add=True)
-    modifiedAt = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.game.name + ': ' + self.text

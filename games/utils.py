@@ -24,10 +24,10 @@ def hltb_scrapper(hltbGameUrl):
         soup = BeautifulSoup(request.text, 'html.parser')
 
         game['name'] = soup.find('div', class_='profile_header').text.strip()
-        game['coverUrl'] = os.path.join(HLTB_SA, soup.find('div', class_='game_image').find('img').get('src'))
+        game['cover_url'] = os.path.join(HLTB_SA, soup.find('div', class_='game_image').find('img').get('src'))
         gameTimes = soup.find('div', class_='game_times').findAll('li')
         gameTimeText = gameTimes[0].find('div').text
-        game['hltbLength'] = _parse_text_time_into_float(gameTimeText)
+        game['hltb_length'] = _parse_text_time_into_float(gameTimeText)
         game['synopsis'] = _parse_synopsis(soup.find('div', class_='profile_header_alt').text.strip())
 
         return game
@@ -45,9 +45,9 @@ def metacritic_scrapper(metacriticUrl):
         # Metacritic Scrap
         game['developer'] = soup.find(class_='summary_detail developer').find(class_='data').text.strip()
         game['genres'] = soup.find(class_='summary_detail product_genre').find(class_='data').text.strip()
-        game['releaseDate'] = dateparser.parse(
+        game['release_date'] = dateparser.parse(
             soup.find(class_='summary_detail release_data').find(class_='data').text.strip()).strftime('%Y-%m-%d')
-        game['metacriticScore'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
+        game['metacritic_score'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
 
         return game
 
