@@ -27,12 +27,12 @@ def list_user_games(request):
     year = request.GET.get('year')
     beaten = (request.GET.get('beaten') == '1') if year else False
 
-    filters = {
-        'user_id': user.id,
-        'beaten': beaten,
-    }
+    filters = {'user_id': user.id}
     if year:
         filters['stopped_playing_at__year'] = year
+        filters['beaten'] = beaten
+    else:
+        filters['stopped_playing_at'] = None
 
     games = Game.objects.filter(**filters).order_by('-createdAt')
 
