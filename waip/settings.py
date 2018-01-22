@@ -19,7 +19,11 @@ SECRET_KEY = config_env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config_env('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', 'waip.herokuapp.com']
+ALLOWED_HOSTS = [
+    'localhost',
+    'waip.herokuapp.com',
+    'whatamiplaying.rafaelgarciadoblas.com',
+]
 
 
 # Application definition

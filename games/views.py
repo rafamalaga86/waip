@@ -25,13 +25,13 @@ def list_user_games(request):
 
     # Get GET query string variables
     year = request.GET.get('year')
-    beaten = request.GET.get('beaten', False)
+    beaten = (request.GET.get('beaten') == '1') if year else False
 
     filters = {
         'user_id': user.id,
         'beaten': beaten,
     }
-    if year is not None:
+    if year:
         filters['stopped_playing_at__year'] = year
 
     games = Game.objects.filter(**filters).order_by('-createdAt')
@@ -42,6 +42,8 @@ def list_user_games(request):
     return render(request, 'game-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(user.id),
+        'year': year,
+        'beaten': beaten,
         'games': games,
     })
 
@@ -62,10 +64,15 @@ def add_game(request):
         game_form = GameForm()
 
     # SHARED --------------------------------------------
+    trigger_intro = not request.session.get('intro_triggered', False) \
+        and Game.objects.filter(user_id=request.user.id).count() == 0
+    request.session['intro_triggered'] = True
+
     context = {
         'page': 'page-add-game',
         'menu_data': get_menus_data(request.user.id),
         'game_form': game_form,
+        'trigger_intro': trigger_intro
     }
     return render(request, 'new-game.html', context)
 

@@ -2,8 +2,21 @@
 {% load math_tags %}
 
 {% block main %}
+  <section class="title small">
+    {% if not request.user.is_authenticated %}
+      <p class="subtitle">You are seeing the data of user <em>Rafa</em></p>
+    {% endif %}
+    <h2 class="text-center">
+      {% if not year %}
+        Currently playing
+      {% elif beaten %}
+        Beaten games <span class="year">{{ year }}</span>
+      {% else %}
+        Tried/checked games <span class="year">{{ year }}</span>
+      {% endif %}
+    </h2>
+  </section>
   <section class="grid">
-      <div class="card card-title"><h1 class="text-center">Positzo is playing:</h1></div>
     {% for game in games %}
       <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
         <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">

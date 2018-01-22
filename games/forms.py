@@ -15,7 +15,6 @@ class GameForm(forms.ModelForm):
             'developer',
             'genres',
             'metacriticScore',
-            'startedAt',
             'beaten',
             'stopped_playing_at',
         ]

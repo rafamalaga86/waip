@@ -8,7 +8,6 @@ from django.core.exceptions import ValidationError
 class Game(models.Model):
     # Original
     name = models.CharField(max_length=255)
-    startedAt = models.DateField(blank=True)
     stopped_playing_at = models.DateField(blank=True, null=True)
     beaten = models.BooleanField(default=False)
 

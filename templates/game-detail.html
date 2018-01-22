@@ -11,65 +11,70 @@
         {{ game_form.non_field_errors }}
         <form action="{% url 'modify_game' game.id %}" method="POST">
           {% csrf_token %}
-          <ul>
-            <li class="form-group">
-              <label for="id_name">Name*:</label>
-              <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
-              <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
-              <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
-              <small class="field-errors">{{ game_form.coverUrl.errors.as_text }}</small>
-            <li class="form-group">
-              <label for="id_hltbLength">HowLongToBeat Length in hours:</label>
-              <input value="{{ game.hltbLength }}" class="form-control" type="number" step="0.01" name="hltbLength" maxlength="255" id="id_hltbLength">
-              <small class="field-errors">{{ game_form.hltbLength.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_synopsis">Synopsis:</label>
-              <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea>
-              <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_releaseDate">Game Release Date:</label>
-              <input value="{{ game.releaseDate }}" class="form-control" type="date" name="releaseDate" maxlength="255" id="id_releaseDate">
-              <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_developer">Developer:</label>
-              <input value="{{ game.developer }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
-              <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_genres">Genres:</label>
-              <small class="field-info" title="Comma separated." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
-              <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <label for="id_metacriticScore">Metacritic Score:</label>
-              <input value="{{ game.metacriticScore }}" class="form-control" type="number" min="1" max="100" step="1" name="metacriticScore" maxlength="255" id="id_metacriticScore">
-              <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <small class="field-info" title="If blank, we will use today's date." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <label for="id_startedAt">You started playing at:</label>
-              <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" required="" id="id_startedAt">
-              <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
+          <div class="form-group">
+            <label for="id_name">Name*:</label>
+            <input value="{{ game.name }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
+            <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_coverUrl">Cover Url from HowLongToBeat*:</label>
+            <input value="{{ game.coverUrl }}" class="form-control" type="url" name="coverUrl" maxlength="255" required="" id="id_coverUrl">
+            <small class="field-errors">{{ game_form.coverUrl.errors.as_text }}</small>
+          <div class="form-group">
+            <label for="id_hltbLength">HowLongToBeat Length in hours:</label>
+            <input value="{{ game.hltbLength }}" class="form-control" type="number" step="0.01" name="hltbLength" maxlength="255" id="id_hltbLength">
+            <small class="field-errors">{{ game_form.hltbLength.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_synopsis">Synopsis:</label>
+            <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game.synopsis }}</textarea>
+            <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_releaseDate">Game Release Date:</label>
+            <input value="{{ game.releaseDate }}" class="form-control" type="date" name="releaseDate" maxlength="255" id="id_releaseDate">
+            <small class="field-errors">{{ game_form.releaseDate.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_developer">Developer:</label>
+            <input value="{{ game.developer }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
+            <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_genres">Genres:</label>
+            <small class="field-info" title="Comma separated." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+            <input value="{{ game.genres }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
+            <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
+          </div>
+          <div class="form-group">
+            <label for="id_metacriticScore">Metacritic Score:</label>
+            <input value="{{ game.metacriticScore }}" class="form-control" type="number" min="1" max="100" step="1" name="metacriticScore" maxlength="255" id="id_metacriticScore">
+            <small class="field-errors">{{ game_form.metacriticScore.errors.as_text }}</small>
+          </div>
+          {% comment %}
+          <div class="form-group">
+            <small class="field-info" title="If blank, we will use today's date." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+            <label for="id_startedAt">You started playing at:</label>
+            <input value="{{ game.startedAt|date:'Y-m-d' }}" class="form-control" type="date" name="startedAt" required="" id="id_startedAt">
+            <small class="field-errors">{{ game_form.startedAt.errors.as_text }}</small>
+          </div>
+          {% endcomment %}
+          <div class="form-group-personal">
+            <div class="form-group">
               <small class="field-info" title="Either you had completed the game or not. Used when showed beaten/played games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_stopped_playing_at">You finished playing at:</label>
               <input value="{{ game.stopped_playing_at|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
-            </li>
-            <li class="form-group">
-              <input class="checkbox" type="checkbox" name="beaten" id="id_beaten" {{ game.beaten|yesno:'checked,' }}>
-              <label for="id_beaten">Beaten? Have you completed this game?</label>
-              <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>
-            </li>
-          </ul>
+            </div>
+            <div class="form-group">
+              <div class="checkbox-wrapper">
+                <input id="id_beaten" name="beaten" type="checkbox" {{ game.beaten|yesno:'checked,' }}>
+                <label class="checkbox-fancy-label" for="id_beaten"><i class="fa fa-check"></i></label>
+                <label for="id_beaten">Beaten? Have you completed this game?</label>
+                <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>
+              </div>
+            </div>
+          </div>
           <button class="btn btn-primary" type="submit">Update Game</button>
         </form>
       </div>

@@ -1,3 +1,17 @@
+
+/* FONT */
+
+@font-face {
+    font-family: 'Proxima Nova';
+    src: url('fonts/Mark Simonson - Proxima Nova Alt Regular-webfont.eot');
+    src: url('fonts/Mark Simonson - Proxima Nova Alt Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Mark Simonson - Proxima Nova Alt Regular-webfont.woff') format('woff'),
+         url('fonts/Mark Simonson - Proxima Nova Alt Regular-webfont.ttf') format('truetype'),
+         url('fonts/Mark Simonson - Proxima Nova Alt Regular-webfont.svg#proxima_nova_altregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* GENERAL */
 
 body {
@@ -39,8 +53,9 @@ body {
   font-size: 15px;
 }
 
-h1,h2,h3,h4,h5,h6 {
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   color: var(--aqua-green);
+  font-weight: normal;
 }
 
 em {
@@ -167,13 +182,6 @@ footer a:hover {
 
 .navbarHeader .playing-now {
   text-align: right;
-  position: relative;
-  bottom: 5px;
-}
-
-.navbarHeader .playing-now a {
-  font-size: 50px;
-  line-height: 54px;
 }
 
 .navbarHeader .year-labels{
@@ -259,11 +267,7 @@ main {
   margin-bottom: 2rem;
   border: 0;
   overflow: hidden;
-  background-color: var(--aqua-green-darker)
-}
-
-.card-title {
-  background-color: var(--aqua-green-darker)
+  background-color: var(--aqua-green-darker);
 }
 
 .card-bg-0 {background-color: var(--blue)}
@@ -399,6 +403,12 @@ input.success, textarea.success {
   margin-bottom: 30px;
 }
 
+.start-intro {
+  display: block;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
 small.field-info {
   display: block;
   line-height: 22px;
@@ -418,8 +428,25 @@ section.title.small {
   margin: 1.5em 0 2em;
 }
 
-section.title.small h1 {
+section.title h1, section.title h2 {
+  font-size: 40px;
+}
+
+section.title.small h1, section.title.small h2 {
   font-size: 20px;
+}
+
+.subtitle {
+    float: left;
+    font-size: 16px;
+    color: var(--white-darker);
+    font-family: Proxima Nova;
+    text-transform: none;
+    margin-right: -260px;
+}
+
+h2 .year{
+  color: white;
 }
 
 .field-errors, .errorlist {
@@ -531,5 +558,159 @@ form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
   opacity: 1;
   -webkit-transform: scale(1);
           transform: scale(1);
+}
+
+
+/* PAC-MAN Spinner */
+
+.pac-man {
+  border-radius: 50%;
+  margin: 0 auto 0 0;
+  margin-top: 5em;
+  border-radius: 100em 100em 0 0;
+  background: #f00;
+  -webkit-transform-origin: bottom;
+          transform-origin: bottom;
+  -webkit-animation: eating-top 0.5s infinite;
+          animation: eating-top 0.5s infinite;
+}
+.pac-man,
+.pac-man::before {
+  width: 70px;
+  height: calc(35px);
+  background: #fed75a;
+}
+.pac-man::before {
+  content: '';
+  display: block;
+  margin-top: calc(35px);
+  position: absolute;
+  -webkit-transform-origin: top;
+          transform-origin: top;
+  border-radius: 0 0 100em 100em;
+  -webkit-transform: rotate(80deg);
+          transform: rotate(80deg);
+  -webkit-animation: eating-bottom 0.5s infinite;
+          animation: eating-bottom 0.5s infinite;
+}
+.pac-man::after {
+  position: absolute;
+  border-radius: 100em;
+  content: '';
+  display: block;
+  height: 20px;
+  width: 20px;
+  margin-top: calc(25px);
+  margin-left: calc(25px);
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-animation: center 0.5s infinite, ball 0.5s -0.33s infinite linear;
+          animation: center 0.5s infinite, ball 0.5s -0.33s infinite linear;
+}
+@-webkit-keyframes eating-top {
+  0% {
+    -webkit-transform: rotate(-40deg);
+            transform: rotate(-40deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-40deg);
+            transform: rotate(-40deg);
+  }
+}
+@keyframes eating-top {
+  0% {
+    -webkit-transform: rotate(-40deg);
+            transform: rotate(-40deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-40deg);
+            transform: rotate(-40deg);
+  }
+}
+@-webkit-keyframes eating-bottom {
+  0% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+}
+@keyframes eating-bottom {
+  0% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+}
+@-webkit-keyframes center {
+  0% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+}
+@keyframes center {
+  0% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+}
+@-webkit-keyframes ball {
+  0% {
+    opacity: .7;
+    -webkit-box-shadow: 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a, 220px 0 0 0 #fed75a;
+            box-shadow: 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a, 220px 0 0 0 #fed75a;
+  }
+  100% {
+    -webkit-box-shadow: 20px 0 0 0 #fed75a, 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a;
+            box-shadow: 20px 0 0 0 #fed75a, 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a;
+  }
+}
+@keyframes ball {
+  0% {
+    opacity: .7;
+    -webkit-box-shadow: 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a, 220px 0 0 0 #fed75a;
+            box-shadow: 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a, 220px 0 0 0 #fed75a;
+  }
+  100% {
+    -webkit-box-shadow: 20px 0 0 0 #fed75a, 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a;
+            box-shadow: 20px 0 0 0 #fed75a, 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a;
+  }
 }
 

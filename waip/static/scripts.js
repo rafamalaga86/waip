@@ -1,28 +1,4 @@
 $(document).ready(function(){
-  // General AJAX requests
-  // =======================================================
-
-  // $('#form-login').ajaxForm({url: '/users/login/', type: 'POST'})
-
-
-
-  // Template 'engine' to populate json responses with html
-  // Given a string, populates substrings found in it that 
-  // follows pattern /(\$\d+)/, any '$' followed of integer
-  // =======================================================
-  // String.prototype.template = String.prototype.template ||
-  //   function (){
-  //     var  args = Array.prototype.slice.call(arguments);
-  //     var str = this;
-  //     var i=0;
-          
-  //     function replacer(a){
-  //         var aa = parseInt(a.substr(1),10)-1;
-  //         return args[aa];
-  //     }
-  //     return  str.replace(/(\$\d+)/gm,replacer);
-  // };
-
 
   // Initialise the Mansonry Grid
   // =======================================================
@@ -42,6 +18,27 @@ $(document).ready(function(){
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
+
+
+  // Smooth scrolling for anchor links
+  // =======================================================
+  $('a[href^="#"]').click(function () {
+    $('html, body').animate({
+        scrollTop: $('[name="' + $.attr(this, 'href').substr(1) + '"]').offset().top
+    }, 500);
+
+    return false;
+  });
+
+  // Start the Intro
+  // =======================================================
+  if ($('.trigger-intro').length > 0) {    
+    startIntro();
+  }
+  function startIntro() {
+    introJs().start();
+  }
+  $('.start-intro').on('click', startIntro);
 
 
   // Reduce font-size the titles of the cards if overflow
@@ -90,7 +87,16 @@ $(document).ready(function(){
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
               xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
           }
+          if ($('#form-scrap').length > 0 && $('.pac-man').length === 0) {
+            $('.pac-man-container').append('<div class="pac-man">');
+          }
       }
+  });
+
+  $(document).ajaxStop(function() {
+    if ($('.pac-man').length > 0) {
+      $('.pac-man').remove();
+    }
   });
 
   function mcScoreToColour(score) {
@@ -224,11 +230,11 @@ $(document).ready(function(){
   });
 
   // Today date for default value of startedAt
-  $('.form-add-game').submit(function(e){
-    var today = new Date().toJSON().slice(0,10); 
-    var started_at = $('#id_startedAt').val() || today;
-    $('#id_startedAt').val(started_at);
-  });
+  // $('.form-add-game').submit(function(e){
+  //   var today = new Date().toJSON().slice(0,10); 
+  //   var started_at = $('#id_startedAt').val() || today;
+  //   $('#id_startedAt').val(started_at);
+  // });
 
 
   // Modify Game View

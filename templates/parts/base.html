@@ -19,14 +19,16 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Bootstrap core CSS and Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     {# <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" alt="Bootstrap stylesheet"/> #}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- Google Fonts -->
+    <!-- Fonts and Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Baloo|Bungee+Inline|Fjalla+One" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "fonts/fonts.css" %}" />
 
+    <!-- Other libraries -->
+    <link rel="stylesheet" href="{% static "introjs.min.css" %}">
 
     <!-- Custom styles for this template -->
     <link href="{% static "styles.css" %}" rel="stylesheet">
@@ -57,37 +59,42 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-2 py-4">
+          <div class="col-sm-3 py-4">
             <div class="text-white mb-10">
-              <a href="/?beaten=1">Beaten this year</a>
+              <a href="/?year={% now "Y" %}&beaten=1">Beaten this year</a>
             </div>
             <div class="text-white mb-0">
-              <a href="/?beaten=0" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played this year</a>
+              <a href="/?year={% now "Y" %}&beaten=0" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played this year</a>
             </div>
           </div>
-          <div class="col-sm-6 py-4">
-            <div class="text-muted mb-10">
-              <span class="year-labels">Beaten: </span>
-              {% for year in menu_data.years_beaten %}
-                <a class="year" href="/?year={{ year }}&beaten=1">{{ year }}</a>
-              {% endfor %}
-            </div>
-            <div class="text-muted mb-0">
-              <span class="year-labels" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
-              {% for year in menu_data.years_played %}
-                <a class="year" href="/?year={{ year }}&beaten=0">{{ year }}</a>
-              {% endfor %}
+          <div class="col-sm-7 py-4">
+            <div class="border-sides">
+              <div class="text-muted mb-10">
+                <span class="year-labels">Beaten: </span>
+                {% for year in menu_data.years_beaten %}
+                  <a class="year" href="/?year={{ year }}&beaten=1">{{ year }}</a>
+                {% endfor %}
+              </div>
+              <div class="text-muted mb-0">
+                <span class="year-labels" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
+                {% for year in menu_data.years_played %}
+                  <a class="year" href="/?year={{ year }}&beaten=0">{{ year }}</a>
+                {% endfor %}
+              </div>
             </div>
           </div>
-          <div class="col-sm-4 py-4">
-            <div class="playing-now text-white">
+          <div class="col-sm-2 py-4">
+            <div class="playing-now text-white mb-10" data-toggle="tooltip" data-placement="bottom" title="You can also click in the logo of the website">
               <a href="/">Playing now</a>
+            </div>
+            <div class="playing-now text-white">
+              <a href="/">Profile page</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="navbar navbar-light">
+    <div class="navbar navbar-light" name="top">
       <div class="container d-flex justify-content-end">
           <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
           <ul class="d-flex flex-row ul-login desktop">
@@ -123,7 +130,7 @@
     <footer class="text-muted">
       <div class="container">
         <p class="float-right">
-          <a href="#"><i class="fa fa-arrow-up back-to-top" aria-hidden="true"></i></a>
+          <a href="#top"><i class="fa fa-arrow-up back-to-top" aria-hidden="true"></i></a>
         </p>
         <p>Made with love by <a href="//rafaelgarciadoblas.com">Rafael García Doblas</a></p>
       </div>
@@ -174,7 +181,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-    <script src="/static/masonry.js"></script>
-    <script src="/static/scripts.js"></script>
+    <script src="{% static 'masonry.js' %}"></script>
+    <script src="{% static 'introjs.min.js' %}"></script>
+    <script src="{% static 'scripts.js' %}"></script>
   </body>
 </html>

@@ -8,3 +8,4 @@ probar a poner una separacion entre las columnas
 Refactor of some non Ajax views that are returning 404
 mirar la manera más rapida de descargar fontawesome
 trim fonts, hay muchas al principio de base.html
+pasar el checkbox a la otra plantilla
