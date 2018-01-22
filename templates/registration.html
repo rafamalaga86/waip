@@ -10,12 +10,10 @@
         <form class="text-left" action="{% url 'register' %}" method="POST">
         {% csrf_token %}
         {% for field in registration_form %}
-          <div class="form-group row">
-            <label class="col col-3 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="col col-9">
-              {{ field }}
-              <small class="field-errors">{{ field.errors.as_text }}</small>
-            </div>
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            <small class="field-errors">{{ field.errors.as_text }}</small>
           </div>
         {% endfor %}
         <button class="btn btn-primary" type="submit">Register</button>

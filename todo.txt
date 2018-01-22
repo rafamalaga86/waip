@@ -1,10 +1,6 @@
-hacer los fetch bien, en el home hay juegos que ya me he pasado
 el card sólo desaparece cuando es finished, si la vista sólo muestra juegos sin finished
-poner los titulares
-probar a hacer started_at opcional
 pasar todo a underscore
 poner la funcion de traducción alrededor de todo el texto
-probar a poner una separacion entre las columnas
 Refactor of some non Ajax views that are returning 404
 mirar la manera más rapida de descargar fontawesome
 trim fonts, hay muchas al principio de base.html
