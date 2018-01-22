@@ -23,15 +23,19 @@ body {
   --gray-blue: #a8cef3;
   --green-gray: #91b8ae;
 
-  /* Others */
-  --broken-white: #f8f8f8;
 
   /* Letters */
   --letter-light: rgba(255,255,255,0.9);
 
+
+  /* Others */
+  --white: rgba(235,235,235,1);
+  --white-darker: rgba(235,235,235,.8);
+  --white-darkest: rgba(235,235,235,.6);
+
   background-color: var(--dark-gray);
   color: var(--letter-light);
-  font-family: 'Ubuntu', Arial;
+  font-family: 'Proxima Nova', Arial;
   font-size: 15px;
 }
 
@@ -75,6 +79,13 @@ a:hover {
   text-decoration: none;
 }
 
+label {
+  font-family: 'Bungee Inline', Arial, sans-serif;
+  color: var(--aqua-green);
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
 .mt-50 {
   margin-top: 50px;
 }
@@ -99,6 +110,10 @@ footer a {
   color: var(--aqua-green)
 }
 
+footer a:hover {
+  color: var(--aqua-green-darker);
+}
+
 .modal-content {
   background-color: var(--dark-gray) !important;
 }
@@ -119,7 +134,7 @@ footer a {
 
 .navbar {
   margin-bottom: 0;
-  background-color: var(--broken-white);
+  background-color: var(--white);
 }
 
 .navbar .btn-login {
@@ -135,11 +150,11 @@ footer a {
 }
 
 .navbar-brand {
-  font-family: 'Permanent Marker';
+  font-family: 'Baloo';
   font-size: 27px;
   margin-right: auto;
   padding: 0;
-  color: black !important;
+  color: rgba(0,0,0,0.9) !important;
 }
 
 .navbar-toggler {
@@ -190,10 +205,14 @@ footer a {
   color: white;
 }
 
-.btn-primary:hover {
-  background-color: var(--aqua-green-darker);
+.btn-primary:hover, .btn-primary:active {
+  background-color: var(--aqua-green-darker) !important;
   border: none;
   color: white;
+}
+
+.btn-primary:focus {
+  box-shadow: none !important;
 }
 
 .btn-default {
@@ -240,6 +259,10 @@ main {
   margin-bottom: 2rem;
   border: 0;
   overflow: hidden;
+  background-color: var(--aqua-green-darker)
+}
+
+.card-title {
   background-color: var(--aqua-green-darker)
 }
 
@@ -335,7 +358,7 @@ main {
 footer {
   margin-top: 40px;
   padding: 26px 0;
-  background-color: var(--broken-white);
+  background-color: var(--white);
 }
 
 footer p {
@@ -351,8 +374,20 @@ i.back-to-top {
 
 /* FORMS */
 
-input {
+input.form-control {
   width: 100%;
+  border-radius: .15rem;
+  background-color: var(--white);
+}
+
+
+input.success, textarea.success {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4IDgnPjxwYXRoIGZpbGw9JyM1Y2I4NWMnIGQ9J00yLjMgNi43M0wuNiA0LjUzYy0uNC0xLjA0LjQ2LTEuNCAxLjEtLjhsMS4xIDEuNCAzLjQtMy44Yy42LS42MyAxLjYtLjI3IDEuMi43bC00IDQuNmMtLjQzLjUtLjguNC0xLjEuMXonLz48L3N2Zz4=);
+  padding-right: 2.25rem;
+  background-repeat: no-repeat;
+  background-position: top .5625rem right .5625rem;
+  -webkit-background-size: 1.125rem 1.125rem;
+  background-size: 1.125rem 1.125rem;
 }
 
 .checkbox {
@@ -360,19 +395,22 @@ input {
   margin-right: 10px;
 }
 
+.form-group {
+  margin-bottom: 30px;
+}
+
 small.field-info {
   display: block;
-  line-height: 26px;
+  line-height: 22px;
   font-size: 22px;
   float: right;
   color: rgba(255, 255, 255, 0.3);
-  margin-bottom: 2px;
 }
 
 
 section.title {
   margin: 2em 0 3.2em;
-  font-family: Walter Turncoat;
+  font-family: Bungee Inline;
   text-transform: uppercase;
 }
 
@@ -444,3 +482,54 @@ section.title.small h1 {
     visibility: visible;
   }
 }
+
+
+
+/* CHECKBOX */
+
+
+form .checkbox-wrapper input {
+  display: none;
+}
+
+form .checkbox-wrapper .checkbox-fancy-label {
+  border-radius: .15rem;
+  cursor: pointer;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 10px 10px 10px 0;
+  background: var(--white);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  font-size: 12pt;
+  color: #FFF;
+  font-smoothing: antialiased;
+}
+
+form .checkbox-wrapper .checkbox-fancy-label.check {
+  border-radius: 5px;
+}
+form .checkbox-wrapper .checkbox-fancy-label .fa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  line-height: 30px;
+  text-align: center;
+}
+form .checkbox-wrapper input:checked + .checkbox-fancy-label {
+  background: var(--blue);
+}
+form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
+  opacity: 1;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+

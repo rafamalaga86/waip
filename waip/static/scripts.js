@@ -29,7 +29,7 @@ $(document).ready(function(){
   var $grid = $('.grid').masonry({
     itemSelector: '.card',
     fitWidth: true,
-    gutter: 20.5
+    gutter: 20.5,
   });
 
   $('.grid').imagesLoaded(function() {
@@ -193,7 +193,9 @@ $(document).ready(function(){
       function(jsonResponse) {
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
-            $('#' + 'id_' + key).val(jsonResponse[key]);
+            var input = $('#' + 'id_' + key);
+            input.val(jsonResponse[key]);
+            input.addClass('success');
           }
         }
       }, 'json'
@@ -209,7 +211,9 @@ $(document).ready(function(){
       function(jsonResponse) {
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
-            $('#' + 'id_' + key).val(jsonResponse[key]);
+            var input = $('#' + 'id_' + key);
+            input.val(jsonResponse[key]);
+            input.addClass('success');
           }
         }
       }, 'json'

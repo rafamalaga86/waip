@@ -18,12 +18,15 @@
     <link rel="mask-icon" href="{% static "favicon/safari-pinned-tab.svg" %}" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" alt="Bootstrap stylesheet"/>
-    {# <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet"> #}
+    <!-- Bootstrap core CSS and Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    {# <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" alt="Bootstrap stylesheet"/> #}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Permanent+Marker|Ubuntu|Walter+Turncoat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo|Bungee+Inline|Fjalla+One" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "fonts/fonts.css" %}" />
+
 
     <!-- Custom styles for this template -->
     <link href="{% static "styles.css" %}" rel="stylesheet">
@@ -151,7 +154,7 @@
     ================================================== -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    {% comment %}
+    {% comment %} <!-- 'Not using, it came with the template' -->
     <script src="../../../../assets/js/vendor/holder.min.js"></script>
     <script>
       $(function () {
@@ -163,9 +166,13 @@
     <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script>
     {% endcomment %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    {% comment %} <!-- 'Not using because I am using the ones hosted in CDNs' -->
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
     <script src="https://use.fontawesome.com/ef51ea1a88.js"></script>
+    {% endcomment %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <script src="/static/masonry.js"></script>
     <script src="/static/scripts.js"></script>

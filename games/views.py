@@ -14,13 +14,10 @@ from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.views import View
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
 import logging
-logger = logging.getLogger('testlogger')
+
+logger = logging.getLogger(__name__)
 
 SHOWCASE_USER_ID = 1
-
-
-def debug(request):
-    return HttpResponse(settings.DEBUG)
 
 
 def list_user_games(request):
@@ -123,7 +120,6 @@ def delete_game(request, game_id):
 
 @login_required
 def finish_game_ajax(request, game_id):
-    return HttpResponse(settings.DEBUG)
     if not settings.DEBUG and not request.is_ajax():
         return HttpResponseForbidden('Only ajax requests')
 

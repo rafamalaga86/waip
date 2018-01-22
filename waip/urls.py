@@ -31,9 +31,6 @@ urlpatterns = [
     url(r'^ajax/games/([0-9]+)/finish$', games_views.finish_game_ajax),
     url(r'^ajax/games/([0-9]+)/add-note$', games_views.add_note_to_game_ajax),
     url(r'^ajax/games/([0-9]+)/notes/([0-9]+)$', NoteDetailAjaxView.as_view(), name='note-detail'),
-
-    # DELETE TODO
-    url(r'^debug$', games_views.debug),
 ]
 
 # Added for Debug Bar

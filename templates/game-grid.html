@@ -2,8 +2,8 @@
 {% load math_tags %}
 
 {% block main %}
-  <section class="title small text-center"><h1>{{ title }}</h1></section>
   <section class="grid">
+      <div class="card card-title"><h1 class="text-center">Positzo is playing:</h1></div>
     {% for game in games %}
       <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
         <img class="card-imgCover" src="{{ game.coverUrl }}" alt="{{ game.name }} Cover">
