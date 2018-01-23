@@ -24,7 +24,6 @@ def register(request):
     # GET & POST not valid ------------------------------
     return render(request, 'registration.html', {
         'page': 'page-register',
-        'menu_data_hide': True,
         'registration_form': registration_form,
     })
 

@@ -1,5 +1,6 @@
 el prologo del resident no tiene sentido
 pasar todo a underscore
+poner blockquotes en synopsis
 poner la funcion de traducción alrededor de todo el texto
 Refactor of some non Ajax views that are returning 404
 Corregir el fondo que aparece despues del footer cuando el height del viewport es chico

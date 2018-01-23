@@ -20,6 +20,30 @@ $(document).ready(function(){
   });
 
 
+  // Side menu
+  // =======================================================
+
+  $('.navbar-toggler-2').on('click', function () {
+     $('#sidebar').toggleClass('active');
+     $(this).toggleClass('active');
+  });
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').fadeOut();
+    });
+
+    $('.navbar-toggler').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.overlay').fadeIn();
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+
   // Smooth scrolling for anchor links
   // =======================================================
   $('a[href^="#"]').click(function () {

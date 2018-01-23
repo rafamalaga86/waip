@@ -54,7 +54,8 @@
           {% endif %}
           <div class="score-hltb_length {{ game.metacritic_score|yesno:',full' }}">
             {{ game.hltb_length|default_if_none:'Unknown!' }}
-            {{ game.hltb_length|yesno:'Hours,' }}</div>
+            {{ game.hltb_length|yesno:'Hours,' }}
+          </div>
         </div>
         <div class="card-content">
           <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
@@ -66,8 +67,10 @@
         </div>
       </div>
     {% empty %}
+      <div class="container">
         <span>Sorry, we did not find any game. Quickly, add a game! :)</span>
+      </div>
     {% endfor %}
 
-  </div>
+  </section>
 {% endblock %}

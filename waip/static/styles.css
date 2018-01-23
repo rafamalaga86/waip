@@ -18,7 +18,6 @@ body {
   min-height: 30rem; /* Can be removed; just added for demo purposes */
 
   /* Global CSS Vars */
-  --dark-gray: #343a40;
   --aqua-green: #49c5a1;
 
   /* Card colours */
@@ -41,13 +40,19 @@ body {
   /* Letters */
   --letter-light: rgba(255,255,255,0.9);
 
+  /* Gray Scale */
+  --gray-0: #343a40;
+  --gray-1: #49525a;
+  --gray-2: #4f5b66;
+  --gray-3: #65737e;
+  --gray-4: #a7adba;
 
   /* Others */
   --white: rgba(235,235,235,1);
   --white-darker: rgba(235,235,235,.8);
   --white-darkest: rgba(235,235,235,.6);
 
-  background-color: var(--dark-gray);
+  background-color: var(--gray-0);
   color: var(--letter-light);
   font-family: 'Proxima Nova', Arial;
   font-size: 15px;
@@ -96,6 +101,7 @@ a:hover {
 
 label {
   font-family: 'Bungee Inline', Arial, sans-serif;
+  font-weight: 300;
   color: var(--aqua-green);
   margin-bottom: 0;
   vertical-align: middle;
@@ -111,6 +117,14 @@ label {
 
 .mt-10 {
   margin-top: 10px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pt-20 {
+  padding-top: 20px;
 }
 
 .mb-0 {
@@ -130,7 +144,7 @@ footer a:hover {
 }
 
 .modal-content {
-  background-color: var(--dark-gray) !important;
+  background-color: var(--gray-0) !important;
 }
 
 .modal-content textarea, .modal-content textarea:focus {
@@ -167,9 +181,15 @@ footer a:hover {
 .navbar-brand {
   font-family: 'Baloo';
   font-size: 27px;
+  font-weight: 300;
   margin-right: auto;
   padding: 0;
-  color: rgba(0,0,0,0.9) !important;
+  color: var(--gray-0) !important;
+}
+
+.sidebar .navbar-brand {
+  color: var(--aqua-green) !important;
+  font-size: 21px;
 }
 
 .navbar-toggler {
@@ -205,6 +225,8 @@ footer a:hover {
 
 .btn {
   cursor: pointer;
+  font-family: 'Bungee Inline', Arial, sans-serif;
+  font-weight: 300;
 }
 
 .btn-primary {
@@ -420,7 +442,8 @@ small.field-info {
 
 section.title {
   margin: 2em 0 3.2em;
-  font-family: Bungee Inline;
+  font-family: 'Bungee Inline', Arial, sans-serif;
+  font-weight: 300;
   text-transform: uppercase;
 }
 
@@ -437,12 +460,11 @@ section.title.small h1, section.title.small h2 {
 }
 
 .subtitle {
-    float: left;
     font-size: 16px;
     color: var(--white-darker);
     font-family: Proxima Nova;
     text-transform: none;
-    margin-right: -260px;
+    text-align: center;
 }
 
 h2 .year{
@@ -488,16 +510,18 @@ h2 .year{
   cursor: pointer;
 }
 
-@media (min-width: 768px) {
-  .ul-login.desktop {
-    display: flex !important;
-  }
 
-  .ul-login.mobile {
-    display: none !important;
-  }
+[class*="col-"] {
+  margin-bottom: 60px;
 }
 
+[class*="col-"]:last-child{
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+
+}
 
 
 @media (min-width: 992px) {
@@ -508,9 +532,20 @@ h2 .year{
   .card:hover .card-imgOverlay{
     visibility: visible;
   }
+
+  .ul-login.desktop {
+    display: flex !important;
+  }
 }
 
 
+@media (min-width: 1200px) {
+  .subtitle {
+    text-align: left;
+    float: left;
+    margin-right: -260px;
+  }
+}
 
 /* CHECKBOX */
 
@@ -714,3 +749,127 @@ form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
   }
 }
 
+
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    z-index: 10;
+    background: var(--gray-1);
+    color: #fff;
+    transition: all 0.3s;
+    overflow-y: scroll;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar div {
+    outline: none;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.dismiss {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background: var(--gray-1);
+    position: absolute;
+    top: 22px;
+    right: 10px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.dismiss:hover {
+    background: #fff;
+    color: var(--gray-1);
+}
+
+.overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9;
+    display: none;
+}
+
+.sidebar .sidebar-header {
+    padding: 24px 20px 20px 15px;
+    background: var(--gray-0);
+}
+
+.sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray-0);
+}
+
+.sidebar ul.components i{
+  font-size: 20px;
+}
+
+.sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+.sidebar ul li .menu-item {
+    padding: 10px;
+    font-size: .9em;
+    display: block;
+    font-family: 'Bungee Inline', Arial, sans-serif;
+    font-weight: 300;
+}
+.sidebar ul li .menu-item:hover {
+    color: var(--gray-1);
+    background: #fff;
+}
+.sidebar ul li .btn-container {
+  padding-bottom: 15px;
+  text-align: center;
+}
+.sidebar ul li .btn-container .btn {
+  width: 92%;
+}
+
+.sidebar ul.list-unstyled li .menu-item {
+    font-family: 'Proxima Nova', Arial, sans-serif;
+}
+
+
+.sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: var(--gray-0);
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: var(--gray-0);
+}

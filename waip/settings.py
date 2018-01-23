@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'waip.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 # For dj_database_url.config check https://github.com/kennethreitz/dj-database-url
 DATABASES = {
+    # 'default': dj_database_url.config(default='mysql://soridian_waip:z}G&$MlEMw0E@es6.siteground.eu/soridian_waip')
     'default': dj_database_url.config(default=config_env('DATABASE_URL'))
 }
 

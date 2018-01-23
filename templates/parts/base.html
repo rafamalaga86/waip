@@ -33,129 +33,127 @@
     <link href="{% static "styles.css" %}" rel="stylesheet">
   </head>
 
-  {% if page %}
-    <body class="{{ page }}">
-  {% else %}
-    <body class="page-general">
-  {% endif %}
+  <body class="{% if page %}{{ page }}{% else %}page-general{% endif %}" data-game-id="{% if game %}{{ game.id }}{% endif %}">
 
-    <body class="{% if page %}{{ page }}{% endif %}" data-game-id="{% if game %}{{ game.id }}{% endif %}">
+    <div class="overlay"></div>
 
-    <div class="collapse bg-dark navbarHeader" id="navbarHeader">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <ul class="d-flex flex-row ul-login mobile">
-              {% if user.is_authenticated %}
+    <div class="wrapper">
+      <!-- Sidebar Holder -->
+      <nav id="sidebar" class="sidebar">
+        <div id="dismiss" class="dismiss">
+            <i class="fa fa-arrow-left"></i>
+        </div>
+        <div class="sidebar-header">
+            <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
+        </div>
+
+        <ul class="components">
+          {# <p>See the games...</p> #}
+          <li><a class="menu-item" href="{% url 'home' %}">Playing now</a></li>
+          <li><a class="menu-item" href="/?year={% now "Y" %}&beaten=1">Beaten this year</a></li>
+          <li><a class="menu-item" href="/?year={% now "Y" %}&beaten=0">Tried this year</a></li>
+          <li class="active">
+              <a class="menu-item" href="#beaten-at-year" data-toggle="collapse" aria-expanded="false">
+                <span>Beaten at year... </span>
+                <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="collapse list-unstyled" id="beaten-at-year">
+                  {% for year in menu_data.years_beaten %}
+                    <li><a class="year menu-item" href="/?year={{ year }}&beaten=1">{{ year }}</a></li>
+                  {% endfor %}
+              </ul>
+          </li>
+          <li>
+            <a class="menu-item" href="#tried-at-year" data-toggle="collapse" aria-expanded="false">
+              <span>Tried at year...</span>
+              <i class="fa fa-caret-down"></i>
+            </a>
+              <ul class="collapse list-unstyled" id="tried-at-year">
+                {% for year in menu_data.years_played %}
+                  <li><a class="year menu-item" href="/?year={{ year }}&beaten=0">{{ year }}</a></li>
+                {% endfor %}
+              </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled pt-20">
+          {% if user.is_authenticated %}
+            <li><div class="btn-container"><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></div></li>
+            <li><a class="menu-item" href="/me">User profile page</a></li>
+            <li><a class="menu-item" href="{% url 'log_out' %}">Log out</a></li>
+          {% else %}
+            <li><div class="btn-container"><a href="{% url 'register' %}" class="btn btn-primary">Register</a></div></li>
+            <li><a class="menu-item" href="{% url 'login' %}">Log in</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+            <!-- Page Content Holder -->
+      <div id="content" class="content">
+        <div class="navbar navbar-light" name="top">
+          <div class="container d-flex justify-content-end">
+              <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
+              <ul class="d-flex flex-row ul-login desktop">
+                {% if user.is_authenticated %}
                   <li><a href="/me">{{ user.get_username }}</a></li>
                   <li><a href="{% url 'log_out' %}">Log out</a></li>
                   <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
-              {% else %}
-                  <li><a class="btn btn-login" href="{% url 'login' %}">Log in</a></li>
+                {% else %}
+                  <li><a href="{% url 'login' %}">Log in</a></li>
                   <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
-              {% endif %}
+                {% endif %}
+              </ul>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          </div>
+        </div>
+        <div class="container flash-messages">
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                </li>
+              {% endfor %}
             </ul>
+          {% endif %}</div>
+        <main>
+          {% block main %}{% endblock %}
+        </main>
+        <footer class="text-muted">
+          <div class="container">
+            <p class="float-right">
+              <a href="#top"><i class="fa fa-arrow-up back-to-top" aria-hidden="true"></i></a>
+            </p>
+            <p>Made with love by <a href="//rafaelgarciadoblas.com">Rafael García Doblas</a></p>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-3 py-4">
-            <div class="text-white mb-10">
-              <a href="/?year={% now "Y" %}&beaten=1">Beaten this year</a>
-            </div>
-            <div class="text-white mb-0">
-              <a href="/?year={% now "Y" %}&beaten=0" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played this year</a>
-            </div>
-          </div>
-          <div class="col-sm-7 py-4">
-            <div class="border-sides">
-              <div class="text-muted mb-10">
-                <span class="year-labels">Beaten: </span>
-                {% for year in menu_data.years_beaten %}
-                  <a class="year" href="/?year={{ year }}&beaten=1">{{ year }}</a>
-                {% endfor %}
-              </div>
-              <div class="text-muted mb-0">
-                <span class="year-labels" data-toggle="tooltip" data-placement="right" title="Tried. So, played but not beaten.">Played: </span>
-                {% for year in menu_data.years_played %}
-                  <a class="year" href="/?year={{ year }}&beaten=0">{{ year }}</a>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2 py-4">
-            <div class="playing-now text-white mb-10" data-toggle="tooltip" data-placement="bottom" title="You can also click in the logo of the website">
-              <a href="/">Playing now</a>
-            </div>
-            <div class="playing-now text-white">
-              <a href="/">Profile page</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="navbar navbar-light" name="top">
-      <div class="container d-flex justify-content-end">
-          <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
-          <ul class="d-flex flex-row ul-login desktop">
-            {% if user.is_authenticated %}
-              <li><a href="/me">{{ user.get_username }}</a></li>
-              <li><a href="{% url 'log_out' %}">Log out</a></li>
-              <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
-            {% else %}
-              <li><a class="btn btn-login" href="{% url 'login' %}">Log in</a></li>
-              <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-          </ul>
-          {% if not menu_data_hide %}
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          {% endif %}
-      </div>
-    </div>
-    <div class="container flash-messages">
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>
-              {{ message }}
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}</div>
-    <main>
-      {% block main %}{% endblock %}
-    </main>
-    <footer class="text-muted">
-      <div class="container">
-        <p class="float-right">
-          <a href="#top"><i class="fa fa-arrow-up back-to-top" aria-hidden="true"></i></a>
-        </p>
-        <p>Made with love by <a href="//rafaelgarciadoblas.com">Rafael García Doblas</a></p>
-      </div>
-    </footer>
+        </footer>
 
-    <!-- Modals -->
-    <div id="modal-general" class="modal fade">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <textarea class="form-control modal-autofocus" placeholder="Write your note about the game" name="text" cols="40" rows="10" id="id_note" required></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="action-trigger-modal-action">Save note</button>
+        <!-- Modals -->
+        <div id="modal-general" class="modal fade">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <textarea class="form-control modal-autofocus" placeholder="Write your note about the game" name="text" cols="40" rows="10" id="id_note" required></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="action-trigger-modal-action">Save note</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -178,6 +176,7 @@
     <script src="https://use.fontawesome.com/ef51ea1a88.js"></script>
     {% endcomment %}
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>

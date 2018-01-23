@@ -1,11 +1,11 @@
 {% extends 'parts/base.html' %}
 
 {% block main %}
-  <section class="text-center">
-    <section class="title">    
+  <div class="container">
+    <section class="title text-center">    
       <h1>Register</h1>
     </section>
-    <div class="row">
+    <section class="row">
       <div class="col-lg">
         <form class="text-left" action="{% url 'register' %}" method="POST">
         {% csrf_token %}
@@ -29,6 +29,6 @@
           <li>And much more...</li>
         </ul>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 {% endblock %}
