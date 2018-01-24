@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import date
 import dateparser
 import os
+import re
 import requests
 
 
@@ -50,7 +51,8 @@ def metacritic_scrapper(metacriticUrl):
 
         # Metacritic Scrap
         game['developer'] = soup.find(class_='summary_detail developer').find(class_='data').text.strip()
-        game['genres'] = soup.find(class_='summary_detail product_genre').find(class_='data').text.strip()
+        game['genres'] = soup.find(class_='summary_detail product_genre').text.strip()
+        game['genres'] = re.sub(' +', ' ', game['genres'].replace('Genre(s):', '')).strip()
         game['release_date'] = dateparser.parse(
             soup.find(class_='summary_detail release_data').find(class_='data').text.strip()).strftime('%Y-%m-%d')
         game['metacritic_score'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
@@ -62,14 +64,14 @@ def get_menus_data(user_id):
     years_beaten = Game.objects.filter(user_id=user_id, beaten=True)\
         .dates('stopped_playing_at', 'year')
     years_beaten = [date.strftime('%Y') for date in years_beaten][::-1]  # Reverse
-    # today = date.today().strftime('%Y')
-    # if today in years_beaten:
-    #     years_beaten.remove(today)
+    today = date.today().strftime('%Y')
+    if today in years_beaten:
+        years_beaten.remove(today)
 
     years_played = Game.objects.filter(user_id=user_id, beaten=False).dates('stopped_playing_at', 'year')
     years_played = ([date.strftime('%Y') for date in years_played])[::-1]  # Reverse
-    # if today in years_played:
-    #     years_played.remove(today)
+    if today in years_played:
+        years_played.remove(today)
 
     return {
         'years_beaten': years_beaten,

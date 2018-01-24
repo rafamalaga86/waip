@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, render
+from django.utils.translation import gettext as _
 from django.views import View
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
 import logging
@@ -83,7 +84,7 @@ def modify_game(request, game_id):
 
     # Permission check
     if game.user.id != request.user.id:
-        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+        return HttpResponseForbidden(_('Don\'t be sneaky, you don\'t have permission over this game'))
 
     # POST ----------------------------------------------
     if request.method == 'POST':
@@ -115,11 +116,25 @@ def delete_game(request, game_id):
 
     # Permission check
     if game.user.id != request.user.id:
-        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+        return HttpResponseForbidden(_('Don\'t be sneaky, you don\'t have permission over this game'))
 
     game.delete()
-    messages.success(request, 'The game was successfully deleted')
+    messages.success(request, _('The game was successfully deleted'))
     return HttpResponseRedirect('/')
+
+
+@login_required
+def list_all(request):
+    games = Game.objects.all().order_by('-created_at')
+
+    for game in games:
+        game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
+
+    return render(request, 'game-grid.html', {
+        'page': 'page-list-games',
+        'menu_data': get_menus_data(request.user.id),
+        'games': games,
+    })
 
 
 # AJAX CONTROLLERS

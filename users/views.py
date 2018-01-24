@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.utils.translation import gettext as _
 from games.utils import get_menus_data
 
 
@@ -21,7 +22,6 @@ def register(request):
     else:
         registration_form = RegistrationForm()
 
-    # GET & POST not valid ------------------------------
     return render(request, 'registration.html', {
         'page': 'page-register',
         'registration_form': registration_form,
@@ -39,7 +39,7 @@ def modify_logged_user(request):
             user_form = ProfileForm(request.POST, instance=request.user)
             if user_form.is_valid():
                 user_form.save()
-                messages.success(request, 'Your user information was successfully updated')
+                messages.success(request, _('Your user information was successfully updated'))
                 return HttpResponseRedirect('/')
 
         if request.POST.get('user_info_change') == 'change_password':
@@ -48,7 +48,7 @@ def modify_logged_user(request):
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)
-                messages.success(request, 'Your password was successfully updated!')
+                messages.success(request, _('Your password was successfully updated!'))
                 return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------

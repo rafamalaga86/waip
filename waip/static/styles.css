@@ -52,10 +52,14 @@ body {
   --white-darker: rgba(235,235,235,.8);
   --white-darkest: rgba(235,235,235,.6);
 
-  background-color: var(--gray-0);
   color: var(--letter-light);
   font-family: 'Proxima Nova', Arial;
   font-size: 15px;
+  background-color: var(--white);
+}
+
+.wrapper {
+  background-color: var(--gray-0);
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
@@ -274,12 +278,13 @@ footer a:hover {
 }
 
 main {
-  min-height: 50rem; /* For debugging purposes */
+  min-height: calc(100vh - 186px); /* For debugging purposes */
   padding-top: 15px;
 }
 
 .grid {
   margin: 0 auto;
+  text-align: center;
 }
 
 .card {
@@ -290,6 +295,8 @@ main {
   border: 0;
   overflow: hidden;
   background-color: var(--aqua-green-darker);
+
+  display: inline-block;
 }
 
 .card-bg-0 {background-color: var(--blue)}
@@ -448,7 +455,7 @@ section.title {
 }
 
 section.title.small {
-  margin: 1.5em 0 2em;
+  margin: 4px 0 24px;
 }
 
 section.title h1, section.title h2 {

@@ -22,6 +22,7 @@ urlpatterns = [
     # Games
     url(r'^games$', games_views.list_user_games, name='list_games'),
     url(r'^games/add/$', games_views.add_game, name='add_game'),
+    url(r'^games/all/$', games_views.list_all, name='list_all'),
     url(r'^games/([0-9]+)$', games_views.modify_game, name='modify_game'),
     url(r'^games/([0-9]+)/delete/$', games_views.delete_game, name='delete_game'),
 
