@@ -20,6 +20,9 @@ def hltb_scrapper(hltbGameUrl):
             headers=HLTB_HEADERS
         )
 
+        if request.status_code >= 400:
+            raise Exception('The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat')
+
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')
 
@@ -38,6 +41,9 @@ def metacritic_scrapper(metacriticUrl):
             metacriticUrl,
             headers=METACRITIC_HEADERS
         )
+
+        if request.status_code >= 400:
+            raise Exception('The scrapper got a ' + str(request.status_code) + ' status code from Metacritic')
 
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')

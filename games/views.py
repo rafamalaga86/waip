@@ -52,7 +52,7 @@ def list_user_games(request):
 def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
-        game_form = GameForm(request.POST)
+        game_form = GameForm(request.POST, user_id=request.user.id)
         if game_form.is_valid():
             game = game_form.save(commit=False)
             game.user = request.user
@@ -87,7 +87,7 @@ def modify_game(request, game_id):
 
     # POST ----------------------------------------------
     if request.method == 'POST':
-        game_form = GameForm(request.POST, instance=game)
+        game_form = GameForm(request.POST, instance=game, user_id=request.user.id)
         if game_form.is_valid():
             game.save()
             messages.success(request, 'The game was successfully updated')

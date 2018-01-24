@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
-from django.core.exceptions import ValidationError
 
 
 class Game(models.Model):
@@ -30,10 +29,8 @@ class Game(models.Model):
     def __str__(self):
         return self.name
 
-    def clean(self):
-        if self.beaten and not self.stopped_playing_at:
-            raise ValidationError('If you mark game as beaten, you should put a Finish Date \
-                (even when is not an accurate date, we want to allocate it to a year)')
+    class Meta:
+        unique_together = ('user', 'name')
 
 
 class Note(models.Model):

@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     'localhost',
     'waip.herokuapp.com',
     'whatamiplaying.rafaelgarciadoblas.com',
+    'waip.site',
 ]
 
 

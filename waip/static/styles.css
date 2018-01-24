@@ -180,7 +180,7 @@ footer a:hover {
 
 .navbar-brand {
   font-family: 'Baloo';
-  font-size: 27px;
+  font-size: 22px;
   font-weight: 300;
   margin-right: auto;
   padding: 0;
@@ -510,6 +510,14 @@ h2 .year{
   cursor: pointer;
 }
 
+.flash-messages {
+  margin-top: 10px;
+}
+
+.alert {
+  margin-bottom: 0;
+}
+
 
 [class*="col-"] {
   margin-bottom: 60px;
@@ -520,7 +528,9 @@ h2 .year{
 }
 
 @media (min-width: 768px) {
-
+  .navbar-brand {
+    font-size: 27px;
+  }
 }
 
 

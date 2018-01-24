@@ -1,8 +1,12 @@
+Implement a search
+
 el prologo del resident no tiene sentido
-pasar todo a underscore
-poner blockquotes en synopsis
+
+mejorar la versión móvil
+intentar que los juegos se cargen en medio O show a loading screen while loading the images
 poner la funcion de traducción alrededor de todo el texto
 Refactor of some non Ajax views that are returning 404
 Corregir el fondo que aparece despues del footer cuando el height del viewport es chico
 Cambiar todos los finish por stopped playing at
 comprobar al insertar un juego si ya existe otro con el mismo nombre para ese usuario
+redirect all subdomains to the main one
