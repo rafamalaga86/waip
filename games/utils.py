@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from datetime import date
 import dateparser
 import os
-import re
 import requests
 
 
@@ -20,19 +19,23 @@ def hltb_scrapper(hltbGameUrl):
             hltbGameUrl,
             headers=HLTB_HEADERS
         )
-
         if request.status_code >= 400:
-            raise Exception('The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat')
+            raise Exception('* The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat')
 
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')
 
-        game['name'] = soup.find('div', class_='profile_header').text.strip()
-        game['cover_url'] = os.path.join(HLTB_SA, soup.find('div', class_='game_image').find('img').get('src'))
-        gameTimes = soup.find('div', class_='game_times').findAll('li')
-        gameTimeText = gameTimes[0].find('div').text
-        game['hltb_length'] = _parse_text_time_into_float(gameTimeText)
-        game['synopsis'] = _parse_synopsis(soup.find('div', class_='profile_header_alt').text.strip())
+        name = soup.find('div', class_='profile_header')
+        game['name'] = name.text.strip() if name is not None else None
+
+        cover_url = soup.select('div.game_image img')
+        game['cover_url'] = os.path.join(HLTB_SA, cover_url[0].get('src')) if cover_url != [] else None
+
+        game_length = soup.select('div.game_times li div')
+        game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
+
+        synopsis = soup.find('div', class_='profile_header_alt')
+        game['synopsis'] = _parse_synopsis(synopsis.text.strip()) if synopsis is not None else None
 
         return game
 
@@ -44,18 +47,22 @@ def metacritic_scrapper(metacriticUrl):
         )
 
         if request.status_code >= 400:
-            raise Exception('The scrapper got a ' + str(request.status_code) + ' status code from Metacritic')
+            raise Exception('* The scrapper got a ' + str(request.status_code) + ' status code from Metacritic')
 
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')
 
-        # Metacritic Scrap
-        game['developer'] = soup.find(class_='summary_detail developer').find(class_='data').text.strip()
-        game['genres'] = soup.find(class_='summary_detail product_genre').text.strip()
-        game['genres'] = re.sub(' +', ' ', game['genres'].replace('Genre(s):', '')).strip()
-        game['release_date'] = dateparser.parse(
-            soup.find(class_='summary_detail release_data').find(class_='data').text.strip()).strftime('%Y-%m-%d')
-        game['metacritic_score'] = soup.select('div.metascore_w.xlarge > span')[0].text.strip()
+        developer = soup.select('.summary_detail.developer .data')
+        game['developer'] = developer[0].text.strip() if developer != [] else None
+
+        genres = soup.select('.summary_detail.product_genre .data')
+        game['genres'] = _parse_genres(genres[0].text.strip()) if genres != [] else None
+
+        release_date = soup.select('.summary_detail.release_data .data')
+        game['release_date'] = dateparser.parse(release_date[0].text.strip()).strftime('%Y-%m-%d') if release_date != [] else None
+
+        metacritic_score = soup.select('div.metascore_w.xlarge > span')
+        game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
 
         return game
 
@@ -77,6 +84,10 @@ def get_menus_data(user_id):
         'years_beaten': years_beaten,
         'years_played': years_played,
     }
+
+
+def _parse_genres(genres):
+    return genres.replace(' +', ', ')
 
 
 def _parse_text_time_into_float(textTime):

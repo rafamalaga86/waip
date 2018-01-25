@@ -1,8 +1,9 @@
-from django import forms
 from .models import Game, Note
+from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+import re
 
 
 class GameForm(forms.ModelForm):
@@ -55,6 +56,18 @@ class NoteForm(forms.ModelForm):
 class ScrapMetacriticForm(forms.Form):
     metacritic_url = forms.URLField(required=True)
 
+    def clean_metacritic_url(self):
+        url = self.cleaned_data.get('metacritic_url')
+        if not re.match("^https?:\/\/(www.)?metacritic\.com", url):
+            raise ValidationError(_('This is not an URL of Metacritic'))
+        return url
+
 
 class ScrapHltbForm(forms.Form):
     hltb_url = forms.URLField(required=True)
+
+    def clean_hltb_url(self):
+        url = self.cleaned_data.get('hltb_url')
+        if not re.match("^https?:\/\/(www.)?howlongtobeat\.com", url):
+            raise ValidationError(_('This is not an URL of HowLongToBeat'))
+        return url

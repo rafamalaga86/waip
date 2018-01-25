@@ -221,6 +221,7 @@ $(document).ready(function(){
       '/ajax/games/scrap-metacritic',
       {metacritic_url: $('#id_metacriticUrl').val()},
       function(jsonResponse) {
+        $('.form-group.scrap-metacritic > small').text('');
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
             var input = $('#' + 'id_' + key);
@@ -230,8 +231,8 @@ $(document).ready(function(){
         }
       }, 'json'
     )
-    .fail(function() {
-      $('.form-group.scrap-metacritic > small').text('There was a problem scrapping this url.');
+    .fail(function(jqxhr) {
+      $('.form-group.scrap-metacritic > small').text(jqxhr.responseText);
     });
 
     // Get HLTB information
@@ -239,6 +240,7 @@ $(document).ready(function(){
       '/ajax/games/scrap-hltb',
       {hltb_url: $('#id_hltbUrl').val()},
       function(jsonResponse) {
+        $('.form-group.scrap-hltb > small').text('');
         for (var key in jsonResponse) {
           if (jsonResponse.hasOwnProperty(key)) {
             var input = $('#' + 'id_' + key);
@@ -248,8 +250,8 @@ $(document).ready(function(){
         }
       }, 'json'
     )
-    .fail(function() {
-      $('.form-group.scrap-hltb > small').text('There was a problem scrapping this url.');
+    .fail(function(jqxhr) {
+      $('.form-group.scrap-hltb > small').text(jqxhr.responseText);
     });
   });
 

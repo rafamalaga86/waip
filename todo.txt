@@ -2,6 +2,5 @@ Implement a search
 
 el prologo del resident no tiene sentido
 
-mejorar la versión móvil
-quitar el .0 que sale en las horas
-poner los botones debajo en móvil
+put www
+volver a poner los type=URL en los input

@@ -207,10 +207,14 @@ def scrap_metacritic_ajax(request):
     scrap_metacritic_form = ScrapMetacriticForm(request.GET)
 
     if not scrap_metacritic_form.is_valid():
-        return HttpResponse(status=400)
+        return HttpResponse(_(scrap_metacritic_form['metacritic_url'].errors.as_text()), status=400)
 
     formData = scrap_metacritic_form.cleaned_data
-    scrap_metacritic = metacritic_scrapper(formData['metacritic_url'])
+
+    try:
+        scrap_metacritic = metacritic_scrapper(formData['metacritic_url'])
+    except Exception as error:
+        return HttpResponse(str(error), status=400)
 
     return JsonResponse(scrap_metacritic)
 
@@ -223,10 +227,14 @@ def scrap_hltb_ajax(request):
     scrap_hltb_form = ScrapHltbForm(request.GET)
 
     if not scrap_hltb_form.is_valid():
-        return HttpResponse(status=400)
+        return HttpResponse(_(scrap_hltb_form['hltb_url'].errors.as_text()), status=400)
 
     formData = scrap_hltb_form.cleaned_data
-    scrap_hltb = hltb_scrapper(formData['hltb_url'])
+
+    try:
+        scrap_hltb = hltb_scrapper(formData['hltb_url'])
+    except Exception as error:
+        return HttpResponse(str(error), status=400)
 
     return JsonResponse(scrap_hltb)
 
