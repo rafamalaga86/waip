@@ -81,7 +81,6 @@ def add_game(request):
 @login_required
 def modify_game(request, game_id):
     game = get_object_or_404(Game, id=game_id)
-
     # Permission check
     if game.user.id != request.user.id:
         return HttpResponseForbidden(_('Don\'t be sneaky, you don\'t have permission over this game'))

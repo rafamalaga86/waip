@@ -315,6 +315,7 @@ main {
 
 .card-imgOverlay {
   padding: 5px 10px;
+  visibility: hidden;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 0 0 0 4px;
   position: absolute;
@@ -322,12 +323,17 @@ main {
   right: 0;
 }
 
-.card-imgOverlay div {
+.card:hover .card-imgOverlay{
+  visibility: visible;
+}
+
+
+.card-button-bar .action-container {
   display: inline;
   cursor: pointer;
 }
 
-.card-imgOverlay i {
+.card-button-bar i {
   margin: 5px;
   font-size: 25px;
   color: white;
@@ -336,8 +342,6 @@ main {
 .card .btn {
   background-color: var(--blue);
 }
-
-.card-scores {}
 
 .score-metacritic_score {
   font-family: Arial,Helvetica,sans-serif;
@@ -386,6 +390,14 @@ main {
 
 .card-gameTitle.alone {
   margin-bottom: 0;
+}
+
+.card-bottom-bar {
+  padding: 0 0 10px;
+}
+
+.card-bottom-bar .action-container{
+  margin: 0 10px;
 }
 
 footer {
@@ -455,7 +467,7 @@ section.title {
 }
 
 section.title.small {
-  margin: 4px 0 24px;
+  margin: 4px 0 25px;
 }
 
 section.title h1, section.title h2 {
@@ -534,6 +546,13 @@ h2 .year{
   margin-bottom: 0;
 }
 
+/* Media query for devices able to HOVER (devices with mouse) */
+@media not all and (hover: none) {
+  .card-bottom-bar {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .navbar-brand {
     font-size: 27px;
@@ -542,14 +561,6 @@ h2 .year{
 
 
 @media (min-width: 992px) {
-  .card .card-imgOverlay{
-    visibility: hidden;
-  }
-
-  .card:hover .card-imgOverlay{
-    visibility: visible;
-  }
-
   .ul-login.desktop {
     display: flex !important;
   }

@@ -3,4 +3,5 @@ Implement a search
 el prologo del resident no tiene sentido
 
 mejorar la versión móvil
-Corregir el fondo que aparece despues del footer cuando el height del viewport es chico
+quitar el .0 que sale en las horas
+poner los botones debajo en móvil

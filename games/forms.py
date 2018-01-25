@@ -28,8 +28,9 @@ class GameForm(forms.ModelForm):
         # self.__class__.__name__
 
     def clean_name(self):
-        if Game.objects.filter(user=self.user_id, name=self.cleaned_data.get('name')).count():
+        if Game.objects.exclude(id=self.instance.id).filter(user=self.user_id, name=self.cleaned_data.get('name')).count():
             raise ValidationError(_('You already have a game with this name'))
+        return self.cleaned_data.get('name')
 
     def clean(self):
         if self.cleaned_data.get('beaten') and not self.cleaned_data.get('stopped_playing_at'):

@@ -17,60 +17,41 @@
         {% endif %}
       </h2>
     </section>
+    <section class="grid">
+      {% for game in games %}
+        <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
+          <img class="card-imgCover" src="{{ game.cover_url }}" alt="{{ game.name }} Cover">
+          <div class="card-imgOverlay card-button-bar">
+            {% include "parts/card-button-bar.html" %}
+          </div>
+          <div class="card-scores d-flex">
+            {% if game.metacritic_score %}
+              <div class="score-metacritic_score">
+                  <span>{{ game.metacritic_score }}<span>
+              </div>
+            {% endif %}
+            <div class="score-hltb_length {{ game.metacritic_score|yesno:',full' }}">
+              {{ game.hltb_length|trim_trailing_zeroes|default_if_none:'Unknown!' }}
+              {{ game.hltb_length|yesno:'Hours,' }}
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
+              <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
+            </div>
+            {% for note in game.notes %}
+              <p class="card-text">{{ note.text }}</p>
+            {% endfor %}
+          </div>
+          <div class="card-button-bar card-bottom-bar">
+            {% include "parts/card-button-bar.html" %}
+          </div>
+        </div>
+      {% empty %}
+        <div class="container">
+          <span>Sorry, we did not find any game. Quickly, add a game! :)</span>
+        </div>
+      {% endfor %}
+    </section>
   </div>
-  <section class="grid">
-    {% for game in games %}
-      <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
-        <img class="card-imgCover" src="{{ game.cover_url }}" alt="{{ game.name }} Cover">
-        <div class="card-imgOverlay">
-          {% if not game.stopped_playing_at %}
-            <div class="action-finish-game" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
-              <i class="fa fa-check" aria-hidden="true"></i>
-            </div>
-            <div class="action-finish-game" data-beaten="" data-toggle="tooltip" data-placement="bottom" title="You stopped playing this game. But did not beat it, just tried.">
-              <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-            </div>
-          {% endif %}
-          <a href="{% url 'modify_game' game.id %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </a>
-          {% if request.user.is_authenticated %}
-            <div class="action-add-note" data-toggle="tooltip" data-placement="bottom" title="Add note">
-              <i class="fa fa-sticky-note" aria-hidden="true"></i>
-            </div>
-          {% else%}
-            <a href="/login" data-toggle="tooltip" data-placement="bottom" title="Add note">
-              <i class="fa fa-sticky-note" aria-hidden="true"></i>
-            </a>
-          {% endif %}
-
-
-        </div>
-        <div class="card-scores d-flex">
-          {% if game.metacritic_score %}
-            <div class="score-metacritic_score">
-                <span>{{ game.metacritic_score }}<span>
-            </div>
-          {% endif %}
-          <div class="score-hltb_length {{ game.metacritic_score|yesno:',full' }}">
-            {{ game.hltb_length|default_if_none:'Unknown!' }}
-            {{ game.hltb_length|yesno:'Hours,' }}
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
-            <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
-          </div>
-          {% for note in game.notes %}
-            <p class="card-text">{{ note.text }}</p>
-          {% endfor %}
-        </div>
-      </div>
-    {% empty %}
-      <div class="container">
-        <span>Sorry, we did not find any game. Quickly, add a game! :)</span>
-      </div>
-    {% endfor %}
-
-  </section>
 {% endblock %}
