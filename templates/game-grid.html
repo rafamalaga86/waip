@@ -17,6 +17,8 @@
         {% endif %}
       </h2>
     </section>
+  </div>
+  <div>
     <section class="grid">
       {% for game in games %}
         <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">

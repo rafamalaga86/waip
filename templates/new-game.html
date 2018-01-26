@@ -82,7 +82,7 @@
             <div class="form-group">
               <small class="field-info" title="Leave this field intact for your first games. If later you wanna show any of them higher, just come by and give this field a higher number." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_order">Priority in the order that this game will be shown:</label>
-              <input class="form-control" type="number" id="id_order" name="order" type="number" maxlength="255" value="{{ game_form.order.data|default_if_none:10 }}">
+              <input class="form-control" type="number" id="id_order" name="order" maxlength="255" value="{{ game_form.order.data|default_if_none:10 }}">
               <small class="field-errors">{{ game_form.order.errors.as_text }}</small>
             </div>
             <div class="form-group">
