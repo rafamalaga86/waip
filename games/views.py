@@ -13,7 +13,7 @@ from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, 
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views import View
-from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data
+from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException
 import logging
 
 logger = logging.getLogger(__name__)
@@ -213,7 +213,7 @@ def scrap_metacritic_ajax(request):
 
     try:
         scrap_metacritic = metacritic_scrapper(formData['metacritic_url'])
-    except Exception as error:
+    except ScrapRequestException as error:
         return HttpResponse(str(error), status=400)
 
     return JsonResponse(scrap_metacritic)
@@ -233,7 +233,7 @@ def scrap_hltb_ajax(request):
 
     try:
         scrap_hltb = hltb_scrapper(formData['hltb_url'])
-    except Exception as error:
+    except ScrapRequestException as error:
         return HttpResponse(str(error), status=400)
 
     return JsonResponse(scrap_hltb)

@@ -20,7 +20,9 @@ def hltb_scrapper(hltbGameUrl):
             headers=HLTB_HEADERS
         )
         if request.status_code >= 400:
-            raise Exception('* The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat')
+            raise ScrapRequestException(
+                '* The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat'
+            )
 
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')
@@ -47,7 +49,9 @@ def metacritic_scrapper(metacriticUrl):
         )
 
         if request.status_code >= 400:
-            raise Exception('* The scrapper got a ' + str(request.status_code) + ' status code from Metacritic')
+            raise ScrapRequestException(
+                '* The scrapper got a ' + str(request.status_code) + ' status code from Metacritic'
+            )
 
         game = {}
         soup = BeautifulSoup(request.text, 'html.parser')
@@ -59,7 +63,10 @@ def metacritic_scrapper(metacriticUrl):
         game['genres'] = _parse_genres(genres[0].text.strip()) if genres != [] else None
 
         release_date = soup.select('.summary_detail.release_data .data')
-        game['release_date'] = dateparser.parse(release_date[0].text.strip()).strftime('%Y-%m-%d') if release_date != [] else None
+        if release_date != []:
+            game['release_date'] = dateparser.parse(release_date[0].text.strip()).strftime('%Y-%m-%d')
+        else:
+            game['release_date'] = None
 
         metacritic_score = soup.select('div.metascore_w.xlarge > span')
         game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
@@ -102,3 +109,7 @@ def _parse_text_time_into_float(textTime):
 
 def _parse_synopsis(synopsis):
     return synopsis.replace('...Read More', '')
+
+
+class ScrapRequestException(Exception):
+    pass
