@@ -9,6 +9,7 @@ class Game(models.Model):
     name = models.CharField(max_length=255)
     stopped_playing_at = models.DateField(blank=True, null=True)
     beaten = models.BooleanField(default=False)
+    order = models.IntegerField(default=10)  # The higier the more priority it has
 
     # Scrapped properties
     cover_url = models.URLField(max_length=255)

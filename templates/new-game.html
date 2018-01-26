@@ -12,12 +12,12 @@
           {% csrf_token %}
           <div class="form-group scrap-metacritic" data-step="4" data-position="bottom" data-intro="Quickly, add a game!">
             <label for="exampleInputEmail1">URL of Metacritic:</label>
-            <input class="form-control" placeholder="http://www.metacritic.com/game/pc/pony-island" name="metacriticUrl" id="id_metacriticUrl" value="{{ debug|yesno:'http://www.metacritic.com/game/pc/pony-island,'}}">
+            <input class="form-control" type="url" placeholder="http://www.metacritic.com/game/pc/pony-island" name="metacriticUrl" id="id_metacriticUrl" value="{{ debug|yesno:'http://www.metacritic.com/game/pc/pony-island,'}}">
             <small class="field-errors"></small>
           </div>
           <div class="form-group scrap-hltb">
             <label for="exampleInputEmail1">URL of HowLongToBeat:</label>
-            <input class="form-control" placeholder="https://howlongtobeat.com/game.php?id=33405" name="hltbUrl" id="id_hltbUrl" value="{{ debug|yesno:'https://howlongtobeat.com/game.php?id=33405,'}}">
+            <input class="form-control" type="url" placeholder="https://howlongtobeat.com/game.php?id=33405" name="hltbUrl" id="id_hltbUrl" value="{{ debug|yesno:'https://howlongtobeat.com/game.php?id=33405,'}}">
             <small class="field-errors"></small>
           </div>
           <button class="btn btn-primary" type="submit">Fetch the information for me</button>
@@ -78,6 +78,12 @@
               <label for="id_stopped_playing_at">You finished playing at:</label>
               <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
+            </div>
+            <div class="form-group">
+              <small class="field-info" title="Leave this field intact for your first games. If later you wanna show any of them higher, just come by and give this field a higher number." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+              <label for="id_order">Priority in the order that this game will be shown:</label>
+              <input class="form-control" type="number" id="id_order" name="order" type="number" maxlength="255" value="{{ game_form.order.data|default_if_none:10 }}">
+              <small class="field-errors">{{ game_form.order.errors.as_text }}</small>
             </div>
             <div class="form-group">
               <div class="checkbox-wrapper">

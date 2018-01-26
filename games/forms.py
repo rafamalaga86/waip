@@ -11,6 +11,9 @@ class GameForm(forms.ModelForm):
         model = Game
         fields = [
             'name',
+            'stopped_playing_at',
+            'beaten',
+            'order',
             'cover_url',
             'hltb_length',
             'synopsis',
@@ -18,8 +21,6 @@ class GameForm(forms.ModelForm):
             'developer',
             'genres',
             'metacritic_score',
-            'beaten',
-            'stopped_playing_at',
         ]
         exclude = ['user']
 

@@ -24,6 +24,7 @@ ALLOWED_HOSTS = [
     'waip.herokuapp.com',
     'whatamiplaying.rafaelgarciadoblas.com',
     'waip.site',
+    'www.waip.site',
 ]
 
 

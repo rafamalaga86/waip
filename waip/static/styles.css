@@ -297,6 +297,7 @@ main {
   background-color: var(--aqua-green-darker);
 
   display: inline-block;
+  vertical-align: top;
 }
 
 .card-bg-0 {background-color: var(--blue)}
@@ -341,6 +342,10 @@ main {
 
 .card .btn {
   background-color: var(--blue);
+}
+
+.card-text {
+  text-align: left;
 }
 
 .score-metacritic_score {

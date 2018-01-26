@@ -35,7 +35,7 @@ def list_user_games(request):
     else:
         filters['stopped_playing_at'] = None
 
-    games = Game.objects.filter(**filters).order_by('-created_at')
+    games = Game.objects.filter(**filters).order_by('-order', '-created_at')
 
     for game in games:
         game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
