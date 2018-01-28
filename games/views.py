@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, render
@@ -15,6 +16,7 @@ from django.utils.translation import gettext as _
 from django.views import View
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException
 import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +52,23 @@ def list_user_games(request):
 
 
 @login_required
+def search_games(request):
+    keyword = request.GET.get('keyword')
+    games = None
+    if keyword:
+        games = Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword))
+        games = games.filter(user_id=request.user.id)
+
+    return render(request, 'game-grid.html', {
+        'page': 'page-search-games',
+        'menu_data': get_menus_data(request.user.id),
+        'show_status': True,
+        'keyword': keyword,
+        'games': games,
+    })
+
+
+@login_required
 def add_game(request):
     # POST ----------------------------------------------
     if request.method == 'POST':
@@ -58,6 +77,7 @@ def add_game(request):
             game = game_form.save(commit=False)
             game.user = request.user
             game.save()
+            messages.success(request, _('The game was successfully added'))
             return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
@@ -90,7 +110,7 @@ def modify_game(request, game_id):
         game_form = GameForm(request.POST, instance=game, user_id=request.user.id)
         if game_form.is_valid():
             game.save()
-            messages.success(request, 'The game was successfully updated')
+            messages.success(request, _('The game was successfully updated'))
             return HttpResponseRedirect('/')
 
     # GET -----------------------------------------------
@@ -151,7 +171,7 @@ def finish_game_ajax(request, game_id):
         return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
 
     if game.stopped_playing_at is not None:
-        return HttpResponseForbidden('The game already has a "stopped_playing_at" date.')
+        return HttpResponseForbidden('The game already has a "stopped_playing_at" date')
 
     patch = QueryDict(request.body)
 

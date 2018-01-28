@@ -8,12 +8,16 @@
         <p class="subtitle">You are seeing the data of user <em>Rafa</em></p>
       {% endif %}
       <h2 class="text-center">
-        {% if not year %}
-          Currently playing
-        {% elif beaten %}
-          Beaten games <span class="year">{{ year }}</span>
+        {% if  page == 'page-search-games' %}
+            Searched by keywords: <strong>{{ keyword }}</strong>
         {% else %}
-          Tried/checked games <span class="year">{{ year }}</span>
+          {% if not year %}
+            Currently playing
+          {% elif beaten %}
+            Beaten games <strong>{{ year }}</strong>
+          {% else %}
+            Tried/checked games <strong>{{ year }}</strong>
+          {% endif %}
         {% endif %}
       </h2>
     </section>
@@ -41,9 +45,19 @@
             <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
               <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
             </div>
-            {% for note in game.notes %}
-              <p class="card-text">{{ note.text }}</p>
-            {% endfor %}
+            {% if show_status %}
+              <p class="card-text only-tags">
+                {% if game.stopped_playing_at %}
+                  {{ game.beaten|yesno:'Beaten,Tried' }} in {{ game.stopped_playing_at|date:"Y" }}
+                {% else %}
+                  Currently playing
+                {% endif %}
+              </p>
+            {% else %}
+              {% for note in game.notes %}
+                <p class="card-text">{{ note.text }}</p>
+              {% endfor %}
+            {% endif %}
           </div>
           <div class="card-button-bar card-bottom-bar">
             {% include "parts/card-button-bar.html" %}
@@ -51,7 +65,7 @@
         </div>
       {% empty %}
         <div class="container">
-          <span>Sorry, we did not find any game. Quickly, add a game! :)</span>
+          <span>Sorry, we did not find any game. :)</span>
         </div>
       {% endfor %}
     </section>

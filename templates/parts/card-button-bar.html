@@ -1,4 +1,4 @@
-{% if not game.stopped_playing_at %}
+{% if not game.stopped_playing_at  and not show_status %}
   <div class="action-finish-game action-container" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
     <i class="fa fa-check" aria-hidden="true"></i>
   </div>

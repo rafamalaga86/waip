@@ -200,19 +200,6 @@ footer a:hover {
     margin-left: 50px;
 }
 
-.navbarHeader a.year{
-  margin: 0 5px;
-}
-
-.navbarHeader .playing-now {
-  text-align: right;
-}
-
-.navbarHeader .year-labels{
-  display: inline-block;
-  width: 55px;
-}
-
 .ul-login.desktop {
   display: none !important;
 }
@@ -348,6 +335,11 @@ main {
   text-align: left;
 }
 
+.card-text.only-tags {
+  text-align: center;
+  margin: 8px;
+}
+
 .score-metacritic_score {
   font-family: Arial,Helvetica,sans-serif;
   color: white;
@@ -430,6 +422,10 @@ input.form-control {
   background-color: var(--white);
 }
 
+input.form-control::placeholder {
+  color: var(--gray-4);
+}
+
 
 input.success, textarea.success {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4IDgnPjxwYXRoIGZpbGw9JyM1Y2I4NWMnIGQ9J00yLjMgNi43M0wuNiA0LjUzYy0uNC0xLjA0LjQ2LTEuNCAxLjEtLjhsMS4xIDEuNCAzLjQtMy44Yy42LS42MyAxLjYtLjI3IDEuMi43bC00IDQuNmMtLjQzLjUtLjguNC0xLjEuMXonLz48L3N2Zz4=);
@@ -463,6 +459,18 @@ small.field-info {
   color: rgba(255, 255, 255, 0.3);
 }
 
+form.form-search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.form-search input {
+  width: 92%;
+  box-shadow: inset 0 0 1px #000;
+  border: none;
+}
+
 
 section.title {
   margin: 2em 0 3.2em;
@@ -491,7 +499,7 @@ section.title.small h1, section.title.small h2 {
     text-align: center;
 }
 
-h2 .year{
+h2 strong{
   color: white;
 }
 
@@ -522,6 +530,7 @@ h2 .year{
   width: 90%;
   margin: 0;
   padding: 3px 0 0 0;
+  color: white;
 }
 
 .note-options {

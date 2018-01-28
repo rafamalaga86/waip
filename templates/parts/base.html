@@ -50,9 +50,9 @@
         <ul class="components">
           {# <p>See the games...</p> #}
           <li><a class="menu-item" href="{% url 'home' %}">Playing now</a></li>
-          <li><a class="menu-item" href="/?year={% now "Y" %}&beaten=1">Beaten this year</a></li>
-          <li><a class="menu-item" href="/?year={% now "Y" %}&beaten=0">Tried this year</a></li>
-          <li class="active">
+          {# <li class="active"><a class="menu-item" href="/?year={% now "Y" %}&beaten=1">Beaten this year</a></li> #}
+          {# <li><a class="menu-item" href="/?year={% now "Y" %}&beaten=0">Tried this year</a></li> #}
+          <li>
               <a class="menu-item" href="#beaten-at-year" data-toggle="collapse" aria-expanded="false">
                 <span>Beaten at year... </span>
                 <i class="fa fa-caret-down"></i>
@@ -69,7 +69,7 @@
               <i class="fa fa-caret-down"></i>
             </a>
               <ul class="collapse list-unstyled" id="tried-at-year">
-                {% for year in menu_data.years_played %}
+                {% for year in menu_data.years_tried %}
                   <li><a class="year menu-item" href="/?year={{ year }}&beaten=0">{{ year }}</a></li>
                 {% endfor %}
               </ul>
@@ -77,6 +77,7 @@
         </ul>
         <ul class="list-unstyled pt-20">
           {% if user.is_authenticated %}
+            <li><form action="{% url 'search_games' %}" class="form-search"><input class="form-control" name="keyword" type="text" placeholder="Search game..."></form></li>
             <li><div class="btn-container"><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></div></li>
             <li><a class="menu-item" href="/me">User profile page</a></li>
             <li><a class="menu-item" href="{% url 'log_out' %}">Log out</a></li>
@@ -102,7 +103,7 @@
                   <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
               </ul>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
           </div>

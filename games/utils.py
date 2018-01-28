@@ -77,19 +77,19 @@ def metacritic_scrapper(metacriticUrl):
 def get_menus_data(user_id):
     years_beaten = Game.objects.filter(user_id=user_id, beaten=True)\
         .dates('stopped_playing_at', 'year')
-    years_beaten = [date.strftime('%Y') for date in years_beaten][::-1]  # Reverse
-    today = date.today().strftime('%Y')
-    if today in years_beaten:
-        years_beaten.remove(today)
+    years_beaten = [date_.strftime('%Y') for date_ in years_beaten][::-1]  # Reverse
+    # today = date.today().strftime('%Y')
+    # if today in years_beaten:
+    #     years_beaten.remove(today)
 
-    years_played = Game.objects.filter(user_id=user_id, beaten=False).dates('stopped_playing_at', 'year')
-    years_played = ([date.strftime('%Y') for date in years_played])[::-1]  # Reverse
-    if today in years_played:
-        years_played.remove(today)
+    years_tried = Game.objects.filter(user_id=user_id, beaten=False).dates('stopped_playing_at', 'year')
+    years_tried = ([date_.strftime('%Y') for date_ in years_tried])[::-1]  # Reverse
+    # if today in years_tried:
+    #     years_tried.remove(today)
 
     return {
         'years_beaten': years_beaten,
-        'years_played': years_played,
+        'years_tried': years_tried,
     }
 
 
@@ -101,10 +101,10 @@ def _parse_text_time_into_float(textTime):
     if '-' in textTime:
         textTime = textTime.split('-')[1]
     if 'Hours' in textTime:
-        result = float(textTime.replace('Hours', '').replace('½', '.5').strip())
+        textTime = float(textTime.replace('Hours', '').replace('½', '.5').strip())
     elif 'Mins' in textTime:
-        result = float(textTime.replace('Mins', '').strip()) / 60 // 0.01 / 100  # To hours, with 2 decimal places
-    return result
+        textTime = float(textTime.replace('Mins', '').strip()) / 60 // 0.01 / 100  # To hours, with 2 decimal places
+    return textTime
 
 
 def _parse_synopsis(synopsis):

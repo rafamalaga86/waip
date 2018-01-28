@@ -1,6 +1,1 @@
-Implement a search
-
-el prologo del resident no tiene sentido
-
-put www
-volver a poner los type=URL en los input
+Nothing yet...
