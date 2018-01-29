@@ -45,19 +45,21 @@
             <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
               <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
             </div>
-            {% if show_status %}
-              <p class="card-text only-tags">
-                {% if game.stopped_playing_at %}
-                  {{ game.beaten|yesno:'Beaten,Tried' }} in {{ game.stopped_playing_at|date:"Y" }}
-                {% else %}
-                  Currently playing
-                {% endif %}
-              </p>
-            {% else %}
-              {% for note in game.notes %}
-                <p class="card-text">{{ note.text }}</p>
-              {% endfor %}
-            {% endif %}
+            <div class="card-text {{ show_status|yesno:'only-tags,notes' }}">
+              {% if show_status %}
+                <p>
+                  {% if game.stopped_playing_at %}
+                    {{ game.beaten|yesno:'Beaten,Tried' }} in {{ game.stopped_playing_at|date:"Y" }}
+                  {% else %}
+                    Currently playing
+                  {% endif %}
+                </p>
+              {% else %}
+                {% for note in game.notes %}
+                  <p>{{ note.text }}</p>
+                {% endfor %}
+              {% endif %}
+            </div>
           </div>
           <div class="card-button-bar card-bottom-bar">
             {% include "parts/card-button-bar.html" %}

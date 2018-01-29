@@ -340,6 +340,14 @@ main {
   margin: 8px;
 }
 
+.card-text .more-content span {
+    display: none;
+}
+
+.card-text .more-link {
+    display: block;
+}
+
 .score-metacritic_score {
   font-family: Arial,Helvetica,sans-serif;
   color: white;

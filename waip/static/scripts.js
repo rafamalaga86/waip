@@ -83,6 +83,54 @@ $(document).ready(function(){
     title.css('display', 'inline-block');
   });
 
+
+  // Read more and Show less functionality
+  // =======================================================
+
+  var showChar = 400;  // How many characters are shown by default
+  var ellipsesText = '...';
+  var moretext = 'Read more';
+  var lesstext = 'Show less';
+  
+
+  $('.card-text.notes p').each(function() {
+      var content = $(this).html();
+
+      if (content.length > showChar) {
+          var contentBeginning = content.substr(0, showChar);
+          var contentHideable = content.substr(showChar, content.length - showChar);
+          var html =
+          contentBeginning + 
+          '<span class="more-ellipses">' + ellipsesText + '&nbsp;</span>' + 
+          '<span class="more-content">' +
+            '<span>' +
+              contentHideable + 
+            '</span>&nbsp;&nbsp;' +
+            '<a href="" class="more-link">' + 
+              moretext +
+            '</a>' + 
+          '</span>';
+
+          $(this).html(html);
+      }
+
+  });
+
+  $('.more-link').click(function(){
+      if($(this).hasClass('less')) {
+          $(this).removeClass('less');
+          $(this).html(moretext);
+      } else {
+          $(this).addClass('less');
+          $(this).html(lesstext);
+      }
+      $(this).parent().prev().toggle();
+      $(this).prev().toggle();
+      $grid.masonry();
+      return false;
+  });
+
+
   // Setting CSRF token in every AJAX request
   // =======================================================
   function getCookie(name) {
