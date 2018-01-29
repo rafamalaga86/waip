@@ -84,53 +84,6 @@ $(document).ready(function(){
   });
 
 
-  // Read more and Show less functionality
-  // =======================================================
-
-  var showChar = 400;  // How many characters are shown by default
-  var ellipsesText = '...';
-  var moretext = 'Read more';
-  var lesstext = 'Show less';
-  
-
-  $('.card-text.notes p').each(function() {
-      var content = $(this).html();
-
-      if (content.length > showChar) {
-          var contentBeginning = content.substr(0, showChar);
-          var contentHideable = content.substr(showChar, content.length - showChar);
-          var html =
-          contentBeginning + 
-          '<span class="more-ellipses">' + ellipsesText + '&nbsp;</span>' + 
-          '<span class="more-content">' +
-            '<span>' +
-              contentHideable + 
-            '</span>&nbsp;&nbsp;' +
-            '<a href="" class="more-link">' + 
-              moretext +
-            '</a>' + 
-          '</span>';
-
-          $(this).html(html);
-      }
-
-  });
-
-  $('.more-link').click(function(){
-      if($(this).hasClass('less')) {
-          $(this).removeClass('less');
-          $(this).html(moretext);
-      } else {
-          $(this).addClass('less');
-          $(this).html(lesstext);
-      }
-      $(this).parent().prev().toggle();
-      $(this).prev().toggle();
-      $grid.masonry();
-      return false;
-  });
-
-
   // Setting CSRF token in every AJAX request
   // =======================================================
   function getCookie(name) {
@@ -388,5 +341,97 @@ $(document).ready(function(){
       break;
     }
   });
+
+
+  // Read more and Show less functionality
+  // =======================================================
+
+  var maxChar = 800;  // How many characters are shown by default
+  var ellipsesText = '...';
+  var moretext = '> Show more';
+  var lesstext = '< Show less';
+  var contentStorage = [];
+  var contentReducedStorage = [];
+
+  $('.card-text.notes').each(function() {
+    var cardId = $(this).parents('.card').attr('data-game-id');
+    var content = $(this);
+
+    // Trim notes while they exceed maxChar and leave at least one
+    if (getText(content).length > maxChar ) {
+
+      var contentReduced = $(this).clone();
+      contentReduced.find('p.note').last().addClass('trim');
+
+      var contentReducedTrimmed = $(this).clone();
+      contentReducedTrimmed.find('p.note').last().remove();
+
+      while (
+        getText(contentReduced).length > maxChar &&
+        getText(contentReducedTrimmed).length > maxChar &&
+        contentReduced.children('p.note').length > 1
+      ) {
+        contentReducedTrimmed.find('p.note').last().addClass('trim');
+        contentReduced = contentReducedTrimmed.clone();
+        contentReducedTrimmed.find('p.note.trim').remove();
+      }
+
+      // Count characters to substract
+      var maxCharParagraph = maxChar - countCharacters(contentReducedTrimmed);
+
+      var tagToTrim = contentReduced.find('p.note.trim');
+      var tagToTrimText = getText(tagToTrim);
+      if (tagToTrimText.length > maxCharParagraph) {
+        var contentBeginning = tagToTrimText.substr(0, maxCharParagraph);
+        var contentHideable = tagToTrimText.substr(maxCharParagraph, tagToTrimText.length - maxCharParagraph);
+        var html =
+        contentBeginning + 
+        '<span class="more-ellipses">' + ellipsesText + '&nbsp;</span>' + 
+        '<span>' +
+          '<span class="more-content">' +
+            contentHideable + 
+          '</span>&nbsp;&nbsp;' +
+        '</span>';
+
+        tagToTrim.html(html);
+      }
+
+      content.append('<a href="" class="more-link less">' + lesstext + '</a>');
+      contentReduced.append('<a href="" class="more-link">' + moretext + '</a>');
+
+      // Save contents
+      contentStorage[cardId] = content;
+      contentReducedStorage[cardId] = contentReduced;
+
+
+      content.replaceWith(contentReduced);
+    }
+  });
+
+  $('.card').on('click', '.more-link', function(){
+    var currentContent = $(this).parents('.card-text.notes');
+    var cardId = $(this).parents('.card').attr('data-game-id');
+    var contentReduced = contentReducedStorage[cardId];
+    var content = contentStorage[cardId];
+
+    currentContent.replaceWith($(this).hasClass('less') ? contentReduced : content);
+
+    $grid.masonry(); // Order the Masonry again
+    return false;
+  });
+
+  function getText(domTag) {
+    return domTag.text().replace(/\s\s+/g, ' ');
+  }
+
+  // Count characters in an group of jquery dom elements
+  function countCharacters(group) {
+    var count = 0;
+    group.each(function() {
+      count += $(this).text().replace(/\s\s+/g, ' ').length;
+    });
+    return count;
+  }
+
 
 });

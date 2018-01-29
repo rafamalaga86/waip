@@ -340,12 +340,13 @@ main {
   margin: 8px;
 }
 
-.card-text .more-content span {
-    display: none;
+.card-text .more-content{
+  display: none;
 }
 
 .card-text .more-link {
-    display: block;
+  margin-top: 8px;
+  display: block;
 }
 
 .score-metacritic_score {
@@ -526,7 +527,7 @@ h2 strong{
   margin-bottom: 20px;
 }
 
-.note {
+.note-list .note {
   display: flex;
   background: var(--gray);
   padding: .75rem 1.25rem;
