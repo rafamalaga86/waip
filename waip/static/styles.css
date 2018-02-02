@@ -340,10 +340,6 @@ main {
   margin: 8px;
 }
 
-.card-text .more-content{
-  display: none;
-}
-
 .card-text .more-link {
   margin-top: 8px;
   display: block;
@@ -455,7 +451,7 @@ input.success, textarea.success {
 }
 
 .start-intro {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
   cursor: pointer;
 }
@@ -909,15 +905,17 @@ a[data-toggle="collapse"] {
 }
 
 a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
-    content: '\e259';
-    display: block;
-    position: absolute;
-    right: 20px;
-    font-family: 'Glyphicons Halflings';
-    font-size: 0.6em;
+  content: '\f0d7';;
+  display: block;
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  font-family: 'FontAwesome';
+  font-weight: 900;
+  font-size: 18px;
 }
 a[aria-expanded="true"]::before {
-    content: '\e260';
+    content: '\f0d9';
 }
 ul ul a {
     font-size: 0.9em !important;

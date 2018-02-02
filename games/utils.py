@@ -1,6 +1,5 @@
 from .models import Game
 from bs4 import BeautifulSoup
-from datetime import date
 import dateparser
 import os
 import requests
@@ -59,8 +58,8 @@ def metacritic_scrapper(metacriticUrl):
         developer = soup.select('.summary_detail.developer .data')
         game['developer'] = developer[0].text.strip() if developer != [] else None
 
-        genres = soup.select('.summary_detail.product_genre .data')
-        game['genres'] = _parse_genres(genres[0].text.strip()) if genres != [] else None
+        genres = soup.find('li', class_='product_genre')
+        game['genres'] = _parse_genres(genres.get_text()) if genres is not None else None
 
         release_date = soup.select('.summary_detail.release_data .data')
         if release_date != []:
@@ -94,7 +93,7 @@ def get_menus_data(user_id):
 
 
 def _parse_genres(genres):
-    return genres.replace(' +', ', ')
+    return ' '.join(genres.split()).replace('Genre(s): ', '').strip()
 
 
 def _parse_text_time_into_float(textTime):

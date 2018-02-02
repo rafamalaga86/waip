@@ -379,20 +379,12 @@ $(document).ready(function(){
       // Count characters to substract
       var maxCharParagraph = maxChar - countCharacters(contentReducedTrimmed);
 
+      // Go to the paragraph where goes the "read more" and trim it
       var tagToTrim = contentReduced.find('p.note.trim');
       var tagToTrimText = getText(tagToTrim);
       if (tagToTrimText.length > maxCharParagraph) {
-        var contentBeginning = tagToTrimText.substr(0, maxCharParagraph);
-        var contentHideable = tagToTrimText.substr(maxCharParagraph, tagToTrimText.length - maxCharParagraph);
-        var html =
-        contentBeginning + 
-        '<span class="more-ellipses">' + ellipsesText + '&nbsp;</span>' + 
-        '<span>' +
-          '<span class="more-content">' +
-            contentHideable + 
-          '</span>&nbsp;&nbsp;' +
-        '</span>';
-
+        var html = tagToTrimText.substr(0, maxCharParagraph) +
+          '<span class="more-ellipses">' + ellipsesText + '&nbsp;</span>';
         tagToTrim.html(html);
       }
 

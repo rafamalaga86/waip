@@ -55,7 +55,6 @@
           <li>
               <a class="menu-item" href="#beaten-at-year" data-toggle="collapse" aria-expanded="false">
                 <span>Beaten at year... </span>
-                <i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse list-unstyled" id="beaten-at-year">
                   {% for year in menu_data.years_beaten %}
@@ -66,7 +65,6 @@
           <li>
             <a class="menu-item" href="#tried-at-year" data-toggle="collapse" aria-expanded="false">
               <span>Tried at year...</span>
-              <i class="fa fa-caret-down"></i>
             </a>
               <ul class="collapse list-unstyled" id="tried-at-year">
                 {% for year in menu_data.years_tried %}
@@ -92,20 +90,20 @@
       <div id="content" class="content">
         <div class="navbar navbar-light" name="top">
           <div class="container d-flex justify-content-end">
-              <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
-              <ul class="d-flex flex-row ul-login desktop">
-                {% if user.is_authenticated %}
-                  <li><a href="/me">{{ user.get_username }}</a></li>
-                  <li><a href="{% url 'log_out' %}">Log out</a></li>
-                  <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
-                {% else %}
-                  <li><a href="{% url 'login' %}">Log in</a></li>
-                  <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
-                {% endif %}
-              </ul>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
+            <a href="{% url 'home' %}" class="navbar-brand">What am I playing</a>
+            <ul class="d-flex flex-row ul-login desktop">
+              {% if user.is_authenticated %}
+                <li><a href="/me">{{ user.get_username }}</a></li>
+                <li><a href="{% url 'log_out' %}">Log out</a></li>
+                <li><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></li>
+              {% else %}
+                <li><a href="{% url 'login' %}">Log in</a></li>
+                <li><a class="btn btn btn-primary" href="{% url 'register' %}">Register</a></li>
+              {% endif %}
+            </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
           </div>
         </div>
         <div class="container flash-messages">
@@ -153,8 +151,6 @@
         </div>
       </div>
     </div>
-  </div>
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -177,7 +173,7 @@
     <script src="https://use.fontawesome.com/ef51ea1a88.js"></script>
     {% endcomment %}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
