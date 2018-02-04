@@ -75,8 +75,9 @@
           <div class="form-group-personal" data-step="3" data-intro="This two last fields can only be filled by you.">
             <div class="form-group">
               <small class="field-info" title="Fill the date when you stopped playing, it doesnt matter if you reached the end or just left the game half way. Used when showed beaten/tried games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+              <a href="" class="field-info" id="put-todays-date"><small>Today</small></a>
               <label for="id_stopped_playing_at">You finished playing at:</label>
-              <input value="{{ game_form.stopped_playing_at.data|default_if_none:''|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+              <input value="{{ game_form.stopped_playing_at.data|default_if_none:'' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
             </div>
             <div class="form-group">
@@ -87,7 +88,7 @@
             </div>
             <div class="form-group">
               <div class="checkbox-wrapper">
-                <input id="id_beaten" name="beaten" type="checkbox" {{ game.beaten|yesno:'checked,' }}>
+                <input id="id_beaten" name="beaten" type="checkbox" {{ game_form.beaten.data|yesno:'checked,' }}>
                 <label class="checkbox-fancy-label" for="id_beaten"><i class="fa fa-check"></i></label>
                 <label for="id_beaten">Beaten? Have you completed this game?</label>
                 <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>

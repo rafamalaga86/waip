@@ -15,6 +15,7 @@ from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views import View
 from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException
+from urllib.parse import urlencode
 import logging
 
 
@@ -77,8 +78,23 @@ def add_game(request):
             game = game_form.save(commit=False)
             game.user = request.user
             game.save()
-            messages.success(request, _('The game was successfully added'))
-            return HttpResponseRedirect('/')
+
+            if game.stopped_playing_at:
+                year = str(game.stopped_playing_at.year)
+                query_string = '?' + urlencode({
+                    'year': year,
+                    'beaten': '1' if game.beaten else '0',
+                })
+                message = _('%(beaten)s at %(year)s successfully added') % {
+                    'year': year,
+                    'beaten': 'beaten' if game.beaten else 'tried',
+                }
+            else:
+                query_string = ''
+                message = _('Currently playing game successfully added')
+
+            messages.success(request, message)
+            return HttpResponseRedirect('/' + query_string)
 
     # GET -----------------------------------------------
     else:

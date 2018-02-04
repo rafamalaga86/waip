@@ -456,12 +456,21 @@ input.success, textarea.success {
   cursor: pointer;
 }
 
-small.field-info {
+.field-info {
   display: block;
   line-height: 22px;
-  font-size: 22px;
   float: right;
+}
+
+small.field-info {
+  font-size: 22px;
   color: rgba(255, 255, 255, 0.3);
+}
+
+a.field-info {
+  display: block;
+  margin-right: 7px;
+  line-height: 22px;
 }
 
 form.form-search {

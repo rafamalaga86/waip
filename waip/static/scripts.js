@@ -256,12 +256,11 @@ $(document).ready(function(){
     });
   });
 
-  // Today date for default value of startedAt
-  // $('.form-add-game').submit(function(e){
-  //   var today = new Date().toJSON().slice(0,10); 
-  //   var started_at = $('#id_startedAt').val() || today;
-  //   $('#id_startedAt').val(started_at);
-  // });
+  // Put today's day when someone click in Today's button
+  $('#put-todays-date').on('click', function(){
+    $('#id_stopped_playing_at').val(new Date().toJSON().slice(0,10));
+    return false;
+  });
 
 
   // Modify Game View
