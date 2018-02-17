@@ -85,9 +85,9 @@ def add_game(request):
                     'year': year,
                     'beaten': '1' if game.beaten else '0',
                 })
-                message = _('%(beaten)s at %(year)s successfully added') % {
+                message = _('%(beaten)s at %(year)s  - Successfully added') % {
                     'year': year,
-                    'beaten': 'beaten' if game.beaten else 'tried',
+                    'beaten': 'Beaten' if game.beaten else 'Tried',
                 }
             else:
                 query_string = ''
