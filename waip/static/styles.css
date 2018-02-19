@@ -65,6 +65,22 @@ body {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   color: var(--aqua-green);
   font-weight: normal;
+  font-family: 'Bungee Inline', Arial, sans-serif;
+}
+
+.h1 strong,
+.h2 strong,
+.h3 strong,
+.h4 strong,
+.h5 strong,
+.h6 strong,
+h1 strong,
+h2 strong,
+h3 strong,
+h4 strong,
+h5 strong,
+h6 strong{
+  color: white;
 }
 
 em {
@@ -131,12 +147,20 @@ label {
   padding-top: 20px;
 }
 
+.pl-20 {
+  padding-left: 20px;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
 
 .mb-10 {
   margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
 }
 
 footer a {
@@ -511,10 +535,6 @@ section.title.small h1, section.title.small h2 {
     font-family: Proxima Nova;
     text-transform: none;
     text-align: center;
-}
-
-h2 strong{
-  color: white;
 }
 
 .field-errors, .errorlist {

@@ -185,7 +185,7 @@ $(document).ready(function(){
   // Game Grid
   // =======================================================
 
-  // Set a game as beaten. Stopped date and beaten True
+  // Set a game as stopped_playing
   $('.card').on('click', '.action-finish-game', function(event){
     $('.action-finish-game').tooltip('hide');
     var gameId = $(this).parents('.card').attr('data-game-id');
@@ -198,6 +198,12 @@ $(document).ready(function(){
     .done(function(){
       $grid.masonry('remove', $('.card-' + gameId)).masonry();
     });
+  });
+
+
+  // Redirect people to login view
+  $('.card').on('click', '.action-go-login-page', function(){
+    location.href = "/login";
   });
 
 
@@ -342,7 +348,7 @@ $(document).ready(function(){
   });
 
 
-  // Read more and Show less functionality
+  // 'Read more' and 'Show less' functionality
   // =======================================================
 
   var maxChar = 800;  // How many characters are shown by default

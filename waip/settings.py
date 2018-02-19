@@ -3,8 +3,6 @@ import dj_database_url
 from decouple import config as config_env
 
 
-# SECRET_KEY = ')it7e*s65m*ktwa+s(8f5c8omain))7ku9t!73j5n@t(waea9f'
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -75,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'waip.context_processors.google_analytics_key',
             ],
         },
     },
@@ -87,7 +86,7 @@ WSGI_APPLICATION = 'waip.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 # For dj_database_url.config check https://github.com/kennethreitz/dj-database-url
 DATABASES = {
-    # 'default': dj_database_url.config(default='mysql://soridian_waip:z}G&$MlEMw0E@es6.siteground.eu/soridian_waip')
+    # example mysql://database_user:database_user_passord.siteground.eu/database_name')
     'default': dj_database_url.config(default=config_env('DATABASE_URL'))
 }
 
@@ -200,3 +199,5 @@ LOGGING = {
         }
     }
 }
+
+GOOGLE_ANALYTICS_KEY = config_env('GOOGLE_ANALYTICS_KEY', default='google_analytics_key_placeholder')

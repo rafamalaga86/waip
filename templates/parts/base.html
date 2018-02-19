@@ -31,6 +31,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static "styles.css" %}" rel="stylesheet">
+
+    {% if not debug %}
+      {% include "parts/google-analytics.html" %}
+    {% endif %}
+
   </head>
 
   <body class="{% if page %}{{ page }}{% else %}page-general{% endif %}" data-game-id="{% if game %}{{ game.id }}{% endif %}">

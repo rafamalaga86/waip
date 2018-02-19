@@ -1,4 +1,5 @@
 from .forms import RegistrationForm, ProfileForm, PasswordForm
+from games.models import Game
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -56,9 +57,17 @@ def modify_logged_user(request):
         profile_form = ProfileForm(initial=model_to_dict(request.user))
         password_form = PasswordForm(request.user)
 
+    statistics = {
+        'beaten': Game.objects.filter(user_id=request.user.id, beaten=True).count(),
+        'tried': Game.objects.filter(user_id=request.user.id, beaten=False).exclude(stopped_playing_at__isnull=True).count(),
+        'playing': Game.objects.filter(user_id=request.user.id, beaten=False, stopped_playing_at__isnull=True).count(),
+        'total': Game.objects.filter(user_id=request.user.id).count(),
+    }
+
     # SHARED --------------------------------------------
-    return render(request, 'profile.html', {
+    return render(request, 'user-profile.html', {
         'page': 'page-modify-logged-user',
+        'statistics': statistics,
         'menu_data': get_menus_data(request.user.id),
         'profile_form': profile_form if profile_form is not None else ProfileForm(initial=model_to_dict(request.user)),
         'password_form': password_form if password_form is not None else PasswordForm(request.user),

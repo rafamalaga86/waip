@@ -1,0 +1,59 @@
+{% extends 'parts/base.html' %}
+
+{% block main %}
+  <div class="container">
+    <section class="text-center title">
+      <h1>Your Profile</h1>
+    </section>
+    <section>    
+      <div class="row">
+
+        <div class="col-lg statistics">
+          <h3 class="row mb-20 mt-10">Games beaten: <strong class="pl-20"> {{ statistics.beaten }}</strong></h3>
+          <h3 class="row mb-20">Games tried: <strong class="pl-20"> {{ statistics.tried }}</strong></h3>
+          <h3 class="row mb-20">Games playing: <strong class="pl-20"> {{ statistics.playing }}</strong></h3>
+          <h3 class="row mb-20">Total games: <strong class="pl-20"> {{ statistics.total }}</strong></h3>
+        </div>
+
+        <div class="col-lg">
+          <div class="from-container">
+            {{ profile_form.non_field_errors }}
+            <form class="text-left" action="{% url 'modify_logged_user' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="user_info_change" id="id_change_profile" value="change_profile">
+              <ul>
+                {% for field in profile_form %}
+                  <li class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <small class="field-errors">{{ field.errors.as_text }}</small>
+                  </li>
+                {% endfor %}
+              </ul>
+            <button class="btn btn-primary" type="submit">Change information</button>
+            </form>
+          </div>
+
+          <div class="from-container mt-50">
+            {{ profile_form.non_field_errors }}
+            <form class="text-left" action="{% url 'modify_logged_user' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="user_info_change" id="id_change_password" value="change_password">
+              <ul>
+                {% for field in password_form %}
+                  <li class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <small class="field-errors">{{ field.errors.as_text }}</small>
+                  </li>
+                {% endfor %}
+              </ul>
+              <button class="btn btn-primary" type="submit">Change password</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+{% endblock %}
