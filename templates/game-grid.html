@@ -14,9 +14,9 @@
           {% if not year %}
             Currently playing
           {% elif beaten %}
-            Beaten games <strong>{{ year }}</strong>
+            Beaten games <strong>{{ year }}</strong> - {{ games|length }}
           {% else %}
-            Tried/checked games <strong>{{ year }}</strong>
+            Tried/checked games <strong>{{ year }}</strong> - {{ games|length }}
           {% endif %}
         {% endif %}
       </h2>
