@@ -335,11 +335,6 @@ main {
   right: 0;
 }
 
-.card:hover .card-imgOverlay{
-  visibility: visible;
-}
-
-
 .card-button-bar .action-container {
   display: inline;
   cursor: pointer;
@@ -598,6 +593,10 @@ section.title.small h1, section.title.small h2 {
 @media not all and (hover: none) {
   .card-bottom-bar {
     display: none;
+  }
+
+  .card:hover .card-imgOverlay{
+    visibility: visible;
   }
 }
 
