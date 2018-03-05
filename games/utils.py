@@ -30,7 +30,9 @@ def hltb_scrapper(hltbGameUrl):
         game['name'] = name.text.strip() if name is not None else None
 
         cover_url = soup.select('div.game_image img')
-        game['cover_url'] = os.path.join(HLTB_SA, cover_url[0].get('src')) if cover_url != [] else None
+        game['cover_url'] = cover_url[0].get('src') if cover_url != [] else None
+        # This was the previous one used, when the Scheme and authority was not in the URL
+        # game['cover_url'] = os.path.join(HLTB_SA, cover_url[0].get('src')) if cover_url != [] else None
 
         game_length = soup.select('div.game_times li div')
         game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
