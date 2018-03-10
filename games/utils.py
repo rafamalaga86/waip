@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import dateparser
 import os
 import requests
+from datetime import datetime
 
 
 HLTB_SA = 'https://howlongtobeat.com/'  # Scheme and Authority of URL
@@ -90,6 +91,16 @@ def get_menus_data(user_id):
         'years_beaten': years_beaten,
         'years_tried': years_tried,
     }
+
+
+def get_games_order(year):
+    if not year:
+        order = ['-order', '-created_at']
+    elif year == str(datetime.now().year):
+        order = ['-stopped_playing_at']
+    else:
+        order = ['-created_at']
+    return order
 
 
 def _parse_genres(genres):
