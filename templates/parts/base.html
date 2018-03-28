@@ -61,9 +61,17 @@
               <a class="menu-item" href="#beaten-at-year" data-toggle="collapse" aria-expanded="false">
                 <span>Beaten at year... </span>
               </a>
-              <ul class="collapse list-unstyled" id="beaten-at-year">
+              <ul class="sub-menu-ul collapse list-unstyled" id="beaten-at-year">
                   {% for year in menu_data.years_beaten %}
-                    <li><a class="year menu-item" href="/?year={{ year }}&beaten=1">{{ year }}</a></li>
+                    {% if menu_data.years_beaten|length <= 5 %}
+                      <li>
+                    {% elif menu_data.years_beaten|length <= 10 %}
+                      <li class="li-divided one-half">
+                    {% else %}
+                      <li class="li-divided one-third">
+                    {% endif %}
+
+                        <a class="year menu-item" href="/?year={{ year }}&beaten=1">{{ year }}</a>
                   {% endfor %}
               </ul>
           </li>
@@ -71,7 +79,7 @@
             <a class="menu-item" href="#tried-at-year" data-toggle="collapse" aria-expanded="false">
               <span>Tried at year...</span>
             </a>
-              <ul class="collapse list-unstyled" id="tried-at-year">
+              <ul class="sub-menu-ul collapse list-unstyled" id="tried-at-year">
                 {% for year in menu_data.years_tried %}
                   <li><a class="year menu-item" href="/?year={{ year }}&beaten=0">{{ year }}</a></li>
                 {% endfor %}

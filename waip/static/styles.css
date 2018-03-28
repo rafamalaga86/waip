@@ -905,14 +905,17 @@ form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
     font-family: 'Bungee Inline', Arial, sans-serif;
     font-weight: 300;
 }
+
 .sidebar ul li .menu-item:hover {
     color: var(--gray-1);
     background: #fff;
 }
+
 .sidebar ul li .btn-container {
   padding-bottom: 15px;
   text-align: center;
 }
+
 .sidebar ul li .btn-container .btn {
   width: 92%;
 }
@@ -921,12 +924,36 @@ form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
     font-family: 'Proxima Nova', Arial, sans-serif;
 }
 
+.sidebar .sub-menu-ul{
+    background: var(--gray-0);
+}
+
+.sidebar .sub-menu-ul .li-divided {
+  display: inline-block;
+  text-align: center;
+}
+
+.sidebar .sub-menu-ul li .menu-item {
+  padding-left: 30px;
+  font-size: 0.9em;
+}
+
+.sidebar .sub-menu-ul .li-divided .menu-item {
+  padding-left: 10px;
+}
+
+.li-divided.one-half {
+  width: 50%;
+}
+
+.li-divided.one-third {
+  width: 33.33%;
+}
 
 .sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
     background: var(--gray-0);
 }
-
 
 a[data-toggle="collapse"] {
     position: relative;
@@ -946,7 +973,4 @@ a[aria-expanded="true"]::before {
     content: '\f0d9';
 }
 ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: var(--gray-0);
 }
