@@ -14,7 +14,7 @@ from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, 
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views import View
-from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException
+from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException, get_games_order
 from urllib.parse import urlencode
 import logging
 
@@ -38,7 +38,7 @@ def list_user_games(request):
     else:
         filters['stopped_playing_at'] = None
 
-    games = Game.objects.filter(**filters).order_by('-order', '-created_at')
+    games = Game.objects.filter(**filters).order_by(*get_games_order(year))
 
     for game in games:
         game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
