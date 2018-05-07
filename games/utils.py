@@ -38,8 +38,9 @@ def hltb_scrapper(hltbGameUrl):
         game_length = soup.select('div.game_times li div')
         game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
 
-        synopsis = soup.find('div', class_='profile_header_alt')
-        game['synopsis'] = _parse_synopsis(synopsis.text.strip()) if synopsis is not None else None
+        # Howlongtobeat is doing changes in the synopsis
+        # synopsis = soup.find('div', class_='profile_summary_more')
+        # game['synopsis'] = _parse_synopsis(synopsis.text.strip()) if synopsis is not None else None
 
         return game
 
@@ -72,6 +73,9 @@ def metacritic_scrapper(metacriticUrl):
 
         metacritic_score = soup.select('div.metascore_w.xlarge > span')
         game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
+
+        metacritic_synopsis = soup.select('li.summary_detail.product_summary > span.data')
+        game['synopsis'] = metacritic_synopsis[0].text.strip() if metacritic_synopsis != [] else None
 
         return game
 
