@@ -2,11 +2,13 @@
 
 {% block main %}
   <div class="container">
+
     <section class="title">
       <h1 class="text-center">{{ game.name }}</h1>
     </section>
+
     <section class="row">
-      <div class="col">
+      <div class="col-md">
         {# Game Form #}
         {{ game_form.non_field_errors }}
         <form action="{% url 'modify_game' game.id %}" method="POST">
@@ -78,10 +80,9 @@
           <button class="btn btn-primary" type="submit">Update Game</button>
         </form>
       </div>
-
-      <div class="col">
+      <div class="col-md">
         <figure class="figure-cover">
-          <img class="col-imgCover" src="{{ game.cover_url }}" alt="">
+          <img src="{{ game.cover_url }}" alt="">
         </figure>
         <h5>Notes</h5>
         <div class="note-list">
@@ -104,7 +105,8 @@
         </div>
       </div>
     </section>
-    <section class="row mt-50">
+
+    <section class="row">
       <div class="col">
         <form action="{% url 'delete_game' game.id %}"  class="alert alert-danger" role="alert">
           <button class="btn btn-danger" type="submit">Delete from the Database</button>
@@ -112,6 +114,7 @@
         </form>
       </div>
     </section>
+
   </div>
 
 {% endblock %}

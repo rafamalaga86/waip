@@ -533,10 +533,13 @@ section.title.small h1, section.title.small h2 {
 }
 
 .figure-cover {
-  margin: 32px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.figure-cover img {
+  max-width: 100%;
 }
 
 .note-list .empty {
