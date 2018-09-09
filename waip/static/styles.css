@@ -571,6 +571,10 @@ section.title.small h1, section.title.small h2 {
   cursor: pointer;
 }
 
+section.danger-zone {
+  margin-top: 50px;
+}
+
 .flash-messages {
   margin-top: 10px;
 }
@@ -578,7 +582,6 @@ section.title.small h1, section.title.small h2 {
 .alert {
   margin-bottom: 0;
 }
-
 
 [class*="col-"] {
   margin-bottom: 60px;
@@ -591,6 +594,10 @@ section.title.small h1, section.title.small h2 {
 @media (min-width: 768px) {
   .navbar-brand {
     font-size: 27px;
+  }
+
+  section.danger-zone {
+    margin-top: 0;
   }
 }
 
