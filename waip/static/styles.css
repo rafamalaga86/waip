@@ -335,6 +335,10 @@ main {
   right: 0;
 }
 
+.card:hover .card-imgOverlay{
+  visibility: visible;
+}
+
 .card-button-bar .action-container {
   display: inline;
   cursor: pointer;
@@ -411,14 +415,6 @@ main {
 
 .card-gameTitle.alone {
   margin-bottom: 0;
-}
-
-.card-bottom-bar {
-  padding: 0 0 10px;
-}
-
-.card-bottom-bar .action-container{
-  margin: 0 10px;
 }
 
 footer {
@@ -587,17 +583,6 @@ section.title.small h1, section.title.small h2 {
 
 [class*="col-"]:last-child{
   margin-bottom: 0;
-}
-
-/* Media query for devices able to HOVER (devices with mouse) */
-@media not all and (hover: none) {
-  .card-bottom-bar {
-    display: none;
-  }
-
-  .card:hover .card-imgOverlay{
-    visibility: visible;
-  }
 }
 
 @media (min-width: 768px) {
