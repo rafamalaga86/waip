@@ -33,7 +33,10 @@ def hltb_scrapper(hltbGameUrl):
         cover_url = soup.select('div.game_image img')
         # This was the previous one used, when the Scheme and authority was in the URL
         # game['cover_url'] = cover_url[0].get('src') if cover_url != [] else None
-        game['cover_url'] = os.path.join(HLTB_SA, cover_url[0].get('src')) if cover_url != [] else None
+        game['cover_url'] = None
+        if (cover_url != []):
+            url = cover_url[0].get('src')
+            game['cover_url'] = os.path.join(HLTB_SA, url) if HLTB_SA not in url else url
 
         game_length = soup.select('div.game_times li div')
         game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
@@ -66,10 +69,9 @@ def metacritic_scrapper(metacriticUrl):
         game['genres'] = _parse_genres(genres.get_text()) if genres is not None else None
 
         release_date = soup.select('.summary_detail.release_data .data')
+        game['release_date'] = None
         if release_date != []:
             game['release_date'] = dateparser.parse(release_date[0].text.strip()).strftime('%Y-%m-%d')
-        else:
-            game['release_date'] = None
 
         metacritic_score = soup.select('div.metascore_w.xlarge > span')
         game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
