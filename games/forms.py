@@ -34,6 +34,11 @@ class GameForm(forms.ModelForm):
             raise ValidationError(_('You already have a game with this name'))
         return self.cleaned_data.get('name')
 
+    def clean_cover_url(self):
+        if self.cleaned_data.get('cover_url').find('?') != -1:
+            raise ValidationError(_('The URL should not include query string'))
+        return self.cleaned_data.get('cover_url')
+
     def clean(self):
         if self.cleaned_data.get('beaten') and not self.cleaned_data.get('stopped_playing_at'):
             raise ValidationError(_('If you mark game as beaten, you should put a Finish Date \

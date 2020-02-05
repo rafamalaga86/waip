@@ -305,21 +305,21 @@ main {
   margin-bottom: 2rem;
   border: 0;
   overflow: hidden;
-  background-color: var(--aqua-green-darker);
+  background-color: var(--brown);
 
   display: inline-block;
   vertical-align: top;
 }
 
-.card-bg-0 {background-color: var(--blue)}
-.card-bg-1 {background-color: var(--red)}
-.card-bg-2 {background-color: var(--brown)}
-.card-bg-3 {background-color: var(--orange)}
-.card-bg-4 {background-color: var(--dark-pink)}
-.card-bg-5 {background-color: var(--green)}
-.card-bg-6 {background-color: var(--green-gray)}
-
 .card.without-notes {background-color: var(--aqua-green-darker)}
+
+.card.card-bg-0 {background-color: var(--blue)}
+.card.card-bg-1 {background-color: var(--red)}
+.card.card-bg-2 {background-color: var(--brown)}
+.card.card-bg-3 {background-color: var(--orange)}
+.card.card-bg-4 {background-color: var(--dark-pink)}
+.card.card-bg-5 {background-color: var(--green)}
+.card.card-bg-6 {background-color: var(--green-gray)}
 
 .card-imgCover {
   width: 100%;

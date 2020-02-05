@@ -1,3 +1,27 @@
+
+
+
+// Detect broken images
+// =======================================================
+const image_repo = 'http://images.waip.rafaelgarciadoblas.com';
+
+$('img').on('error', function() { // Event on image broken
+  const src = $(this).attr('src');
+  $(this).parent().addClass('card-bg-3'); // Mark as image not found
+
+  if (!src.includes(image_repo)) { // Prevent a loop if the image doesnt exist in image_repo
+    const file_name = src.substring(src.lastIndexOf('/') + 1);
+    const username  = $('body').data('user-username');
+    const own_url   = image_repo + '/' + username + '/' + file_name;
+    $(this).attr('src', own_url);
+  } else {
+    $(this).data('old-src', own_url);
+    $(this).attr('src', '/static/404.jpg');
+  }
+  $grid.masonry();
+});
+
+
 $(document).ready(function(){
 
   // Initialise the Mansonry Grid
@@ -9,6 +33,27 @@ $(document).ready(function(){
   });
 
   $('.grid').imagesLoaded(function() {
+    $grid.masonry();
+  });
+
+
+  // Detect broken images
+  // =======================================================
+  const image_repo = 'http://images.waip.rafaelgarciadoblas.com';
+
+  $('img').on('error', function() { // Event on image broken
+    const src = $(this).attr('src');
+    $(this).parent().addClass('card-bg-3'); // Mark as image not found
+
+    if (!src.includes(image_repo)) { // Prevent a loop if the image doesnt exist in image_repo
+      const file_name = src.substring(src.lastIndexOf('/') + 1);
+      const username  = $('body').data('user-username');
+      const own_url   = image_repo + '/' + username + '/' + file_name;
+      $(this).attr('src', own_url);
+    } else {
+      $(this).data('old-src', own_url);
+      $(this).attr('src', '/static/404.jpg');
+    }
     $grid.masonry();
   });
 

@@ -25,7 +25,7 @@
   <div>
     <section class="grid">
       {% for game in games %}
-        <div class="card card-{{ game.id }} card-bg-{{ game.id|mod:7 }} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
+        <div class="card card-{{ game.id }} {# card-bg-{{ game.id|mod:7 }} #} {{ game.notes|yesno:',without-notes' }}" data-game-id="{{ game.id }}" data-game-name="{{ game.name }}">
           <img class="card-imgCover" src="{{ game.cover_url }}" alt="{{ game.name }} Cover">
           <div class="card-imgOverlay card-button-bar">
             {% include "parts/card-button-bar.html" %}
