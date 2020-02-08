@@ -500,10 +500,17 @@ input.success, textarea.success {
   float: right;
 }
 
-.field-info.absolute{
+.field-info.today.absolute {
+  position: absolute;
+  top: -23px;
+  right: 0;
+  margin-right: 0;
+}
+
+.field-info.info.absolute{
   position: absolute;
   top: 0;
-  right: 0;
+  left: 125px;
 }
 
 small.field-info {
@@ -700,6 +707,7 @@ section.danger-zone {
 .checkbox-wrapper .checkbox-fancy-label.check {
   border-radius: 5px;
 }
+
 .checkbox-wrapper .checkbox-fancy-label .fa {
   position: absolute;
   top: 0;
@@ -714,9 +722,11 @@ section.danger-zone {
   line-height: 30px;
   text-align: center;
 }
+
 .checkbox-wrapper input:checked + .checkbox-fancy-label {
   background: var(--blue);
 }
+
 .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
   opacity: 1;
   -webkit-transform: scale(1);

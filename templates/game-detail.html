@@ -92,15 +92,15 @@
         {# Playeds block #}
         <h5 class="mt-30 position-relative">
           <span>Played at</span>
-          <small class="field-info absolute" title="Add an empty played if you are playeding it at the moment." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+          <small class="field-info info absolute" title="Add an empty played if you are playeding it at the moment." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
         </h5>
 
         <div class="played-list data-game-id" data-game-id="{{ game.id }}">
           {% for played in playeds %}
             <div class="mb-30 played" data-id="{{ played.id }}">
               <div>
-                <div class="mb-0">
-                  <a href="" class="field-info put-todays-date"><small>Today</small></a>
+                <div class="position-relative mb-0">
+                  <a href="" class="field-info put-todays-date today absolute"><small>Today</small></a>
                   <input value="{{ played.stopped_playing_at|date:'Y-m-d' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at">
                 </div>
                 <div class="btn-toolbar mb-0">

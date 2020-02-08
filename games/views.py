@@ -252,7 +252,7 @@ def add_played_to_game_ajax(request, game_id):
         # TODO Chek if there is no played empty or game.stopped_playing_at is empty
         played_form = PlayedForm(request.POST, game_id=game.id)
         if not played_form.is_valid():
-            return HttpResponse(_(played_form['stopped_playing_at'].errors.as_text()), status=400)
+            return HttpResponse(played_form.errors.as_json(), status=400)
 
         played = played_form.save(commit=False)
         played.game = game
@@ -340,7 +340,7 @@ class PlayedDetailAjaxView(LoginRequiredMixin, View):
 
         played_form = PlayedForm(QueryDict(request.body), game_id=game.id, instance=played)
         if not played_form.is_valid():
-            return HttpResponse(_(played_form['stopped_playing_at'].errors.as_text()), status=400)
+            return HttpResponse(played_form.errors.as_json(), status=400)
 
         played.save()
         return JsonResponse(model_to_dict(played))

@@ -285,7 +285,7 @@ $(document).ready(function() {
   });
 
   // Put today's day when someone click in Today's button
-  $('.put-todays-date').on('click', function() {
+  $('body').on('click', '.put-todays-date', function() {
     $(this).parent().parent().find('.get-todays-date').val(new Date().toJSON().slice(0,10));
     return false;
   });
@@ -294,23 +294,23 @@ $(document).ready(function() {
   // Modify Game View
   // =======================================================
 
+  let dimanic_count = 1;
+
   // Add a played
   $('.action-add-played').on('click', function() {
     $('.played-list').append(
       `<div class="mb-30 played appended" data-id="-1">
         <div>
-          <div class="mb-0">
-            <a href="" class="field-info put-todays-date"><small>Today</small></a>
-            <input value="" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+          <div class="mb-0 position-relative">
+            <a href="" class="field-info put-todays-date today absolute"><small>Today</small></a>
+            <input value="{{ played.stopped_playing_at|date:'Y-m-d' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at">
           </div>
           <div class="btn-toolbar mb-0">
-
+            
             <div class="checkbox-wrapper">
-              <label class="checkbox-fancy-label">
-                <i class="fa fa-check"></i>
-                <input name="beaten" type="checkbox" {{ played.beaten|yesno:'checked,' }}>
-              </label>
-              <label>Beaten?</label>
+              <input id="dinamic_beaten_` + dimanic_count + `" name="beaten" type="checkbox">
+              <label class="checkbox-fancy-label" for="dinamic_beaten_` + dimanic_count + `"><i class="fa fa-check"></i></label>
+              <label for="dinamic_beaten_` + dimanic_count + `">Beaten?</label>
             </div>
 
             <div class="btn-margin-left">
@@ -332,6 +332,8 @@ $(document).ready(function() {
       </div>`
     );
     $('.played-list').children().last().slideDown();
+
+    dimanic_count++;
   });
 
   // Detects changes in inputs or selects of playeds
@@ -374,7 +376,16 @@ $(document).ready(function() {
       },
 
       error: function(response) {
-        $('.field-errors.playeds').text(response.responseText);
+        let messages = '';
+        const response_json = JSON.parse(response.responseText);
+
+        for (let object_key in response_json) {
+          response_json[object_key].forEach(function(value, key) {
+            messages += value.message;
+          });
+        }
+
+        $('.field-errors.playeds').text(messages);
         entry.find('.invalid').removeClass('invalid'); // If any input had border reds for errors, restore
 
         // Put back the Save icon
