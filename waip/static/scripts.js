@@ -18,45 +18,22 @@ $('img').on('error', function() { // Event on image broken
     $(this).data('old-src', own_url);
     $(this).attr('src', '/static/404.jpg');
   }
-  $grid.masonry();
 });
 
 
-$(document).ready(function(){
+$(document).ready(function() {
 
   // Initialise the Mansonry Grid
   // =======================================================
-  var $grid = $('.grid').masonry({
+  const $grid = $('.grid').masonry({
     itemSelector: '.card',
     fitWidth: true,
     gutter: 20.5,
   });
 
   $('.grid').imagesLoaded(function() {
-    $grid.masonry();
+    setTimeout(() => { $grid.masonry(); }, 500);
   });
-
-
-  // Detect broken images
-  // =======================================================
-  const image_repo = 'http://images.waip.rafaelgarciadoblas.com';
-
-  $('img').on('error', function() { // Event on image broken
-    const src = $(this).attr('src');
-    $(this).parent().addClass('card-bg-3'); // Mark as image not found
-
-    if (!src.includes(image_repo)) { // Prevent a loop if the image doesnt exist in image_repo
-      const file_name = src.substring(src.lastIndexOf('/') + 1);
-      const username  = $('body').data('user-username');
-      const own_url   = image_repo + '/' + username + '/' + file_name;
-      $(this).attr('src', own_url);
-    } else {
-      $(this).data('old-src', own_url);
-      $(this).attr('src', '/static/404.jpg');
-    }
-    $grid.masonry();
-  });
-
 
   // Initialise Tooltips
   // =======================================================
@@ -240,21 +217,21 @@ $(document).ready(function(){
       url: '/ajax/games/' + gameId + '/finish',
       data: {beaten: beaten},
     })
-    .done(function(){
+    .done(function() {
       $grid.masonry('remove', $('.card-' + gameId)).masonry();
     });
   });
 
 
   // Redirect people to login view
-  $('.card').on('click', '.action-go-login-page', function(){
+  $('.card').on('click', '.action-go-login-page', function() {
     location.href = "/login";
   });
 
 
   // Add a note to a game in game Grid
   // - Open modal
-  $('.card').on('click', '.action-add-note', function(){
+  $('.card').on('click', '.action-add-note', function() {
     var gameId = $(this).parents('.card').attr('data-game-id');
     var name = $(this).parents('.card').attr('data-game-name');
     modal_action = 'add-note';
@@ -267,7 +244,7 @@ $(document).ready(function(){
   // New Game View
   // =======================================================
 
-  $('.page-add-game #form-scrap').on('submit', function(){
+  $('.page-add-game #form-scrap').on('submit', function() {
     // Get metacritic information
     jQuery.get(
       '/ajax/games/scrap-metacritic',
@@ -308,8 +285,8 @@ $(document).ready(function(){
   });
 
   // Put today's day when someone click in Today's button
-  $('#put-todays-date').on('click', function(){
-    $('#id_stopped_playing_at').val(new Date().toJSON().slice(0,10));
+  $('.put-todays-date').on('click', function() {
+    $(this).parent().parent().find('.get-todays-date').val(new Date().toJSON().slice(0,10));
     return false;
   });
 
@@ -317,8 +294,134 @@ $(document).ready(function(){
   // Modify Game View
   // =======================================================
 
+  // Add a played
+  $('.action-add-played').on('click', function() {
+    $('.played-list').append(
+      `<div class="mb-30 played appended" data-id="-1">
+        <div>
+          <div class="mb-0">
+            <a href="" class="field-info put-todays-date"><small>Today</small></a>
+            <input value="" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+          </div>
+          <div class="btn-toolbar mb-0">
+
+            <div class="checkbox-wrapper">
+              <label class="checkbox-fancy-label">
+                <i class="fa fa-check"></i>
+                <input name="beaten" type="checkbox" {{ played.beaten|yesno:'checked,' }}>
+              </label>
+              <label>Beaten?</label>
+            </div>
+
+            <div class="btn-margin-left">
+              <button class="save-played btn btn-primary ml-10 not-saved">
+                <div class="icon-container">
+                  <i class="fa fa-save"></i>
+                </div>
+              </button>
+
+              <button class="delete-played btn btn-danger ml-10">
+                <div class="icon-container">
+                  <i class="fa fa-trash"></i>
+                  </div>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>`
+    );
+    $('.played-list').children().last().slideDown();
+  });
+
+  // Detects changes in inputs or selects of playeds
+  $('.played-list').on('change', ':input', function() {
+    var save_button = $(this).closest('.played').find('.save-played');
+    save_button.addClass('not-saved');
+  });
+
+  var spinner_loader = '<div class="loader"></div>';
+  var trash          = '<div><i class="fa fa-trash"></i></div>';
+  var check          = '<div><i class="fa fa-check"></i></div>';
+  var save           = '<div><i class="fa fa-save"></i></div>';
+
+
+  // Save Played
+  $('.played-list').on('click', '.save-played', function() {
+    var entry          = $(this).closest('.played');
+    var save_button    = entry.find('.save-played');
+    var game_id        = $('.data-game-id').data('game-id');
+    var id             = entry.data('id');
+    var icon_container = $(this).children();
+    var is_put         = id !== -1; // If ID is not -1 it means is an existing record and we have to PUT it
+
+    icon_container.html(spinner_loader); // Put the spinner
+    $('.field-errors.playeds').text('');
+
+    $.ajax({
+      type: is_put ? 'PUT' : 'POST',
+      url: is_put ? '/ajax/games/' + game_id + '/playeds/' + id : '/ajax/games/' + game_id + '/add-played',
+      data: entry.find(':input').serialize(),
+
+      success: function(response) {
+        save_button.removeClass('not-saved');
+        icon_container.html(check); // Put the check icon
+
+        entry.data('id', response.id); // Put the ID in the entry so next time this entry is modified the app sends a PUT instead of a POST
+        setTimeout(function() {
+            icon_container.html(save);
+        }, 1000);
+      },
+
+      error: function(response) {
+        $('.field-errors.playeds').text(response.responseText);
+        entry.find('.invalid').removeClass('invalid'); // If any input had border reds for errors, restore
+
+        // Put back the Save icon
+        icon_container.html(save);
+      },
+    });
+  });
+
+
+  // Delete Played
+  $('.played-list').on('click', '.delete-played', function() {
+    var entry          = $(this).closest('.played');
+    var game_id        = $('.data-game-id').data('game-id');
+    var id             = entry.data('id');
+    var icon_container = $(this).children();
+
+    if (id === -1) { // This is a just created entry and it is not in the DB yet
+      entry.slideUp(400, function(){
+        $(this).remove(); // After sliding up, remove the element
+      });
+    } else { // This is an entry that is already in the DB and we have to delete it
+      $(this).children().html(spinner_loader); // Put the spinner loader
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/ajax/games/' + game_id + '/playeds/' + id,
+
+        success: function() {
+            entry.slideUp(400, function() {
+                $(this).remove(); // After sliding up, remove the element
+            });
+        },
+
+        error: function(response) {
+          $('.field-errors.playeds').text(response.responseText);
+        },
+
+        complete: function() {
+            icon_container.html(trash); // Back the trash icon
+        }
+      });
+    }
+  });
+
+
   // Add a note, open a modal
-  $('.page-modify-game .note-list').on('click', '.action-add-note', function(){
+  $('.page-modify-game .note-list').on('click', '.action-add-note', function() {
     modal_action = 'add-note';
     var gameId = $(this).parents('.page-modify-game').attr('data-game-id');
     openModal('Add new note', '', gameId, null, function() {
@@ -328,7 +431,7 @@ $(document).ready(function(){
 
 
   // Edit a note, open a modal
-  $('.page-modify-game .note').on('click', '.action-edit-note', function(){
+  $('.page-modify-game .note').on('click', '.action-edit-note', function() {
     modal_action = 'edit-note';
     var gameId = $(this).parents('.note').attr('data-game-id');
     var noteId = $(this).parents('.note').attr('data-note-id');
@@ -340,7 +443,7 @@ $(document).ready(function(){
 
 
   // Delete a note
-  $('.page-modify-game .note').on('click', '.action-delete-note', function(){
+  $('.page-modify-game .note').on('click', '.action-delete-note', function() {
     var note = $(this).parents('.note');
     var noteId = note.data('note-id');
     var gameId = note.data('game-id');
@@ -349,7 +452,7 @@ $(document).ready(function(){
       method: 'DELETE',
       url: '/ajax/games/' + gameId + '/notes/' + noteId
     })
-    .done(function(){
+    .done(function() {
       note.fadeOut();
     });
   });
@@ -385,7 +488,7 @@ $(document).ready(function(){
           data: {'text': noteText},
           url: '/ajax/games/' + gameId + '/notes/' + noteId
         })
-        .done(function(){
+        .done(function() {
           closeModal();
         });
       break;
@@ -450,7 +553,7 @@ $(document).ready(function(){
     }
   });
 
-  $('.card').on('click', '.more-link', function(){
+  $('.card').on('click', '.more-link', function() {
     var currentContent = $(this).parents('.card-text.notes');
     var cardId = $(this).parents('.card').attr('data-game-id');
     var contentReduced = contentReducedStorage[cardId];

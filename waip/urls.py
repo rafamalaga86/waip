@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from users import views as users_views
 from games import views as games_views
-from games.views import NoteDetailAjaxView
+from games.views import NoteDetailAjaxView, PlayedDetailAjaxView
 
 urlpatterns = [
     # Admin
@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^ajax/games/([0-9]+)/finish$', games_views.finish_game_ajax),
     url(r'^ajax/games/([0-9]+)/add-note$', games_views.add_note_to_game_ajax),
     url(r'^ajax/games/([0-9]+)/notes/([0-9]+)$', NoteDetailAjaxView.as_view(), name='note-detail'),
+    url(r'^ajax/games/([0-9]+)/add-played$', games_views.add_played_to_game_ajax),
+    url(r'^ajax/games/([0-9]+)/playeds/([0-9]+)$', PlayedDetailAjaxView.as_view(), name='played-detail'),
 ]
 
 # Added for Debug Bar

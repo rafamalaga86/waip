@@ -35,6 +35,7 @@ body {
   --pink: #deaeae;
   --gray-blue: #a8cef3;
   --green-gray: #91b8ae;
+  --blue-darker: #2656d9;
 
 
   /* Letters */
@@ -83,6 +84,10 @@ h6 strong{
   color: white;
 }
 
+hr {
+  border-color: var(--gray-3);
+}
+
 em {
   color: var(--aqua-green);
 }
@@ -127,8 +132,20 @@ label {
   vertical-align: middle;
 }
 
+.ml-10 {
+  margin-left: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
 .mt-50 {
   margin-top: 50px;
+}
+
+.mt-30 {
+  margin-top: 30px;
 }
 
 .mt-20 {
@@ -161,6 +178,10 @@ label {
 
 .mb-20 {
   margin-bottom: 20px;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
 }
 
 footer a {
@@ -256,13 +277,16 @@ footer a:hover {
   color: white;
 }
 
-.btn-primary:focus {
+.btn-primary:focus, .btn-danger:focus, .btn-default:focus, .btn-secondary:focus {
   box-shadow: none !important;
 }
 
 .btn-default {
   background-color: white;
   color: white;
+}
+
+.btn-secondary {
 }
 
 .btn:hover {
@@ -446,7 +470,6 @@ input.form-control::placeholder {
   color: var(--gray-4);
 }
 
-
 input.success, textarea.success {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4IDgnPjxwYXRoIGZpbGw9JyM1Y2I4NWMnIGQ9J00yLjMgNi43M0wuNiA0LjUzYy0uNC0xLjA0LjQ2LTEuNCAxLjEtLjhsMS4xIDEuNCAzLjQtMy44Yy42LS42MyAxLjYtLjI3IDEuMi43bC00IDQuNmMtLjQzLjUtLjguNC0xLjEuMXonLz48L3N2Zz4=);
   padding-right: 2.25rem;
@@ -475,6 +498,12 @@ input.success, textarea.success {
   display: block;
   line-height: 22px;
   float: right;
+}
+
+.field-info.absolute{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 small.field-info {
@@ -540,6 +569,32 @@ section.title.small h1, section.title.small h2 {
 
 .figure-cover img {
   max-width: 100%;
+}
+
+.icon-container {
+  width: 20px;
+}
+
+.played.appended {
+  display: none;
+}
+
+.btn-toolbar .btn {
+  height: 36px;
+  margin-top: 6px;
+}
+
+.btn-margin-left {
+  margin-left: auto;
+}
+
+.btn-primary.save-played.not-saved {
+  background-color: var(--blue);
+}
+
+.btn-primary.save-played.not-saved:hover,
+.btn-primary.save-played.not-saved:focus {
+  background-color: var(--blue-darker) !important;
 }
 
 .note-list .empty {
@@ -619,12 +674,11 @@ section.danger-zone {
 
 /* CHECKBOX */
 
-
-form .checkbox-wrapper input {
+.checkbox-wrapper input {
   display: none;
 }
 
-form .checkbox-wrapper .checkbox-fancy-label {
+.checkbox-wrapper .checkbox-fancy-label {
   border-radius: .15rem;
   cursor: pointer;
   position: relative;
@@ -639,10 +693,14 @@ form .checkbox-wrapper .checkbox-fancy-label {
   font-smoothing: antialiased;
 }
 
-form .checkbox-wrapper .checkbox-fancy-label.check {
+.played .checkbox-wrapper .checkbox-fancy-label {
+  margin-top: 8px;
+}
+
+.checkbox-wrapper .checkbox-fancy-label.check {
   border-radius: 5px;
 }
-form .checkbox-wrapper .checkbox-fancy-label .fa {
+.checkbox-wrapper .checkbox-fancy-label .fa {
   position: absolute;
   top: 0;
   left: 0;
@@ -656,10 +714,10 @@ form .checkbox-wrapper .checkbox-fancy-label .fa {
   line-height: 30px;
   text-align: center;
 }
-form .checkbox-wrapper input:checked + .checkbox-fancy-label {
+.checkbox-wrapper input:checked + .checkbox-fancy-label {
   background: var(--blue);
 }
-form .checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
+.checkbox-wrapper input:checked + .checkbox-fancy-label .fa {
   opacity: 1;
   -webkit-transform: scale(1);
           transform: scale(1);
@@ -964,8 +1022,54 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
   font-weight: 900;
   font-size: 18px;
 }
+
 a[aria-expanded="true"]::before {
     content: '\f0d9';
 }
-ul ul a {
+
+/* SPINNER LOADER */
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.loader:before, .loader:after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  border: 5px solid transparent;
+  border-top-color: white;
+}
+
+.loader:before{
+  z-index: 100;
+  animation: spin 1s infinite;
+}
+
+.loader:after{
+  border: 5px solid #ccc;
+}
+
+@keyframes spin{
+  0%{
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100%{
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

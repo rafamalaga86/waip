@@ -57,9 +57,9 @@
           <div class="form-group-personal">
             <div class="form-group">
               <small class="field-info" title="Fill the date when you stopped playing, it doesnt matter if you reached the end or just left the game half way. Used when showed beaten/tried games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <a href="" class="field-info" id="put-todays-date"><small>Today</small></a>
+              <a href="" class="field-info put-todays-date"><small>Today</small></a>
               <label for="id_stopped_playing_at">You finished playing at:</label>
-              <input value="{{ game.stopped_playing_at|date:'Y-m-d' }}" class="form-control" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+              <input value="{{ game.stopped_playing_at|date:'Y-m-d' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
               <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
             </div>
             <div class="form-group">
@@ -81,11 +81,65 @@
         </form>
       </div>
       <div class="col-md">
-        <figure class="figure-cover">
+
+        {# Image #}
+        <figure class="figure-cover mb-30">
           <img src="{{ game.cover_url }}" alt="">
         </figure>
-        <h5>Notes</h5>
-        <div class="note-list">
+
+        <hr>
+
+        {# Playeds block #}
+        <h5 class="mt-30 position-relative">
+          <span>Played at</span>
+          <small class="field-info absolute" title="Add an empty played if you are playeding it at the moment." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+        </h5>
+
+        <div class="played-list data-game-id" data-game-id="{{ game.id }}">
+          {% for played in playeds %}
+            <div class="mb-30 played" data-id="{{ played.id }}">
+              <div>
+                <div class="mb-0">
+                  <a href="" class="field-info put-todays-date"><small>Today</small></a>
+                  <input value="{{ played.stopped_playing_at|date:'Y-m-d' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at">
+                </div>
+                <div class="btn-toolbar mb-0">
+                  
+                  <div class="checkbox-wrapper">
+                    <input id="beaten_{{ played.id }}" name="beaten" type="checkbox" {{ played.beaten|yesno:'checked,' }}>
+                    <label class="checkbox-fancy-label" for="beaten_{{ played.id }}"><i class="fa fa-check"></i></label>
+                    <label for="beaten_{{ played.id }}">Beaten?</label>
+                  </div>
+
+                  <div class="btn-margin-left">
+                    <button class="save-played btn btn-primary ml-10">
+                      <div class="icon-container">
+                        <i class="fa fa-save"></i>
+                      </div>
+                    </button>
+
+                    <button class="delete-played btn btn-danger ml-10">
+                      <div class="icon-container">
+                        <i class="fa fa-trash"></i>
+                        </div>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <button class="btn btn-sm btn-secondary action-add-played">Add played</button>
+        <div class="row mt-10">
+          <div class="col"><small class="field-errors playeds"></small></div>
+        </div>
+
+        <hr>
+
+        {# Notes block #}
+        <h5 class="mt-30">Notes</h5>
+        <div class="note-list mb-20">
           {% for note in notes %}
             <div class="note" data-game-id="{{ game.id }}" data-note-id="{{ note.id }}">
               <p class="note-text">{{ note.text }}</p>
@@ -99,10 +153,11 @@
               </div>
             </div>
           {% empty %}
-              <div class="empty">You didn't add any note yet</div>
+           <div class="empty">You didn't add any note yet</div>
           {% endfor %}
           <button class="btn btn-primary action-add-note">Add note</button>
         </div>
+
       </div>
     </section>
 

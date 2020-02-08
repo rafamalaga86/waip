@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .forms import GameForm, NoteForm, ScrapMetacriticForm, ScrapHltbForm
-from .models import Game, Note
+from .forms import GameForm, NoteForm, PlayedForm, ScrapMetacriticForm, ScrapHltbForm
+from .models import Game, Note, Played
 from datetime import date
 from django.conf import settings
 from django.contrib import messages
@@ -31,14 +31,14 @@ def list_user_games(request):
     year = request.GET.get('year')
     beaten = (request.GET.get('beaten') == '1') if year else False
 
-    filters = {'user_id': user.id}
+    game_filters = {'user_id': user.id}
     if year:
-        filters['stopped_playing_at__year'] = year
-        filters['beaten'] = beaten
+        game_filters['stopped_playing_at__year'] = year
+        game_filters['beaten'] = beaten
     else:
-        filters['stopped_playing_at'] = None
+        game_filters['stopped_playing_at'] = None
 
-    games = Game.objects.filter(**filters).order_by(*get_games_order(year))
+    games = Game.objects.filter(**game_filters).order_by(*get_games_order(year))
 
     for game in games:
         game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
@@ -135,6 +135,7 @@ def modify_game(request, game_id):
 
     # SHARED --------------------------------------------
     notes = Note.objects.filter(game=game_id)
+    playeds = Played.objects.filter(game=game_id).order_by('-stopped_playing_at')
 
     return render(request, 'game-detail.html', {
         'page': 'page-modify-game',
@@ -142,6 +143,7 @@ def modify_game(request, game_id):
         'game': game,
         'game_form': game_form,
         'notes': notes,
+        'playeds': playeds
     })
 
 
@@ -223,7 +225,6 @@ def add_note_to_game_ajax(request, game_id):
 
     # POST ----------------------------------------------
     if request.method == 'POST':
-        # Check if the user has permission over the game
         note_form = NoteForm(request.POST)
         if not note_form.is_valid():
             return HttpResponse(status=400)
@@ -233,6 +234,31 @@ def add_note_to_game_ajax(request, game_id):
         note.save()
 
     return JsonResponse(model_to_dict(note))
+
+
+@login_required
+def add_played_to_game_ajax(request, game_id):
+    if not settings.DEBUG and not request.is_ajax():
+        return HttpResponseForbidden('Only ajax requests')
+
+    game = get_object_or_404(Game, id=game_id)
+
+    # Permission check
+    if game.user.id != request.user.id:
+        return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
+
+    # POST ----------------------------------------------
+    if request.method == 'POST':
+        # TODO Chek if there is no played empty or game.stopped_playing_at is empty
+        played_form = PlayedForm(request.POST, game_id=game.id)
+        if not played_form.is_valid():
+            return HttpResponse(_(played_form['stopped_playing_at'].errors.as_text()), status=400)
+
+        played = played_form.save(commit=False)
+        played.game = game
+        played.save()
+
+    return JsonResponse(model_to_dict(played))
 
 
 @login_required
@@ -300,4 +326,35 @@ class NoteDetailAjaxView(LoginRequiredMixin, View):
             return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this note')
 
         note.delete()
+        return HttpResponse(status=204)
+
+
+class PlayedDetailAjaxView(LoginRequiredMixin, View):
+    def put(self, request, game_id, played_id):
+        played = get_object_or_404(Played, id=played_id)
+        game = Game.objects.get(id=played.game.id)
+
+        # Permission check
+        if game.user.id != request.user.id:
+            return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this played')
+
+        played_form = PlayedForm(QueryDict(request.body), game_id=game.id, instance=played)
+        if not played_form.is_valid():
+            return HttpResponse(_(played_form['stopped_playing_at'].errors.as_text()), status=400)
+
+        played.save()
+        return JsonResponse(model_to_dict(played))
+
+    def delete(self, request, game_id, played_id):
+        played = get_object_or_404(Played, id=played_id)
+        game = Game.objects.get(id=played.game.id)
+
+        if Played.objects.filter(game_id=played.game.id).count() <= 1:
+            return HttpResponse('You cannot delete the last Played of a Game', status=409)
+
+        # Permission check
+        if game.user.id != request.user.id:
+            return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this played')
+
+        played.delete()
         return HttpResponse(status=204)

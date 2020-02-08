@@ -34,6 +34,20 @@ class Game(models.Model):
         unique_together = ('user', 'name')
 
 
+class Played(models.Model):
+    stopped_playing_at = models.DateField(blank=True, null=True)
+    beaten = models.BooleanField(default=False)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+    # Meta properties
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.game.name + (' at ' + self.stopped_playing_at.strftime('%m/%d/%Y')
+                                 if self.stopped_playing_at is not None else ' Jugando')
+
+
 class Note(models.Model):
     text = models.TextField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)

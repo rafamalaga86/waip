@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .models import Game, Note
+from .models import Game, Note, Played
 from django.contrib import admin
 
 # Register your models here.
@@ -12,3 +12,6 @@ class AdminGames(admin.ModelAdmin):
 
 
 admin.site.register(Note)
+
+
+admin.site.register(Played)
