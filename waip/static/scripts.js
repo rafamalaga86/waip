@@ -387,11 +387,15 @@ $(document).ready(function() {
 
         for (let object_key in response_json) {
           response_json[object_key].forEach(function(value, key) {
-            messages += value.message;
+            messages += '- ' + value.message + '<br>';
           });
         }
 
-        $('.field-errors.playeds').text(messages);
+        if (messages !== '') { // Trim last '<br>
+          messages = messages.substring(0, messages.length - 4);
+        }
+
+        $('.field-errors.playeds').html(messages);
         entry.find('.invalid').removeClass('invalid'); // If any input had border reds for errors, restore
 
         // Put back the Save icon
