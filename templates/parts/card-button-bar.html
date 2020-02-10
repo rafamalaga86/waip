@@ -1,5 +1,5 @@
 {# In show_status views (search games) we prefer not to allow to change status #}
-{% if not game.stopped_playing_at  and not show_status %}
+{% if not played.stopped_playing_at and not page == 'page-search-games' %}
   <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
     <i class="fa fa-check" aria-hidden="true"></i>
   </div>
@@ -7,8 +7,9 @@
     <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
   </div>
 {% endif %}
-<a class="action-container" href="{% url 'modify_game' game.id %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
-  <i class="fa fa-pencil" aria-hidden="true"></i>
+
+<a class="action-container" href="{% if played.game.id %} {% url 'modify_game' played.game.id %} {% else %} {% url 'modify_game' game.id %} {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
+<i class="fa fa-pencil" aria-hidden="true"></i>
 </a>
 <div class="{{ request.user.is_authenticated|yesno:'action-add-note,action-go-login-page' }} action-container" data-toggle="tooltip" data-placement="bottom" title="Add note">
   <i class="fa fa-sticky-note" aria-hidden="true"></i>

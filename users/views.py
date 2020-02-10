@@ -1,5 +1,5 @@
 from .forms import RegistrationForm, ProfileForm, PasswordForm
-from games.models import Game
+from games.models import Played
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -58,10 +58,13 @@ def modify_logged_user(request):
         password_form = PasswordForm(request.user)
 
     statistics = {
-        'beaten': Game.objects.filter(user_id=request.user.id, beaten=True).count(),
-        'tried': Game.objects.filter(user_id=request.user.id, beaten=False).exclude(stopped_playing_at__isnull=True).count(),
-        'playing': Game.objects.filter(user_id=request.user.id, beaten=False, stopped_playing_at__isnull=True).count(),
-        'total': Game.objects.filter(user_id=request.user.id).count(),
+        'beaten': Played.objects.filter(beaten=True).select_related('game').filter(game__user_id=request.user.id)
+                        .count(),
+        'tried': Played.objects.filter(beaten=False).select_related('game').filter(game__user_id=request.user.id)
+                       .exclude(stopped_playing_at__isnull=True).count(),
+        'playing': Played.objects.filter(beaten=False, stopped_playing_at__isnull=True).select_related('game')
+                       .filter(game__user_id=request.user.id).count(),
+        'total': Played.objects.select_related('game').filter(game__user_id=request.user.id).count(),
     }
 
     # SHARED --------------------------------------------

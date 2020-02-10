@@ -7,8 +7,6 @@ from django.conf import settings
 class Game(models.Model):
     # Original
     name = models.CharField(max_length=255)
-    stopped_playing_at = models.DateField(blank=True, null=True)
-    beaten = models.BooleanField(default=False)
     order = models.IntegerField(default=10)  # The higier the more priority it has
 
     # Scrapped properties

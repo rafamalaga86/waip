@@ -56,25 +56,10 @@
           </div>
           <div class="form-group-personal">
             <div class="form-group">
-              <small class="field-info" title="Fill the date when you stopped playing, it doesnt matter if you reached the end or just left the game half way. Used when showed beaten/tried games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <a href="" class="field-info put-todays-date"><small>Today</small></a>
-              <label for="id_stopped_playing_at">You finished playing at:</label>
-              <input value="{{ game.stopped_playing_at|date:'Y-m-d' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
-              <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
-            </div>
-            <div class="form-group">
               <small class="field-info" title="Leave this field intact for your first games. If later you wanna show any of them higher, just come by and give this field a higher number." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
               <label for="id_order">Priority in the order that this game will be shown:</label>
               <input class="form-control" type="number" id="id_order" name="order" max="100" min="0" value="{{ game.order }}">
               <small class="field-errors">{{ game_form.order.errors.as_text }}</small>
-            </div>
-            <div class="form-group">
-              <div class="checkbox-wrapper">
-                <input id="id_beaten" name="beaten" type="checkbox" {{ game.beaten|yesno:'checked,' }}>
-                <label class="checkbox-fancy-label" for="id_beaten"><i class="fa fa-check"></i></label>
-                <label for="id_beaten">Beaten? Have you completed this game?</label>
-                <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>
-              </div>
             </div>
           </div>
           <button class="btn btn-primary" type="submit">Update Game</button>

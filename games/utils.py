@@ -1,4 +1,4 @@
-from .models import Game
+from .models import Game, Played
 from bs4 import BeautifulSoup
 import dateparser
 import os
@@ -83,17 +83,14 @@ def metacritic_scrapper(metacriticUrl):
 
 
 def get_menus_data(user_id):
-    years_beaten = Game.objects.filter(user_id=user_id, beaten=True)\
-        .dates('stopped_playing_at', 'year')
+    years_beaten = Played.objects.filter(beaten=True).select_related('game') \
+                                 .filter(game__user_id=user_id).dates('stopped_playing_at', 'year')
     years_beaten = [date_.strftime('%Y') for date_ in years_beaten][::-1]  # Reverse
-    # today = date.today().strftime('%Y')
-    # if today in years_beaten:
-    #     years_beaten.remove(today)
 
-    years_tried = Game.objects.filter(user_id=user_id, beaten=False).dates('stopped_playing_at', 'year')
-    years_tried = ([date_.strftime('%Y') for date_ in years_tried])[::-1]  # Reverse
-    # if today in years_tried:
-    #     years_tried.remove(today)
+    
+    years_tried = Played.objects.filter(beaten=False).select_related('game') \
+                                 .filter(game__user_id=user_id).dates('stopped_playing_at', 'year')
+    years_tried = [date_.strftime('%Y') for date_ in years_tried][::-1]  # Reverse
 
     return {
         'years_beaten': years_beaten,
@@ -103,7 +100,7 @@ def get_menus_data(user_id):
 
 def get_games_order(year):
     if not year:
-        order = ['-order', '-created_at']
+        order = ['-game__order', '-created_at']
     elif year == str(datetime.now().year):
         order = ['-stopped_playing_at']
     else:

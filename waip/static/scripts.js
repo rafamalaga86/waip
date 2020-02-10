@@ -1,4 +1,4 @@
-
+// SCRIPT FILE FOR WAIP
 
 
 // Detect broken images
@@ -21,17 +21,41 @@ $('img').on('error', function() { // Event on image broken
 });
 
 
+// Initialise the Mansonry Grid
+// =======================================================
+const $grid = $('.grid').masonry({
+  itemSelector: '.card',
+  fitWidth: true,
+  gutter: 20.5,
+});
+
+
+// Reduce font-size the titles of the cards if overflow
+// =======================================================
+$('.card').each(function() {
+  var title = $(this).find('.card-gameTitle span');
+  var container = $(this).find('.card-content');
+  var minSize = 24;
+  // var minSize = parseInt($('body').css('font-size'));
+  var fontSize = 28;
+
+  while (title.width() > container.width() && fontSize > minSize) {
+    title.css('font-size', fontSize -= 0.5);
+  }
+  if (fontSize === minSize) {
+    title.css('white-space', 'normal');
+  }
+  title.css('display', 'inline-block');
+});
+
+const masonry_interval = setInterval(function() {
+  $grid.masonry();
+}, 500);
+
+
 $(document).ready(function() {
-
-  // Initialise the Mansonry Grid
-  // =======================================================
-  const $grid = $('.grid').masonry({
-    itemSelector: '.card',
-    fitWidth: true,
-    gutter: 20.5,
-  });
-
   $('.grid').imagesLoaded(function() {
+    clearInterval(masonry_interval);
     setTimeout(() => { $grid.masonry(); }, 500);
   });
 
@@ -85,25 +109,6 @@ $(document).ready(function() {
     introJs().start();
   }
   $('.start-intro').on('click', startIntro);
-
-
-  // Reduce font-size the titles of the cards if overflow
-  // =======================================================
-  $('.card').each(function() {
-    var title = $(this).find('.card-gameTitle span');
-    var container = $(this).find('.card-content');
-    var minSize = 24;
-    // var minSize = parseInt($('body').css('font-size'));
-    var fontSize = 28;
-
-    while (title.width() > container.width() && fontSize > minSize) {
-      title.css('font-size', fontSize -= 0.5);
-    }
-    if (fontSize === minSize) {
-      title.css('white-space', 'normal');
-    }
-    title.css('display', 'inline-block');
-  });
 
 
   // Setting CSRF token in every AJAX request
@@ -210,6 +215,7 @@ $(document).ready(function() {
   // Set a game as stopped_playing
   $('.card').on('click', '.action-finish-game', function(event){
     $('.action-finish-game').tooltip('hide');
+    var playedId = $(this).parents('.card').attr('data-played-id');
     var gameId = $(this).parents('.card').attr('data-game-id');
     var beaten = $(this).attr('data-beaten');
     jQuery.ajax({
@@ -218,7 +224,7 @@ $(document).ready(function() {
       data: {beaten: beaten},
     })
     .done(function() {
-      $grid.masonry('remove', $('.card-' + gameId)).masonry();
+      $grid.masonry('remove', $('.card-' + playedId)).masonry();
     });
   });
 

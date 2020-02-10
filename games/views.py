@@ -8,9 +8,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.db.models import Q
 from django.forms.models import model_to_dict
-from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
+from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views import View
@@ -31,24 +32,24 @@ def list_user_games(request):
     year = request.GET.get('year')
     beaten = (request.GET.get('beaten') == '1') if year else False
 
-    game_filters = {'user_id': user.id}
+    game_filters = {'game__user_id': user.id}
+    # game_filters = {'user_id': user.id}
+    played_filters = {}
     if year:
-        game_filters['stopped_playing_at__year'] = year
-        game_filters['beaten'] = beaten
+        played_filters['stopped_playing_at__year'] = year
+        played_filters['beaten'] = beaten
     else:
-        game_filters['stopped_playing_at'] = None
+        played_filters['stopped_playing_at'] = None
 
-    games = Game.objects.filter(**game_filters).order_by(*get_games_order(year))
+    playeds = Played.objects.filter(**played_filters).select_related('game') \
+        .filter(**game_filters).order_by(*get_games_order(year)).prefetch_related('game__note_set')
 
-    for game in games:
-        game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
-
-    return render(request, 'game-grid.html', {
+    return render(request, 'played-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(user.id),
         'year': year,
         'beaten': beaten,
-        'games': games,
+        'playeds': playeds
     })
 
 
@@ -58,12 +59,11 @@ def search_games(request):
     games = None
     if keyword:
         games = Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword))
-        games = games.filter(user_id=request.user.id)
+        games = games.filter(user_id=request.user.id).prefetch_related('played_set')
 
     return render(request, 'game-grid.html', {
         'page': 'page-search-games',
         'menu_data': get_menus_data(request.user.id),
-        'show_status': True,
         'keyword': keyword,
         'games': games,
     })
@@ -77,17 +77,23 @@ def add_game(request):
         if game_form.is_valid():
             game = game_form.save(commit=False)
             game.user = request.user
-            game.save()
 
-            if game.stopped_playing_at:
-                year = str(game.stopped_playing_at.year)
+            with transaction.atomic():
+                game.save()
+                played_form = PlayedForm(request.POST, game_id=game.id)
+                played = played_form.save(commit=False)
+                played.game = game
+                played.save()
+
+            if played.stopped_playing_at:
+                year = str(played.stopped_playing_at.year)
                 query_string = '?' + urlencode({
                     'year': year,
-                    'beaten': '1' if game.beaten else '0',
+                    'beaten': '1' if played.beaten else '0',
                 })
                 message = _('%(beaten)s at %(year)s  - Successfully added') % {
                     'year': year,
-                    'beaten': 'Beaten' if game.beaten else 'Tried',
+                    'beaten': 'Beaten' if played.beaten else 'Tried',
                 }
             else:
                 query_string = ''
@@ -162,15 +168,12 @@ def delete_game(request, game_id):
 
 @login_required
 def list_all(request):
-    games = Game.objects.all().order_by('-created_at')
+    playeds = Played.objects.all().select_related('game').prefetch_related('game__note_set').order_by('-created_at')
 
-    for game in games:
-        game.notes = Note.objects.filter(game_id=game.id).order_by('created_at')
-
-    return render(request, 'game-grid.html', {
+    return render(request, 'played-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(request.user.id),
-        'games': games,
+        'playeds': playeds,
     })
 
 
@@ -183,20 +186,23 @@ def finish_game_ajax(request, game_id):
         return HttpResponseForbidden('Only ajax requests')
 
     game = get_object_or_404(Game, id=game_id)
+    played = game.played_set.filter(stopped_playing_at=None).first()
+
+    # If Played had no stopped_playing_at return 404
+    if not played:
+        return HttpResponseNotFound()
 
     # Permission check
     if game.user.id != request.user.id:
         return HttpResponseForbidden('Don\'t be sneaky, you don\'t have permission over this game')
 
-    if game.stopped_playing_at is not None:
-        return HttpResponseForbidden('The game already has a "stopped_playing_at" date')
-
     patch = QueryDict(request.body)
 
-    game.stopped_playing_at = date.today()
-    game.beaten = bool(patch.get('beaten'))
-    game.save()
-    return HttpResponse('')  # Give an empty 200
+    played.stopped_playing_at = date.today()
+    played.beaten = bool(patch.get('beaten'))
+    played.save()
+
+    return HttpResponse(status=204)
 
 
 def get_game_ajax(request, game_id):

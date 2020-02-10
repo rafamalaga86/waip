@@ -6,20 +6,11 @@ from django.utils.translation import gettext as _
 import re
 
 
-class CommonValidators:
-    def no_beaten_if_no_date(self):
-        if self.cleaned_data.get('beaten') and not self.cleaned_data.get('stopped_playing_at'):
-            raise ValidationError(_('If you mark game as beaten, you should put a Finish Date ' +
-                                    '(even when is not an accurate date, we want to allocate it to a year)'))
-
-
-class GameForm(forms.ModelForm, CommonValidators):
+class GameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = [
             'name',
-            'stopped_playing_at',
-            'beaten',
             'order',
             'cover_url',
             'hltb_length',
@@ -34,10 +25,6 @@ class GameForm(forms.ModelForm, CommonValidators):
     def __init__(self, *args, **kwargs):
         self.user_id = kwargs.pop('user_id', None)
         super(GameForm, self).__init__(*args, **kwargs)
-        # self.__class__.__name__
-
-    def clean(self):
-        self.no_beaten_if_no_date()
 
     def clean_name(self):
         if Game.objects.exclude(id=self.instance.id).filter(user=self.user_id,
@@ -64,7 +51,7 @@ class NoteForm(forms.ModelForm):
         exclude = ['game']
 
 
-class PlayedForm(forms.ModelForm, CommonValidators):
+class PlayedForm(forms.ModelForm):
     class Meta:
         model = Played
         fields = ['stopped_playing_at', 'beaten']
@@ -83,7 +70,9 @@ class PlayedForm(forms.ModelForm, CommonValidators):
         return self.cleaned_data.get('stopped_playing_at')
 
     def clean(self):
-        self.no_beaten_if_no_date()
+        if self.cleaned_data.get('beaten') and not self.cleaned_data.get('stopped_playing_at'):
+            raise ValidationError(_('If you mark game as beaten, you should put a Finish Date ' +
+                                    '(even when is not an accurate date, we want to allocate it to a year)'))
 
 
 class ScrapMetacriticForm(forms.Form):

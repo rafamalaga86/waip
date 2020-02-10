@@ -1,0 +1,58 @@
+{% extends 'parts/base.html' %}
+{% load math_tags %}
+
+{% block main %}
+  <div class="container">
+    <section class="title small">
+      {% if not request.user.is_authenticated %}
+        {# <p class="subtitle">You are seeing the data of user <em>Rafa</em></p> #}
+      {% endif %}
+      <h2 class="text-center">
+        {% if not year %}
+          Currently playing
+        {% elif beaten %}
+          Beaten games <strong>{{ year }}</strong> - {{ playeds|length }}
+        {% else %}
+          Tried/checked games <strong>{{ year }}</strong> - {{ playeds|length }}
+        {% endif %}
+      </h2>
+    </section>
+  </div>
+  <div>
+    <section class="grid">
+      {% for played in playeds %}
+        <div class="card card-{{ played.id }} {# card-bg-{{ played.id|mod:7 }} #} {{ played.game.note_set.all.exists|yesno:',without-notes' }}" data-played-id="{{ played.id }}" data-game-id="{{ played.game.id }}" data-played-name="{{ played.game.name }}">
+          <img class="card-imgCover" src="{{ played.game.cover_url }}" alt="{{ played.game.name }} Cover">
+          <div class="card-imgOverlay card-button-bar">
+            {% include "parts/card-button-bar.html" %}
+          </div>
+          <div class="card-scores d-flex">
+            {% if played.game.metacritic_score %}
+              <div class="score-metacritic_score">
+                  <span>{{ played.game.metacritic_score }}<span>
+              </div>
+            {% endif %}
+            <div class="score-hltb_length {{ played.game.metacritic_score|yesno:',full' }}">
+              {{ played.game.hltb_length|trim_trailing_zeroes|default_if_none:'Unknown!' }}
+              {{ played.game.hltb_length|yesno:'Hours,' }}
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-gameTitle {{ played.game.note_set.all.exists|yesno:',alone' }}">
+              <span>{{ played.game.name }}</span>
+            </div>
+            <div class="card-text notes">
+              {% for note in played.game.note_set.all %}
+                <p class="note">{{ note.text }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="container">
+          <span>Sorry, we did not find games. :)</span>
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+{% endblock %}

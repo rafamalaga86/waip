@@ -387,6 +387,10 @@ main {
   margin: 8px;
 }
 
+.card-text.only-tags p {
+  margin-bottom: 0;
+}
+
 .card-text .more-link {
   margin-top: 8px;
   display: block;
@@ -439,6 +443,10 @@ main {
 
 .card-gameTitle.alone {
   margin-bottom: 0;
+}
+
+.card-gameTitle span {
+  white-space: nowrap;
 }
 
 footer {

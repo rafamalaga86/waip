@@ -10,14 +10,6 @@
       <h2 class="text-center">
         {% if  page == 'page-search-games' %}
             Searched by keywords: <strong>{{ keyword }}</strong>
-        {% else %}
-          {% if not year %}
-            Currently playing
-          {% elif beaten %}
-            Beaten games <strong>{{ year }}</strong> - {{ games|length }}
-          {% else %}
-            Tried/checked games <strong>{{ year }}</strong> - {{ games|length }}
-          {% endif %}
         {% endif %}
       </h2>
     </section>
@@ -43,22 +35,18 @@
           </div>
           <div class="card-content">
             <div class="card-gameTitle {{ game.notes|yesno:',alone' }}">
-              <span style="display:none;white-space:nowrap;">{{ game.name }}</span>
+              <span>{{ game.name }}</span>
             </div>
-            <div class="card-text {{ show_status|yesno:'only-tags,notes' }}">
-              {% if show_status %}
+            <div class="card-text only-tags">
+              {% for played in game.played_set.all %}
                 <p>
-                  {% if game.stopped_playing_at %}
-                    {{ game.beaten|yesno:'Beaten,Tried' }} in {{ game.stopped_playing_at|date:"Y" }}
+                  {% if played.stopped_playing_at %}
+                    {{ played.beaten|yesno:'Beaten,Tried' }} in {{ played.stopped_playing_at|date:"Y" }}
                   {% else %}
                     Currently playing
                   {% endif %}
                 </p>
-              {% else %}
-                {% for note in game.notes %}
-                  <p class="note">{{ note.text }}</p>
-                {% endfor %}
-              {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>

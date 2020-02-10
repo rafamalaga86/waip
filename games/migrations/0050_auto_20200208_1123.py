@@ -10,7 +10,12 @@ def move_date_to_played(apps, schema_editor):
     Played = apps.get_model('games', 'Played')
 
     for game in Game.objects.all():
-        Played(stopped_playing_at=game.stopped_playing_at, beaten=game.beaten, game=game).save()
+        Played(stopped_playing_at=game.stopped_playing_at,
+               beaten=game.beaten,
+               created_at=game.created_at,
+               updated_at=game.updated_at,
+               game=game
+               ).save()
 
 
 class Migration(migrations.Migration):
