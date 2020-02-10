@@ -87,9 +87,8 @@ def get_menus_data(user_id):
                                  .filter(game__user_id=user_id).dates('stopped_playing_at', 'year')
     years_beaten = [date_.strftime('%Y') for date_ in years_beaten][::-1]  # Reverse
 
-    
     years_tried = Played.objects.filter(beaten=False).select_related('game') \
-                                 .filter(game__user_id=user_id).dates('stopped_playing_at', 'year')
+                                .filter(game__user_id=user_id).dates('stopped_playing_at', 'year')
     years_tried = [date_.strftime('%Y') for date_ in years_tried][::-1]  # Reverse
 
     return {
@@ -101,10 +100,11 @@ def get_menus_data(user_id):
 def get_games_order(year):
     if not year:
         order = ['-game__order', '-created_at']
-    elif year == str(datetime.now().year):
-        order = ['-stopped_playing_at']
+    # elif year == str(datetime.now().year):
+        # order = ['-stopped_playing_at']
     else:
-        order = ['-created_at']
+        order = ['-stopped_playing_at']
+        # order = ['-created_at']
     return order
 
 

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, F
 from django.forms.models import model_to_dict
 from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
@@ -141,7 +141,7 @@ def modify_game(request, game_id):
 
     # SHARED --------------------------------------------
     notes = Note.objects.filter(game=game_id)
-    playeds = Played.objects.filter(game=game_id).order_by('-stopped_playing_at')
+    playeds = Played.objects.filter(game=game_id).order_by(F('stopped_playing_at').asc(nulls_last=True))
 
     return render(request, 'game-detail.html', {
         'page': 'page-modify-game',
