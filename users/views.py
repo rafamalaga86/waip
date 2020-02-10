@@ -1,5 +1,5 @@
 from .forms import RegistrationForm, ProfileForm, PasswordForm
-from games.models import Played
+from games.models import Game, Played
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -57,13 +57,15 @@ def modify_logged_user(request):
         profile_form = ProfileForm(initial=model_to_dict(request.user))
         password_form = PasswordForm(request.user)
 
+    played = Played.objects.filter(beaten=True).select_related('game').filter(game__user_id=request.user.id)
+
     statistics = {
-        'beaten': Played.objects.filter(beaten=True).select_related('game').filter(game__user_id=request.user.id)
-                        .count(),
+        'beaten': played.count(),
+        'beaten_unique': played.values('game__name').distinct().count(),
         'tried': Played.objects.filter(beaten=False).select_related('game').filter(game__user_id=request.user.id)
                        .exclude(stopped_playing_at__isnull=True).count(),
         'playing': Played.objects.filter(beaten=False, stopped_playing_at__isnull=True).select_related('game')
-                       .filter(game__user_id=request.user.id).count(),
+                         .filter(game__user_id=request.user.id).count(),
         'total': Played.objects.select_related('game').filter(game__user_id=request.user.id).count(),
     }
 
