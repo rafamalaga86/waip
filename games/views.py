@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q, F
 from django.forms.models import model_to_dict
@@ -71,40 +72,46 @@ def search_games(request):
 
 @login_required
 def add_game(request):
+    played_form = PlayedForm()
+    game_form = GameForm()
+
     # POST ----------------------------------------------
     if request.method == 'POST':
         game_form = GameForm(request.POST, user_id=request.user.id)
+        played_form = PlayedForm(request.POST)  # To bring back the data to the form
         if game_form.is_valid():
             game = game_form.save(commit=False)
             game.user = request.user
 
-            with transaction.atomic():
-                game.save()
-                played_form = PlayedForm(request.POST, game_id=game.id)
-                played = played_form.save(commit=False)
-                played.game = game
-                played.save()
+            try:
+                with transaction.atomic():
+                    game.save()
+                    played_form = PlayedForm(request.POST, game_id=game.id)
+                    if not played_form.is_valid():
+                        raise ValidationError('Played cannot be cretaed, data invalid.')
 
-            if played.stopped_playing_at:
-                year = str(played.stopped_playing_at.year)
-                query_string = '?' + urlencode({
-                    'year': year,
-                    'beaten': '1' if played.beaten else '0',
-                })
-                message = _('%(beaten)s at %(year)s  - Successfully added') % {
-                    'year': year,
-                    'beaten': 'Beaten' if played.beaten else 'Tried',
-                }
-            else:
-                query_string = ''
-                message = _('Currently playing game successfully added')
+                    played = played_form.save(commit=False)
+                    played.game = game
+                    played.save()
 
-            messages.success(request, message)
-            return HttpResponseRedirect('/' + query_string)
+                    if played.stopped_playing_at:
+                        year = str(played.stopped_playing_at.year)
+                        query_string = '?' + urlencode({
+                            'year': year,
+                            'beaten': '1' if played.beaten else '0',
+                        })
+                        message = _('%(beaten)s at %(year)s  - Successfully added') % {
+                            'year': year,
+                            'beaten': 'Beaten' if played.beaten else 'Tried',
+                        }
+                    else:
+                        query_string = ''
+                        message = _('Currently playing game successfully added')
 
-    # GET -----------------------------------------------
-    else:
-        game_form = GameForm()
+                    messages.success(request, message)
+                    return HttpResponseRedirect('/' + query_string)
+            except ValidationError:
+                pass
 
     # SHARED --------------------------------------------
     trigger_intro = not request.session.get('intro_triggered', False) \
@@ -115,7 +122,8 @@ def add_game(request):
         'page': 'page-add-game',
         'menu_data': get_menus_data(request.user.id),
         'game_form': game_form,
-        'trigger_intro': trigger_intro
+        'played_form': played_form,
+        'trigger_intro': trigger_intro,
     }
     return render(request, 'new-game.html', context)
 

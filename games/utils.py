@@ -100,11 +100,8 @@ def get_menus_data(user_id):
 def get_games_order(year):
     if not year:
         order = ['-game__order', '-created_at']
-    # elif year == str(datetime.now().year):
-        # order = ['-stopped_playing_at']
     else:
-        order = ['-stopped_playing_at']
-        # order = ['-created_at']
+        order = ['-stopped_playing_at', '-created_at']
     return order
 
 

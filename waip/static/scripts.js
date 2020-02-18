@@ -57,6 +57,7 @@ $(document).ready(function() {
   $('.grid').imagesLoaded(function() {
     clearInterval(masonry_interval);
     setTimeout(() => { $grid.masonry(); }, 500);
+    setTimeout(() => { $grid.masonry(); }, 3000);
   });
 
   // Initialise Tooltips
@@ -140,14 +141,14 @@ $(document).ready(function() {
               xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
           }
           if ($('#form-scrap').length > 0 && $('.pac-man').length === 0) {
-            $('.pac-man-container').append('<div class="pac-man">');
+            $('.pac-man-holder').append('<div class="pac-man-container"><div class="pac-man"></div>');
           }
       }
   });
 
   $(document).ajaxStop(function() {
-    if ($('.pac-man').length > 0) {
-      $('.pac-man').remove();
+    if ($('.pac-man-container').length > 0) {
+      $('.pac-man-container').remove();
     }
   });
 
@@ -387,7 +388,7 @@ $(document).ready(function() {
 
         for (let object_key in response_json) {
           response_json[object_key].forEach(function(value, key) {
-            messages += '- ' + value.message + '<br>';
+            messages += '* ' + value.message + '<br>';
           });
         }
 

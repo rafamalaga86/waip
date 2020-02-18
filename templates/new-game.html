@@ -6,9 +6,9 @@
       <h2 class="text-center">Add a game</h2>
     </section>
     <section class="row">
-      <div class="col">
+      <div class="col mb-30">
         {# Scrap Game Form #}
-        <form id="form-scrap" class="{{ trigger_intro|yesno:'trigger-intro,' }}"onsubmit="return false" data-step="1" data-intro="You just need to fill these fields" data-hint='Hello step one!'>
+        <form id="form-scrap" class="{{ trigger_intro|yesno:'trigger-intro,' }}"onsubmit="return false" data-step="1" data-intro="You just need to fill these fields">
           {% csrf_token %}
           <div class="form-group scrap-metacritic" data-step="4" data-position="bottom" data-intro="Quickly, add a game!">
             <label for="exampleInputEmail1">URL of Metacritic:</label>
@@ -23,79 +23,88 @@
           <button class="btn btn-primary" type="submit">Fetch the information for me</button>
         </form>
         <a class="start-intro"><small>Start the tutorial again</small></a>
-        <div class="pac-man-container"></div>
+        <div class="pac-man-holder"></div>
       </div>
 
       <div class="col">
         {# New Game Form #}
         {{ game_form.non_field_errors }}
-        <form class="form-add-game" action="{% url 'add_game' %}" method="POST" data-step="2" data-scrollTo="tooltip" data-intro="We will go to Metacritic and HowLongToBeat and fetch the information so you don't have to fill this long form. You still can correct something if you don't think the information is accurate.">
+        {{ played_form.non_field_errors }}
+        <form class="form-add-game w-100" action="{% url 'add_game' %}" method="POST" data-step="2" data-scrollTo="tooltip" data-intro="We will go to Metacritic and HowLongToBeat and fetch the information so you don't have to fill this long form. You still can correct something if you don't think the information is accurate.">
           {% csrf_token %}
-          <div class="form-group">
-            <label for="id_name">Name*:</label>
-            <input value="{{ game_form.name.data|default_if_none:'' }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
-            <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_cover_url">Cover Url from HowLongToBeat*:</label>
-            <input value="{{ game_form.cover_url.data|default_if_none:'' }}" class="form-control" type="url" name="cover_url" maxlength="255" required="" id="id_cover_url">
-            <small class="field-errors">{{ game_form.cover_url.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_hltb_length">HowLongToBeat Length in hours:</label>
-            <input value="{{ game_form.hltb_length.data|default_if_none:'' }}" class="form-control" type="number" step="0.1" name="hltb_length"  min="0" id="id_hltb_length">
-            <small class="field-errors">{{ game_form.hltb_length.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_synopsis">Synopsis:</label>
-            <textarea class="form-control" name="synopsis" cols="40" rows="10" id="id_synopsis">{{ game_form.synopsis.data|default_if_none:'' }}</textarea>
-            <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_release_date">Game Release Date:</label>
-            <input value="{{ game_form.release_date.data|default_if_none:'' }}" class="form-control" type="date" name="release_date" maxlength="255" id="id_release_date">
-            <small class="field-errors">{{ game_form.release_date.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_developer">Developer:</label>
-            <input value="{{ game_form.developer.data|default_if_none:'' }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
-            <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_genres">Genres:</label>
-            <small class="field-info" title="Comma separated." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-            <input value="{{ game_form.genres.data|default_if_none:'' }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
-            <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
-          </div>
-          <div class="form-group">
-            <label for="id_metacritic_score">Metacritic Score:</label>
-            <input value="{{ game_form.metacritic_score.data|default_if_none:'' }}" class="form-control" type="number" min="1" max="100" step="1" name="metacritic_score" maxlength="255" id="id_metacritic_score">
-            <small class="field-errors">{{ game_form.metacritic_score.errors.as_text }}</small>
-          </div>
-          <div class="form-group-personal" data-step="3" data-intro="This two last fields can only be filled by you.">
-            <div class="form-group">
-              <small class="field-info" title="Fill the date when you stopped playing, it doesnt matter if you reached the end or just left the game half way. Used when showed beaten/tried games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <a href="" class="field-info put-todays-date"><small>Today</small></a>
-              <label for="id_stopped_playing_at">You finished playing at:</label>
-              <input value="{{ game_form.stopped_playing_at.data|default_if_none:'' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
-              <small class="field-errors">{{ game_form.stopped_playing_at.errors.as_text }}</small>
+          <div class="row">
+            <div class="form-group col-12 col-sm-8 col-md-12 col-lg-9">
+              <label for="id_name">Name*:</label>
+              <input value="{{ game_form.name.data|default_if_none:'' }}" class="form-control" type="text" name="name" maxlength="255" required="" id="id_name">
+              <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
             </div>
-            <div class="form-group">
-              <small class="field-info" title="Leave this field intact for your first games. If later you wanna show any of them higher, just come by and give this field a higher number." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
-              <label for="id_order">Priority in the order that this game will be shown:</label>
-              <input class="form-control" type="number" id="id_order" name="order" max="100" min="0" value="{{ game_form.order.data|default_if_none:10 }}">
-              <small class="field-errors">{{ game_form.order.errors.as_text }}</small>
+            <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3">
+              <label for="id_metacritic_score">MC Score:</label>
+              <input value="{{ game_form.metacritic_score.data|default_if_none:'' }}" class="form-control" type="number" min="1" max="100" step="1" name="metacritic_score" maxlength="255" id="id_metacritic_score">
+              <small class="field-errors">{{ game_form.metacritic_score.errors.as_text }}</small>
             </div>
-            <div class="form-group">
-              <div class="checkbox-wrapper">
-                <input id="id_beaten" name="beaten" type="checkbox" {{ game_form.beaten.data|yesno:'checked,' }}>
-                <label class="checkbox-fancy-label" for="id_beaten"><i class="fa fa-check"></i></label>
-                <label for="id_beaten">Beaten? Have you completed this game?</label>
-                <small class="field-errors">{{ game_form.beaten.errors.as_text }}</small>
+            <div class="form-group col-12 col-sm-8 col-md-12 col-lg-9">
+              <label for="id_developer">Developer:</label>
+              <input value="{{ game_form.developer.data|default_if_none:'' }}" class="form-control" type="text" name="developer" maxlength="255" id="id_developer">
+              <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
+            </div>
+            <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3">
+              <label for="id_hltb_length">HLTB:</label>
+              <input value="{{ game_form.hltb_length.data|default_if_none:'' }}" class="form-control" type="number" step="0.1" name="hltb_length"  min="0" id="id_hltb_length">
+              <small class="field-errors">{{ game_form.hltb_length.errors.as_text }}</small>
+            </div>
+            <div class="form-group col-12">
+              <label for="id_cover_url">Cover Url from HowLongToBeat*:</label>
+              <input value="{{ game_form.cover_url.data|default_if_none:'' }}" class="form-control" type="url" name="cover_url" maxlength="255" required="" id="id_cover_url">
+              <small class="field-errors">{{ game_form.cover_url.errors.as_text }}</small>
+            </div>
+            <div class="form-group col-12">
+              <label for="id_synopsis">Synopsis:</label>
+              <textarea class="form-control" name="synopsis" cols="40" rows="4" id="id_synopsis">{{ game_form.synopsis.data|default_if_none:'' }}</textarea>
+              <small class="field-errors">{{ game_form.synopsis.errors.as_text }}</small>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-md-12 col-lg-6">
+              <label for="id_release_date">Game Release Date:</label>
+              <input value="{{ game_form.release_date.data|default_if_none:'' }}" class="form-control" type="date" name="release_date" maxlength="255" id="id_release_date">
+              <small class="field-errors">{{ game_form.release_date.errors.as_text }}</small>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-md-12 col-lg-6">
+              <label for="id_genres">Genres:</label>
+              <small class="field-info" title="Comma separated." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+              <input value="{{ game_form.genres.data|default_if_none:'' }}" class="form-control" type="text" name="genres" maxlength="255" id="id_genres">
+              <small class="field-errors">{{ game_form.genres.errors.as_text }}</small>
+            </div>
+
+            <div class="col-12" data-step="3" data-intro="This two last fields can only be filled by you.">
+              <div class="row">
+                <div class="form-group col-12 col-sm-6 col-md-12 col-lg-6">
+                  <small class="field-info" title="Fill the date when you stopped playing, it doesnt matter if you reached the end or just left the game half way. Used when showed beaten/tried games by year. If you leave it in blank is considered you are playing it now." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+                  <a href="" class="field-info put-todays-date"><small>Today</small></a>
+                  <label for="id_stopped_playing_at">Finished at:</label>
+                  <input value="{{ played_form.stopped_playing_at.data|default_if_none:'' }}" class="form-control get-todays-date" type="date" name="stopped_playing_at" id="id_stopped_playing_at">
+                  <small class="field-errors">{{ played_form.stopped_playing_at.errors.as_text }}</small>
+                </div>
+                <div class="form-group col-6 col-sm-4 col-md-6 col-lg-4">
+                  <small class="field-info" title="Leave this field intact for your first games. If later you wanna show any of them higher, just come by and give this field a higher number." data-toggle="tooltip" data-placement="left"><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+                  <label for="id_order" class="fs-14">Priority:</label>
+                  <input class="form-control" type="number" id="id_order" name="order" max="100" min="0" value="{{ game_form.order.data|default_if_none:10 }}">
+                  <small class="field-errors">{{ game_form.order.errors.as_text }}</small>
+                </div>
+                <div class="form-group col-6 col-sm-2 col-md-6 col-lg-2">
+                  <div class="checkbox-wrapper new-game">
+                    <label for="id_beaten" class="beaten">Beaten?</label>
+                    <input id="id_beaten" name="beaten" type="checkbox" {{ played_form.beaten.data|yesno:'checked,' }}>
+                    <label class="checkbox-fancy-label" for="id_beaten"><i class="fa fa-check"></i></label>
+                    <small class="field-errors">{{ played_form.beaten.errors.as_text }}</small>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <div class="col">
+              <button class="btn btn-primary" type="submit">Add Game</button>
+            </div>
           </div>
-          <button class="btn btn-primary" type="submit">Add Game</button>
         </form>
       </div>
     </section>
