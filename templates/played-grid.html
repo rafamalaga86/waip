@@ -1,11 +1,11 @@
 {% extends 'parts/base.html' %}
-{% load math_tags %}
+{% load general_tags %}
 
 {% block main %}
   <div class="container">
     <section class="title small">
       {% if not request.user.is_authenticated %}
-        <p class="subtitle">You are seeing the data of user <em>Rafa</em></p>
+        <p class="subtitle">You are seeing the data of user <em>{{ playeds.first.game.user.first_name }}</em></p>
       {% endif %}
       <h2 class="text-center">
         {% if not year %}

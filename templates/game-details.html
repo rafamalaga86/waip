@@ -1,5 +1,5 @@
 {% extends 'parts/base.html' %}
-{% load math_tags %}
+{% load general_tags %}
 
 {% block metadata %}
     {% with title=game.name description=game.user.first_name|add:' is playing '|add:game.name|add:' of '|add:game.developer image_url=game.cover_url %}
@@ -39,15 +39,30 @@
         </div>
 
         <p><span class="strong-data mr-10">Developer:</span> {{ game.developer }}</p>
+
         <p><span class="strong-data mr-10">Genres:</span>
           {% for genre in genres %}
             <span class="badge badge-light small">{{ genre }}</span>
           {% endfor %}
         </p>
         <p><span class="strong-data mr-10">Release Date:</span> {{ game.release_date|date:'d F Y' }}</p>
-        <p><span class="strong-data mr-10">HowLongToBeat Length:</span> {{ game.hltb_length|trim_trailing_zeroes|default_if_none:'Unknown!' }} {{ game.hltb_length|yesno:'Hours,' }} <img class="logo" src="/static/images/hltb.png" alt="hltb logo"></p>
+
+        <p><span class="strong-data mr-10">HowLongToBeat Length:</span>
+          {% if not game.hltb_length %}
+            No data
+          {% else %}
+            {{ game.hltb_length|hours }} Hours
+            {% if game.hltb_length|minutes != 0 %}
+              {{ game.hltb_length|minutes }} Minutes
+            {% endif%}
+          {% endif %}
+
+          <img class="logo" src="/static/images/hltb.png" alt="hltb logo"></p>
+
         <p><span class="strong-data mr-10">Metacritic Score:</span> {{ game.metacritic_score }} <img class="logo" src="/static/images/metacritic.png" alt="metacritic logo"></p>
+
         <p><span class="strong-data mr-10">{{ game.user.first_name }} included it in WAIP at:</span> {{ game.created_at|date:'d F Y' }}</p>
+
         <p><span class="strong-data mr-10">Synopsis:</span> {{ game.synopsis }}</p>
 
         {% if game.note_set.all %}

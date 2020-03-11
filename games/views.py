@@ -24,6 +24,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 SHOWCASE_USER_ID = 1
+ADMIN_USER_ID = 1
 
 
 def list_user_games(request):
@@ -48,9 +49,10 @@ def list_user_games(request):
     return render(request, 'played-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(user.id),
+        'are_these_my_data': request.user.is_authenticated(),
         'year': year,
         'beaten': beaten,
-        'playeds': playeds
+        'playeds': playeds,
     })
 
 
@@ -59,14 +61,29 @@ def search_games(request):
     keyword = request.GET.get('keyword')
     games = None
     if keyword:
-        games = Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword))
-        games = games.filter(user_id=request.user.id).prefetch_related('played_set')
+        games = Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword)) \
+                    .filter(user_id=request.user.id).prefetch_related('played_set')
 
     return render(request, 'game-grid.html', {
         'page': 'page-search-games',
         'menu_data': get_menus_data(request.user.id),
+        'are_these_my_data': request.user.is_authenticated(),
         'keyword': keyword,
         'games': games,
+    })
+
+
+@login_required
+def list_all(request):
+    if request.user.id != ADMIN_USER_ID:
+        return HttpResponseNotFound()
+
+    return render(request, 'played-grid.html', {
+        'page': 'page-list-games',
+        'menu_data': get_menus_data(request.user.id),
+        'are_these_my_data': True,
+        'playeds': Played.objects.all().select_related('game').prefetch_related('game__note_set')
+                                       .order_by('-created_at'),
     })
 
 
@@ -183,18 +200,7 @@ def delete_game(request, game_id):
     return HttpResponseRedirect('/')
 
 
-@login_required
-def list_all(request):
-    playeds = Played.objects.all().select_related('game').prefetch_related('game__note_set').order_by('-created_at')
-
-    return render(request, 'played-grid.html', {
-        'page': 'page-list-games',
-        'menu_data': get_menus_data(request.user.id),
-        'playeds': playeds,
-    })
-
-
-# AJAX CONTROLLERS
+# AJAX ACTIONS
 # ---------------------
 
 @login_required

@@ -1,4 +1,4 @@
-{% if played.game.user.id and played.game.user.id == request.user.id or game.user.id and game.user.id == request.user.id %}
+{% if are_these_my_data %}
     {# In search_games views is best not to allow to change status change status (completed, etc...) #}
     {% if not played.stopped_playing_at and not page == 'page-search-games' %}
       <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
