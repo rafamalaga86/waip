@@ -23,8 +23,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-SHOWCASE_USER_ID = 1
-ADMIN_USER_ID = 1
+SHOWCASE_USER_ID = settings.SHOWCASE_USER_ID
+ADMIN_USER_ID = settings.ADMIN_USER_ID
 
 
 def list_user_games(request):
@@ -165,7 +165,6 @@ def modify_game(request, game_id):
         game_form = GameForm()
 
     # SHARED --------------------------------------------
-    notes = Note.objects.filter(game=game_id)
     playeds = Played.objects.filter(game=game_id).order_by(F('stopped_playing_at').asc(nulls_last=True))
 
     return render(request, 'game-edit.html', {
@@ -173,7 +172,6 @@ def modify_game(request, game_id):
         'menu_data': get_menus_data(request.user.id),
         'game': game,
         'game_form': game_form,
-        'notes': notes,
         'playeds': playeds,
     })
 

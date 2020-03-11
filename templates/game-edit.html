@@ -78,7 +78,7 @@
         {# Notes block #}
         <h5 class="mt-30">Notes</h5>
         <div class="note-list mb-20">
-          {% for note in notes %}
+          {% for note in game.note_set.all %}
             <div class="note" data-game-id="{{ game.id }}" data-note-id="{{ note.id }}">
               <p class="note-text">{{ note.text }}</p>
               <div class="note-options">

@@ -203,3 +203,7 @@ LOGGING = {
 }
 
 GOOGLE_ANALYTICS_KEY = config_env('GOOGLE_ANALYTICS_KEY', default='google_analytics_key_placeholder')
+
+
+SHOWCASE_USER_ID = config_env('SHOWCASE_USER_ID', cast=int)
+ADMIN_USER_ID = config_env('ADMIN_USER_ID', cast=int)
