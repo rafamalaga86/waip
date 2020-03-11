@@ -4,7 +4,7 @@
     {% with title=game.name description=game.user.first_name|add:' is playing '|add:game.name|add:' of '|add:game.developer image_url=game.cover_url %}
         {{ block.super }}
     {% endwith%}
-{% endblock metadata%}
+{% endblock metadata %}
 
 {% block main %}
   <div class="container">

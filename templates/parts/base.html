@@ -115,8 +115,8 @@
           </li>
         </ul>
         <ul class="list-unstyled pt-20">
+          <li><form action="{% url 'search_games' %}" class="form-search"><input class="form-control" name="keyword" type="text" placeholder="Search game..."></form></li>
           {% if user.is_authenticated %}
-            <li><form action="{% url 'search_games' %}" class="form-search"><input class="form-control" name="keyword" type="text" placeholder="Search game..."></form></li>
             <li><div class="btn-container"><a href="{% url 'add_game' %}" class="btn btn-primary">Add Game</a></div></li>
             <li><a class="menu-item" href="/me">User profile page</a></li>
             <li><a class="menu-item" href="{% url 'log_out' %}">Log out</a></li>

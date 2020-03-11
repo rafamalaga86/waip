@@ -43,32 +43,42 @@ def list_user_games(request):
     else:
         played_filters['stopped_playing_at'] = None
 
-    playeds = Played.objects.filter(**played_filters).select_related('game') \
-        .filter(**game_filters).order_by(*get_games_order(year)).prefetch_related('game__note_set')
+    playeds = list(Played.objects.filter(**played_filters).select_related('game')
+                                 .filter(**game_filters).order_by(*get_games_order(year))
+                                 .prefetch_related('game__note_set'))
+
+    description = None
+    if len(playeds) > 2:
+        description = user.first_name + ' is playing ' + playeds[0].game.name + ', ' + playeds[1].game.name + ', ' \
+                                      + playeds[2].game.name + ' and more!'
 
     return render(request, 'played-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(user.id),
         'are_these_my_data': request.user.is_authenticated(),
         'year': year,
+        'description': description,
         'beaten': beaten,
         'playeds': playeds,
     })
 
 
-@login_required
 def search_games(request):
+    user = request.user if request.user.is_authenticated() else User.objects.get(id=SHOWCASE_USER_ID)
     keyword = request.GET.get('keyword')
     games = None
     if keyword:
-        games = Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword)) \
-                    .filter(user_id=request.user.id).prefetch_related('played_set')
+        games = list(Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword))
+                         .filter(user_id=user.id).prefetch_related('played_set'))
+
+    description = 'Search of games by keyword "' + keyword + '"'
 
     return render(request, 'game-grid.html', {
         'page': 'page-search-games',
-        'menu_data': get_menus_data(request.user.id),
+        'menu_data': get_menus_data(user.id),
         'are_these_my_data': request.user.is_authenticated(),
         'keyword': keyword,
+        'description': description,
         'games': games,
     })
 
