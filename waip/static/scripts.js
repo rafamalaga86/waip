@@ -215,10 +215,15 @@ $(document).ready(function() {
 
   // Set a game as stopped_playing
   $('.card').on('click', '.action-finish-game', function(event){
-    $('.action-finish-game').tooltip('hide');
     var playedId = $(this).parents('.card').attr('data-played-id');
     var gameId = $(this).parents('.card').attr('data-game-id');
     var beaten = $(this).attr('data-beaten');
+    var icon_clicked = $(this).find('.fa');
+    var old_icon_classes = icon_clicked.attr('class');
+    
+    icon_clicked.removeClass().addClass('fa fa-cog fa-spin');
+    $('.action-finish-game').tooltip('hide');
+
     jQuery.ajax({
       method: 'PATCH',
       url: '/ajax/games/' + gameId + '/finish',
@@ -226,6 +231,9 @@ $(document).ready(function() {
     })
     .done(function() {
       $grid.masonry('remove', $('.card-' + playedId)).masonry();
+    })
+    .always(function() {
+      icon_clicked.removeClass().addClass(old_icon_classes);
     });
   });
 
