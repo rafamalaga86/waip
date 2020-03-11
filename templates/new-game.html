@@ -39,7 +39,7 @@
               <small class="field-errors">{{ game_form.name.errors.as_text }}</small>
             </div>
             <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3">
-              <label for="id_metacritic_score">MC Score:</label>
+              <label for="id_metacritic_score"><img class="mc logo" src="/static/images/metacritic.png" alt="metacritic logo" width="18"> Score:</label>
               <input value="{{ game_form.metacritic_score.data|default_if_none:'' }}" class="form-control" type="number" min="1" max="100" step="1" name="metacritic_score" maxlength="255" id="id_metacritic_score">
               <small class="field-errors">{{ game_form.metacritic_score.errors.as_text }}</small>
             </div>
@@ -49,7 +49,7 @@
               <small class="field-errors">{{ game_form.developer.errors.as_text }}</small>
             </div>
             <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3">
-              <label for="id_hltb_length">HLTB:</label>
+              <label for="id_hltb_length"><img class="logo" src="/static/images/hltb.png" alt="metacritic logo" width="18"> HLTB:</label>
               <input value="{{ game_form.hltb_length.data|default_if_none:'' }}" class="form-control" type="number" step="0.1" name="hltb_length"  min="0" id="id_hltb_length">
               <small class="field-errors">{{ game_form.hltb_length.errors.as_text }}</small>
             </div>

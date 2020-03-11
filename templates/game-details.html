@@ -2,7 +2,7 @@
 {% load general_tags %}
 
 {% block metadata %}
-    {% with title=game.name description=game.user.first_name|add:' is playing '|add:game.name|add:' of '|add:game.developer image_url=game.cover_url %}
+    {% with title=title description=description image_url=game.cover_url %}
         {{ block.super }}
     {% endwith%}
 {% endblock metadata %}
@@ -20,7 +20,7 @@
           <p class="mb-30">
             {% for played in game.played_set.all %}
               {% if played.stopped_playing_at %}
-                <span class="badge badge-secondary big fs-3">Beaten in {{ played.stopped_playing_at|date:'Y' }}</span>
+                <span class="badge badge-secondary big fs-3">{{ played.beaten|yesno:'Beaten in,Tried in' }} {{ played.stopped_playing_at|date:'Y' }}</span>
               {% else %}
                 <span class="badge badge-secondary big fs-3">Playing it now!</span>
               {% endif %}

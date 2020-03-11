@@ -333,6 +333,11 @@ footer a:hover {
   margin-left: auto;
 }
 
+.mc.logo {
+  position: relative;
+  top: -2px;
+}
+
 .details .logo {
   margin-left: 5px;
   width: 20px;

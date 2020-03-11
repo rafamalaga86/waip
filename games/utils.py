@@ -105,6 +105,57 @@ def get_games_order(year):
     return order
 
 
+def get_meta_for_list_playeds(user_first_name, playeds, year=None, beaten=None):
+    title = 'What is ' + user_first_name + ' playing?'
+    description = None
+
+    if len(playeds) > 2 and not year:  # Currently playing
+        description = user_first_name + ' is playing ' + playeds[0].game.name + ', ' \
+            + playeds[1].game.name + ', ' + playeds[2].game.name + ' and more!'
+
+    else:
+        if str(datetime.now().year) == year and beaten:
+            title = user_first_name + ' did beat ' + str(len(playeds)) + ' games this year already!'
+
+        elif year and beaten:  # Beaten games in a given year
+            title = user_first_name + '\'s beaten games in ' + year + ': ' + str(len(playeds)) + ' games!'
+
+        elif year:  # Tried games in a given year
+            title = user_first_name + '\'s tried games in ' + year + '!'
+
+        if len(playeds) > 2:
+            description = 'Beaten ' + playeds[0].game.name + ', ' \
+                + playeds[1].game.name + ', ' + playeds[2].game.name + ' and more!'
+
+    return (title, description)
+
+
+def get_meta_for_game_details(user_first_name, game):
+    title = None
+    description = None
+
+    playeds = game.played_set.all()
+
+    playeds_beaten = [played for played in playeds if played.beaten]
+    playeds_tried = [played for played in playeds if played.stopped_playing_at and not played.beaten]
+    played_playing = next((played for played in playeds if played.stopped_playing_at is None), None)
+
+    if played_playing:
+        title = user_first_name + ' is playing ' + played_playing.game.name
+        description = played_playing.game.name + ' of ' + played_playing.game.developer + ', ' + user_first_name \
+            + ' beating it at the moment.'
+
+    elif playeds_beaten:
+        title = user_first_name + ' did beat ' + game.name + ' on ' + str(playeds_beaten[-1].stopped_playing_at.year)
+        description = game.name + ' of ' + game.developer
+
+    elif playeds_tried:
+        title = user_first_name + ' tried ' + game.name + ' on ' + str(playeds_tried[-1].stopped_playing_at.year)
+        description = game.name + ' of ' + game.developer
+
+    return (title, description)
+
+
 def _parse_genres(genres):
     return ' '.join(genres.split()).replace('Genre(s): ', '').strip()
 

@@ -10,13 +10,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.db.models import Q, F
+from django.db.models import Q, F, Prefetch
 from django.forms.models import model_to_dict
 from django.http import QueryDict, HttpResponseForbidden, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.shortcuts import HttpResponse, get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views import View
-from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException, get_games_order
+from games.utils import metacritic_scrapper, hltb_scrapper, get_menus_data, ScrapRequestException, get_games_order, \
+    get_meta_for_list_playeds, get_meta_for_game_details
 from urllib.parse import urlencode
 import logging
 
@@ -47,16 +48,14 @@ def list_user_games(request):
                                  .filter(**game_filters).order_by(*get_games_order(year))
                                  .prefetch_related('game__note_set'))
 
-    description = None
-    if len(playeds) > 2:
-        description = user.first_name + ' is playing ' + playeds[0].game.name + ', ' + playeds[1].game.name + ', ' \
-                                      + playeds[2].game.name + ' and more!'
+    (title, description) = get_meta_for_list_playeds(user.first_name, playeds, year, beaten)
 
     return render(request, 'played-grid.html', {
         'page': 'page-list-games',
         'menu_data': get_menus_data(user.id),
         'are_these_my_data': request.user.is_authenticated(),
         'year': year,
+        'title': title,
         'description': description,
         'beaten': beaten,
         'playeds': playeds,
@@ -71,14 +70,13 @@ def search_games(request):
         games = list(Game.objects.filter(Q(name__icontains=keyword) | Q(synopsis__icontains=keyword))
                          .filter(user_id=user.id).prefetch_related('played_set'))
 
-    description = 'Search of games by keyword "' + keyword + '"'
-
     return render(request, 'game-grid.html', {
         'page': 'page-search-games',
         'menu_data': get_menus_data(user.id),
         'are_these_my_data': request.user.is_authenticated(),
         'keyword': keyword,
-        'description': description,
+        'title': 'What have ' + user.first_name + ' played?',
+        'description': user.first_name + '\'s played games with \"' + keyword + '\"',
         'games': games,
     })
 
@@ -187,11 +185,19 @@ def modify_game(request, game_id):
 
 
 def game_details(request, game_id):
-    game = get_object_or_404(Game, id=game_id)
+    game = get_object_or_404(Game.objects.prefetch_related(
+        Prefetch('played_set', queryset=Played.objects.order_by(F('stopped_playing_at').desc(nulls_first=True))))
+        .prefetch_related('note_set'), id=game_id)
+
+    (title, description) = get_meta_for_game_details(game.user.first_name, game)
 
     return render(request, 'game-details.html', {
+        'page': 'page-game-details',
+        'menu_data': get_menus_data(request.user.id),
         'game': game,
         'genres': game.genres.split(','),
+        'title': title,
+        'description': description,
     })
 
 

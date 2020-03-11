@@ -2,7 +2,7 @@
 {% load general_tags %}
 
 {% block metadata %}
-    {% with title='What is '|add:playeds.0.game.user.first_name|add:' playing?' description=description image_url=playeds.first.game.cover_url %}
+    {% with title=title description=description image_url=playeds.0.game.cover_url %}
         {{ block.super }}
     {% endwith%}
 {% endblock metadata %}
@@ -10,7 +10,7 @@
 {% block main %}
   <div class="container">
     <section class="title small">
-      {% if not request.user.is_authenticated %}
+      {% if not request.user.is_authenticated and playeds.0 %}
         <p class="subtitle">You are seeing the data of user <em>{{ playeds.0.game.user.first_name }}</em></p>
       {% endif %}
       <h2 class="text-center">
