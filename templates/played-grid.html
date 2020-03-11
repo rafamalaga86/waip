@@ -5,7 +5,7 @@
   <div class="container">
     <section class="title small">
       {% if not request.user.is_authenticated %}
-        {# <p class="subtitle">You are seeing the data of user <em>Rafa</em></p> #}
+        <p class="subtitle">You are seeing the data of user <em>Rafa</em></p>
       {% endif %}
       <h2 class="text-center">
         {% if not year %}
@@ -39,7 +39,7 @@
           </div>
           <div class="card-content">
             <div class="card-gameTitle {{ played.game.note_set.all.exists|yesno:',alone' }}">
-              <span>{{ played.game.name }}</span>
+              <a href="{% url 'game_details' played.game.id %}"><span>{{ played.game.name }}</span></a>
             </div>
             <div class="card-text notes">
               {% for note in played.game.note_set.all %}

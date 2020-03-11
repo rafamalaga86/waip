@@ -1,16 +1,20 @@
-{# In show_status views (search games) we prefer not to allow to change status #}
-{% if not played.stopped_playing_at and not page == 'page-search-games' %}
-  <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
-    <i class="fa fa-check" aria-hidden="true"></i>
-  </div>
-  <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="" data-toggle="tooltip" data-placement="bottom" title="You stopped playing this game. But did not beat it, just tried.">
-    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-  </div>
-{% endif %}
+{% if played.game.user.id and played.game.user.id == request.user.id or game.user.id and game.user.id == request.user.id %}
+    {# In search_games views is best not to allow to change status change status (completed, etc...) #}
+    {% if not played.stopped_playing_at and not page == 'page-search-games' %}
+      <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="1" data-toggle="tooltip" data-placement="bottom" title="You have beaten this game!">
+        <i class="fa fa-check" aria-hidden="true"></i>
+      </div>
+      <div class="{{ request.user.is_authenticated|yesno:'action-finish-game,action-go-login-page' }} action-container" data-beaten="" data-toggle="tooltip" data-placement="bottom" title="You stopped playing this game. But did not beat it, just tried.">
+        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+      </div>
+    {% endif %}
 
-<a class="action-container" href="{% if played.game.id %} {% url 'modify_game' played.game.id %} {% else %} {% url 'modify_game' game.id %} {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
-<i class="fa fa-pencil" aria-hidden="true"></i>
-</a>
-<div class="{{ request.user.is_authenticated|yesno:'action-add-note,action-go-login-page' }} action-container" data-toggle="tooltip" data-placement="bottom" title="Add note">
-  <i class="fa fa-sticky-note" aria-hidden="true"></i>
-</div>
+    <a class="action-container" href="{% if played.game.id %} {% url 'modify_game' played.game.id %} {% else %} {% url 'modify_game' game.id %} {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Edit game">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <div class="{{ request.user.is_authenticated|yesno:'action-add-note,action-go-login-page' }} action-container" data-toggle="tooltip" data-placement="bottom" title="Add note">
+      <i class="fa fa-sticky-note" aria-hidden="true"></i>
+    </div>
+{% else %}
+    <a href="{% if played.game.id %} {% url 'game_details' played.game.id %} {% else %} {% url 'game_details' game.id %} {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Check details of this game"><i class="fa fa-gamepad" aria-hidden="true"></i></a>
+{% endif %}

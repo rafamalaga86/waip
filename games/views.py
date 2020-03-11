@@ -151,13 +151,22 @@ def modify_game(request, game_id):
     notes = Note.objects.filter(game=game_id)
     playeds = Played.objects.filter(game=game_id).order_by(F('stopped_playing_at').asc(nulls_last=True))
 
-    return render(request, 'game-detail.html', {
+    return render(request, 'game-edit.html', {
         'page': 'page-modify-game',
         'menu_data': get_menus_data(request.user.id),
         'game': game,
         'game_form': game_form,
         'notes': notes,
-        'playeds': playeds
+        'playeds': playeds,
+    })
+
+
+def game_details(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+
+    return render(request, 'game-details.html', {
+        'game': game,
+        'genres': game.genres.split(','),
     })
 
 

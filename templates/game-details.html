@@ -1,0 +1,80 @@
+{% extends 'parts/base.html' %}
+{% load math_tags %}
+
+{% block metadata %}
+    {% with title=game.name description=game.user.first_name|add:' is playing '|add:game.name|add:' of '|add:game.developer image_url=game.cover_url %}
+        {{ block.super }}
+    {% endwith%}
+{% endblock metadata%}
+
+{% block main %}
+  <div class="container">
+
+    <section class="title">
+      <h1 class="text-center">{{ game.name }}</h1>
+    </section>
+
+    <section class="details row">
+      <div class="col-md-8 mb-30 position-relative">
+        <div class="d-flex">
+          <p class="mb-30">
+            {% for played in game.played_set.all %}
+              {% if played.stopped_playing_at %}
+                <span class="badge badge-secondary big fs-3">Beaten in {{ played.stopped_playing_at|date:'Y' }}</span>
+              {% else %}
+                <span class="badge badge-secondary big fs-3">Playing it now!</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+          {% if game.metacritic_score or game.hltb_length %}
+            <div class="scores d-flex">
+              {% if game.metacritic_score %}
+                <div class="score-metacritic_score"><span>{{ game.metacritic_score }}</span></div>
+              {% endif %}
+              {% if game.hltb_length %}
+                <div class="score-hltb_length">{{ game.hltb_length|trim_trailing_zeroes }} Hours</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+        <p><span class="strong-data mr-10">Developer:</span> {{ game.developer }}</p>
+        <p><span class="strong-data mr-10">Genres:</span>
+          {% for genre in genres %}
+            <span class="badge badge-light small">{{ genre }}</span>
+          {% endfor %}
+        </p>
+        <p><span class="strong-data mr-10">Release Date:</span> {{ game.release_date|date:'d F Y' }}</p>
+        <p><span class="strong-data mr-10">HowLongToBeat Length:</span> {{ game.hltb_length|trim_trailing_zeroes|default_if_none:'Unknown!' }} {{ game.hltb_length|yesno:'Hours,' }} <img class="logo" src="/static/images/hltb.png" alt="hltb logo"></p>
+        <p><span class="strong-data mr-10">Metacritic Score:</span> {{ game.metacritic_score }} <img class="logo" src="/static/images/metacritic.png" alt="metacritic logo"></p>
+        <p><span class="strong-data mr-10">{{ game.user.first_name }} included it in WAIP at:</span> {{ game.created_at|date:'d F Y' }}</p>
+        <p><span class="strong-data mr-10">Synopsis:</span> {{ game.synopsis }}</p>
+
+        {% if game.note_set.all %}
+          <hr>
+          <h5 class="mt-30">Notes</h5>
+
+          <div class="note-list mb-20">
+            {% for note in game.note_set.all %}
+              <div class="note" data-game-id="{{ game.id }}" data-note-id="{{ note.id }}">
+                <p class="note-text">{{ note.text }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+
+      <div class="col-md-4 mb-30">
+        <figure class="figure-cover mb-30">
+          <img class="w-100" src="{{ game.cover_url }}" alt="">
+        </figure>
+        {% if request.user.id == game.user.id %}
+          <a href="{% url 'modify_game' game.id %}" class="btn btn-primary">Edit game metadata</a>
+        {% endif %}
+      </div>
+    </section>
+
+  </div>
+
+{% endblock %}
