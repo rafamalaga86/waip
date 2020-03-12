@@ -143,7 +143,7 @@ def get_meta_for_game_details(user_first_name, game):
     if played_playing:
         title = user_first_name + ' is playing ' + played_playing.game.name
         description = played_playing.game.name + ' of ' + played_playing.game.developer + ', ' + user_first_name \
-            + ' beating it at the moment.'
+            + ' is beating it at the moment.'
 
     elif playeds_beaten:
         title = user_first_name + ' did beat ' + game.name + ' on ' + str(playeds_beaten[-1].stopped_playing_at.year)

@@ -56,11 +56,13 @@ body {
   --white-darker: rgba(235,235,235,.8);
   --white-darkest: rgba(235,235,235,.6);
 
-  /* Global CSS Vars *//*
+  /* Global CSS Vars */
+
   --primary-color: var(--red);
-  --primary-color-darker: #db5644;*/
+  --primary-color-darker: #db5644;
+  /*
   --primary-color: var(--aqua-green);
-  --primary-color-darker: var(--aqua-green-darker);
+  --primary-color-darker: var(--aqua-green-darker); */
 
   color: var(--letter-light);
   font-family: 'Proxima Nova', Arial;
