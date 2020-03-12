@@ -5,7 +5,7 @@
 // =======================================================
 const image_repo = 'http://images.waip.rafaelgarciadoblas.com';
 
-$('img').on('error', function() { // Event on image broken
+$('img').on('error', () => { // Event on image broken
   const src = $(this).attr('src');
   $(this).parent().addClass('card-bg-3'); // Mark as image not found
 
@@ -32,7 +32,7 @@ const $grid = $('.grid').masonry({
 
 // Reduce font-size the titles of the cards if overflow
 // =======================================================
-$('.card').each(function() {
+$('.card').each(() => {
   var title = $(this).find('.card-gameTitle span');
   var container = $(this).find('.card-content');
   var minSize = 24;
@@ -48,16 +48,31 @@ $('.card').each(function() {
   title.css('display', 'inline-block');
 });
 
-const masonry_interval = setInterval(function() {
+const masonry_interval = setInterval(() => {
   $grid.masonry();
 }, 500);
-
 
 $(document).ready(function() {
   $('.grid').imagesLoaded(function() {
     clearInterval(masonry_interval);
     setTimeout(() => { $grid.masonry(); }, 500);
     setTimeout(() => { $grid.masonry(); }, 3000);
+  });
+
+
+  /* In some mobiles, the cards overlap each other when the cards that are 
+  in a lot of pixels down to scroll. To prevent that, when the user scrolls
+  the card reorganisation action will trigger, but only once every 3 seconds*/
+  const seconds_between_layout_reorganisation = 3;
+  setInterval(() => {
+    allow_masonry = true;
+  }, seconds_between_layout_reorganisation * 1000);
+
+  $(window).scroll(() => {
+    if (allow_masonry) {
+      $grid.masonry();
+      allow_masonry = false;
+    }
   });
 
   // Initialise Tooltips
