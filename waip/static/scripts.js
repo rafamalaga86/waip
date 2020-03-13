@@ -3,16 +3,16 @@
 
 // Detect broken images
 // =======================================================
-const image_repo = 'http://images.waip.rafaelgarciadoblas.com';
+var image_repo = 'http://images.waip.rafaelgarciadoblas.com';
 
-$('img').on('error', () => { // Event on image broken
-  const src = $(this).attr('src');
+$('img').on('error', function() { // Event on image broken
+  var src = $(this).attr('src');
   $(this).parent().addClass('card-bg-3'); // Mark as image not found
 
   if (!src.includes(image_repo)) { // Prevent a loop if the image doesnt exist in image_repo
-    const file_name = src.substring(src.lastIndexOf('/') + 1);
-    const username  = $('body').data('user-username');
-    const own_url   = image_repo + '/' + username + '/' + file_name;
+    var file_name = src.substring(src.lastIndexOf('/') + 1);
+    var username  = $('body').data('user-username');
+    var own_url   = image_repo + '/' + username + '/' + file_name;
     $(this).attr('src', own_url);
   } else {
     $(this).data('old-src', own_url);
@@ -23,7 +23,7 @@ $('img').on('error', () => { // Event on image broken
 
 // Initialise the Mansonry Grid
 // =======================================================
-const $grid = $('.grid').masonry({
+var $grid = $('.grid').masonry({
   itemSelector: '.card',
   fitWidth: true,
   gutter: 20.5,
@@ -32,7 +32,7 @@ const $grid = $('.grid').masonry({
 
 // Reduce font-size the titles of the cards if overflow
 // =======================================================
-$('.card').each(() => {
+$('.card').each(function() {
   var title = $(this).find('.card-gameTitle span');
   var container = $(this).find('.card-content');
   var minSize = 24;
@@ -48,27 +48,29 @@ $('.card').each(() => {
   title.css('display', 'inline-block');
 });
 
-const masonry_interval = setInterval(() => {
+var masonry_interval = setInterval(function() {
   $grid.masonry();
 }, 500);
 
 $(document).ready(function() {
   $('.grid').imagesLoaded(function() {
     clearInterval(masonry_interval);
-    setTimeout(() => { $grid.masonry(); }, 500);
-    setTimeout(() => { $grid.masonry(); }, 3000);
+    setTimeout(function() { $grid.masonry(); }, 500);
+    setTimeout(function() { $grid.masonry(); }, 3000);
   });
 
 
   /* In some mobiles, the cards overlap each other when the cards that are 
   in a lot of pixels down to scroll. To prevent that, when the user scrolls
   the card reorganisation action will trigger, but only once every 3 seconds*/
-  const seconds_between_layout_reorganisation = 3;
-  setInterval(() => {
+  var seconds_between_layout_reorganisation = 3;
+  var allow_masonry;
+
+  setInterval(function() {
     allow_masonry = true;
   }, seconds_between_layout_reorganisation * 1000);
 
-  $(window).scroll(() => {
+  $(window).scroll(function() {
     if (allow_masonry) {
       $grid.masonry();
       allow_masonry = false;
@@ -407,7 +409,7 @@ $(document).ready(function() {
 
       error: function(response) {
         let messages = '';
-        const response_json = JSON.parse(response.responseText);
+        var response_json = JSON.parse(response.responseText);
 
         for (let object_key in response_json) {
           response_json[object_key].forEach(function(value, key) {
@@ -444,7 +446,7 @@ $(document).ready(function() {
       $(this).children().html(spinner_loader); // Put the spinner loader
 
       $.ajax({
-        type: 'DELETE',
+        type: 'DEletE',
         url: '/ajax/games/' + game_id + '/playeds/' + id,
 
         success: function() {
@@ -494,7 +496,7 @@ $(document).ready(function() {
     var gameId = note.data('game-id');
 
     jQuery.ajax({
-      method: 'DELETE',
+      method: 'DEletE',
       url: '/ajax/games/' + gameId + '/notes/' + noteId
     })
     .done(function() {
