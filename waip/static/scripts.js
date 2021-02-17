@@ -15,7 +15,7 @@ $('img').on('error', function() { // Event on image broken
     var own_url   = image_repo + '/' + username + '/' + file_name;
     $(this).attr('src', own_url);
   } else {
-    $(this).data('old-src', own_url);
+    // $(this).data('old-src', own_url);
     $(this).attr('src', '/static/404.jpg');
   }
 });

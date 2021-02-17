@@ -769,6 +769,10 @@ section.danger-zone {
   .ul-login.desktop {
     display: flex !important;
   }
+
+  .mt-lg-0 {
+    margin-top: 0 !important;
+  }
 }
 
 
