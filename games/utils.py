@@ -76,7 +76,10 @@ def metacritic_scrapper(metacriticUrl):
     metacritic_score = soup.select('div.metascore_w.xlarge > span')
     game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
 
-    metacritic_synopsis = soup.select('li.summary_detail.product_summary > span.data')
+    metacritic_synopsis = soup.select('li.summary_detail.product_summary span.blurb_expanded')
+    if not metacritic_synopsis:
+        metacritic_synopsis = soup.select('li.summary_detail.product_summary > span.data')
+
     game['synopsis'] = metacritic_synopsis[0].text.strip() if metacritic_synopsis != [] else None
 
     return game
