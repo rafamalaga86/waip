@@ -526,10 +526,13 @@ i.back-to-top {
 
 /* FORMS */
 
+.form-control {
+  background-color: var(--white);
+}
+
 input.form-control {
   width: 100%;
   border-radius: .15rem;
-  background-color: var(--white);
 }
 
 input.form-control::placeholder {
