@@ -27,7 +27,7 @@
   <div>
     <section class="grid">
       {% for played in playeds %}
-        <div class="card card-{{ played.id }} card-bg-{{ played.id|mod:7 }} {{ played.game.note_set.all.exists|yesno:',without-notes' }}" data-played-id="{{ played.id }}" data-game-id="{{ played.game.id }}" data-played-name="{{ played.game.name }}">
+        <div class="card card-{{ played.id }} card-bg-{{ played.id|mod:7 }}{{ played.game.note_set.all.exists|yesno:', without-notes' }}" data-played-id="{{ played.id }}" data-game-id="{{ played.game.id }}" data-played-name="{{ played.game.name }}">
           <img class="card-imgCover" src="{{ played.game.cover_url }}" alt="{{ played.game.name }} Cover">
           <div class="card-imgOverlay card-button-bar">
             {% include "parts/card-button-bar.html" %}
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="card-content">
-            <div class="card-gameTitle {{ played.game.note_set.all.exists|yesno:',alone' }}">
+            <div class="card-gameTitle{{ played.game.note_set.all.exists|yesno:', alone' }}">
               <a href="{% url 'game_details' played.game.id %}"><span>{{ played.game.name }}</span></a>
             </div>
             <div class="card-text notes">

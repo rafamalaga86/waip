@@ -389,8 +389,6 @@ main {
   vertical-align: top;
 }
 
-.card.without-notes {background-color: var(--primary-color)}
-
 .card.card-bg-0 {background-color: var(--blue)}
 .card.card-bg-1 {background-color: var(--aqua-green)}
 .card.card-bg-2 {background-color: var(--brown)}
@@ -398,6 +396,8 @@ main {
 .card.card-bg-4 {background-color: var(--dark-pink)}
 .card.card-bg-5 {background-color: var(--green)}
 .card.card-bg-6 {background-color: var(--green-gray)}
+
+.card.without-notes {background-color: var(--primary-color)}
 
 .card-imgCover {
   width: 100%;
