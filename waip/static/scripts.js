@@ -265,7 +265,7 @@ $(document).ready(function() {
   // - Open modal
   $('.card').on('click', '.action-add-note', function() {
     var gameId = $(this).parents('.card').attr('data-game-id');
-    var name = $(this).parents('.card').attr('data-game-name');
+    var name = $(this).parents('.card').attr('data-played-name');
     modal_action = 'add-note';
     openModal('Add a note to ' + name, '', gameId, null, function() {
       location.reload();

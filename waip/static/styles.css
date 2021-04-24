@@ -383,7 +383,7 @@ main {
   margin-bottom: 2rem;
   border: 0;
   overflow: hidden;
-  background-color: var(--brown);
+  background-color: var(--primary-color);
 
   display: inline-block;
   vertical-align: top;
@@ -392,7 +392,7 @@ main {
 .card.without-notes {background-color: var(--primary-color)}
 
 .card.card-bg-0 {background-color: var(--blue)}
-.card.card-bg-1 {background-color: var(--red)}
+.card.card-bg-1 {background-color: var(--aqua-green)}
 .card.card-bg-2 {background-color: var(--brown)}
 .card.card-bg-3 {background-color: var(--orange)}
 .card.card-bg-4 {background-color: var(--dark-pink)}
