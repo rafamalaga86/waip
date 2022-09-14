@@ -13,8 +13,7 @@ HLTB_HEADERS = {'User-Agent': 'Mozilla/5.0'}
 DDG_SA = 'https://duckduckgo.com/'
 DDG_HEADERS = {}
 
-
-def hltb_scrapper(hltbGameUrl):
+def hltb_request(hltbGameUrl):
     request = requests.get(
         hltbGameUrl,
         headers=HLTB_HEADERS
@@ -24,8 +23,12 @@ def hltb_scrapper(hltbGameUrl):
             '* The scrapper got a ' + str(request.status_code) + ' status code from HowLongToBeat'
         )
 
+    return BeautifulSoup(request.text, 'html.parser')
+
+
+def old_hltb_scrapper(hltbGameUrl):
+    soup = hltb_request(hltbGameUrl)
     game = {}
-    soup = BeautifulSoup(request.text, 'html.parser')
 
     name = soup.find('div', class_='profile_header')
     game['name'] = name.text.strip() if name is not None else None
@@ -39,6 +42,29 @@ def hltb_scrapper(hltbGameUrl):
         game['cover_url'] = os.path.join(HLTB_SA, url.lstrip(os.path.sep)) if HLTB_SA not in url else url
 
     game_length = soup.select('div.game_times li div')
+    game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
+
+    # Howlongtobeat is doing changes in the synopsis
+    # synopsis = soup.find('div', class_='profile_summary_more')
+    # game['synopsis'] = _parse_synopsis(synopsis.text.strip()) if synopsis is not None else None
+
+    return game
+
+
+def hltb_scrapper(hltbGameUrl):
+    soup = hltb_request(hltbGameUrl)
+    game = {}
+
+    game['name'] = soup.find('title').text.replace('How long is ', '').replace('? | HowLongToBeat', '')
+
+    cover_urls = soup.select('div.GameSideBar_game_image__pMeFK img')#[0].split('?')
+    game['cover_url'] = None
+    if (cover_urls != []):
+        url = cover_urls[0].get('src')
+        url = os.path.join(HLTB_SA, url.lstrip(os.path.sep)) if HLTB_SA not in url else url
+        game['cover_url'] = url.split('?')[0]
+
+    game_length = soup.select('li.GameStats_short__mnFjd h5')
     game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
 
     # Howlongtobeat is doing changes in the synopsis

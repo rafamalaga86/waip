@@ -306,7 +306,9 @@ $(document).ready(function() {
           if (jsonResponse.hasOwnProperty(key)) {
             var input = $('#' + 'id_' + key);
             input.val(jsonResponse[key]);
-            input.addClass('success');
+            if (jsonResponse[key] != null) {
+              input.addClass('success');
+            }
           }
         }
       }, 'json'

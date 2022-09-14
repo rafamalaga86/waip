@@ -10,7 +10,7 @@ class Game(models.Model):
     order = models.IntegerField(default=10)  # The higier the more priority it has
 
     # Scrapped properties
-    cover_url = models.URLField(max_length=255)
+    cover_url = models.URLField(max_length=255) 
     hltb_length = models.FloatField(max_length=255, blank=True, null=True)
     synopsis = models.TextField(blank=True, null=True)
     release_date = models.DateField(max_length=255, blank=True, null=True)
