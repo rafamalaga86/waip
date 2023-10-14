@@ -184,6 +184,11 @@ LOGGING = {
         }
     },
     'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/errors.log'),
+        },
         'null': {
             'level': 'DEBUG',
             'class': 'logging.NullHandler',
