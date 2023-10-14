@@ -170,9 +170,12 @@ $(document).ready(function() {
   });
 
   function mcScoreToColour(score) {
-    red = '#f00';
-    yellow = '#fc3';
-    green = '#6c3';
+    // red = '#f00';
+    red = '#ff6874';
+    // yellow = '#fc3';
+    yellow = '#ffbd3f'
+    // green = '#6c3';
+    green = '#00ce7a';
     score = parseInt(score);
 
     if (score && score >= 75) {

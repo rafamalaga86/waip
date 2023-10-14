@@ -30,6 +30,11 @@ body {
   --dark-pink: #cf9aae;
   --green: #1e6464;
 
+  /*--hltb-colour: #287fc2;*/ /* Old blue  */
+  --hltb-colour: #ec9444; /* New Yellow  */
+  /*--metacritic-colour: #6c3;*/ /* Old Green */
+  --metacritic-colour: #00ce7a; /* New Green */
+
   /* Darker versions for hovers */
   --aqua-green-darker: #3faf8f;
 
@@ -59,7 +64,7 @@ body {
   /* Global CSS Vars */
 
   --primary-color: var(--blue);
-  --primary-color-darker: #db5644;
+  --primary-color-darker: var(--blue-darker);
   /*
   --primary-color: var(--aqua-green);
   --primary-color-darker: var(--aqua-green-darker); */
@@ -461,11 +466,11 @@ main {
   line-height: 70px;
   display: inline-block;
   vertical-align: top;
-  background-color: #6c3;
+  background-color: var(--metacritic-colour);
 }
 
 .score-hltb_length {
-  background: #287FC2;
+  background: var(--hltb-colour);
   color: white;
   text-align: center;
   font-size: 20px;

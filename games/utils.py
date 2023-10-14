@@ -73,8 +73,8 @@ def old_hltb_scrapper(hltbGameUrl):
 
     return game
 
-def hltb_scrapper(HLTB_GAME_URL):
-    soup = hltb_request()
+def hltb_scrapper(hltbGameUrl):
+    soup = hltb_request(hltbGameUrl)
     game = {}
 
     game['name'] = soup.find('title').text.replace('How long is ', '').replace('? | HowLongToBeat', '')
