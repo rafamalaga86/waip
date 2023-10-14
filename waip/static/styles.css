@@ -58,7 +58,7 @@ body {
 
   /* Global CSS Vars */
 
-  --primary-color: var(--red);
+  --primary-color: var(--blue);
   --primary-color-darker: #db5644;
   /*
   --primary-color: var(--aqua-green);

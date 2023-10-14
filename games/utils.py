@@ -26,7 +26,7 @@ def hltb_request(hltbGameUrl):
     return BeautifulSoup(request.text, 'html.parser')
 
 
-def old_hltb_scrapper(hltbGameUrl):
+def old_old_hltb_scrapper(hltbGameUrl):
     soup = hltb_request(hltbGameUrl)
     game = {}
 
@@ -51,7 +51,7 @@ def old_hltb_scrapper(hltbGameUrl):
     return game
 
 
-def hltb_scrapper(hltbGameUrl):
+def old_hltb_scrapper(hltbGameUrl):
     soup = hltb_request(hltbGameUrl)
     game = {}
 
@@ -73,8 +73,26 @@ def hltb_scrapper(hltbGameUrl):
 
     return game
 
+def hltb_scrapper(HLTB_GAME_URL):
+    soup = hltb_request()
+    game = {}
 
-def metacritic_scrapper(metacriticUrl):
+    game['name'] = soup.find('title').text.replace('How long is ', '').replace('? | HowLongToBeat', '')
+
+    # cover_urls = soup.select('div.GameSideBar_game_image__pMeFK img')#[0].split('?')
+    cover_urls = soup.select('div[class*="GameSideBar_game_image"] img')
+
+    game['cover_url'] = None
+    if (cover_urls != []):
+        url = cover_urls[0].get('src')
+        url = os.path.join(HLTB_SA, url.lstrip(os.path.sep)) if HLTB_SA not in url else url
+        game['cover_url'] = url.split('?')[0]
+
+    game_length = soup.select('li[class*="GameStats_short"] h5')
+    game['hltb_length'] = _parse_text_time_into_float(game_length[0].text) if game_length != [] else None
+
+
+def old_metacritic_scrapper(metacriticUrl):
     request = requests.get(
         metacriticUrl,
         headers=METACRITIC_HEADERS
@@ -107,6 +125,42 @@ def metacritic_scrapper(metacriticUrl):
         metacritic_synopsis = soup.select('li.summary_detail.product_summary > span.data')
 
     game['synopsis'] = metacritic_synopsis[0].text.strip() if metacritic_synopsis != [] else None
+
+    return game
+
+def metacritic_scrapper(METACRITIC_GAME_URL):
+    request = requests.get(
+        METACRITIC_GAME_URL,
+        headers=METACRITIC_HEADERS
+    )
+
+    if request.status_code >= 400:
+        raise ScrapRequestException(
+            '* The scrapper got a ' + str(request.status_code) + ' status code from Metacritic'
+        )
+
+    game = {}
+    soup = BeautifulSoup(request.text, 'html.parser')
+
+    developer = soup.select('div[class*="gameDetails_Developer"] li')
+    game['developer'] = developer[0].text.strip() if developer != [] else None
+
+    genres = soup.select('ul[class*="genreList"] span')
+    game['genres'] = _parse_genres(genres) if genres is not None else None
+
+    #gameDetails_ReleaseDate
+    release_date = soup.select('div[class*="gameDetails_ReleaseDate"] span')
+    game['release_date'] = None
+    if release_date != []:
+        game['release_date'] = dateparser.parse(release_date[1].text.strip()).strftime('%Y-%m-%d')
+
+    # metacritic_score = soup.select('div.metascore_w.xlarge > span')
+    # game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
+    metacritic_score = soup.select('div[class*="productScoreInfo_scoreNumber"] div[class*="siteReviewScore"] span')
+    game['metacritic_score'] = metacritic_score[0].text.strip() if metacritic_score != [] else None
+
+    metacritic_synopsis = soup.select('meta[name*="twitter:description"]')
+    game['synopsis'] = None if metacritic_synopsis == [] else metacritic_synopsis[0]['content']
 
     return game
 
@@ -186,7 +240,8 @@ def get_meta_for_game_details(user_first_name, game):
 
 
 def _parse_genres(genres):
-    return ' '.join(genres.split()).replace('Genre(s): ', '').strip()
+    # return ' '.join(genres.split()).replace('Genre(s): ', '').strip()
+    return [genre.text.strip() for genre in genres]
 
 
 def _parse_text_time_into_float(textTime):
